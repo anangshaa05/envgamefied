@@ -1,13 +1,10 @@
 import { motion } from "framer-motion";
-import { Lock, Calendar, Award, User, MapPin, Calendar as CalendarIcon } from "lucide-react";
+import { Lock, Calendar, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Card from "@/components/Card";
-import LevelPill from "@/components/LevelPill";
-import StatsCounter from "@/components/StatsCounter";
-import { badges, user } from "@/data/mockData";
+import { badges } from "@/data/mockData";
 
 const Badges = () => {
   const unlockedBadges = badges.filter(badge => badge.unlocked);
@@ -30,93 +27,27 @@ const Badges = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Profile Header */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-8 text-center"
         >
-          <Card variant="default" className="p-8 bg-gradient-hero text-white">
-            <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
-              <div className="flex flex-col items-center">
-                <Avatar className="w-24 h-24 border-4 border-white/20">
-                  <AvatarImage src={user.avatarUrl} alt={user.name} />
-                  <AvatarFallback className="text-2xl">
-                    {user.name.split(' ').map(n => n[0]).join('')}
-                  </AvatarFallback>
-                </Avatar>
-                <LevelPill level={user.level} size="lg" />
-              </div>
-              
-              <div className="flex-1 text-center md:text-left">
-                <h1 className="text-3xl font-bold mb-2">{user.name}'s Profile</h1>
-                <p className="text-white/90 text-lg mb-4">Environmental Champion & Badge Collector</p>
-                
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                  <div className="bg-white/10 rounded-lg p-3 backdrop-blur-sm">
-                    <div className="text-2xl font-bold">{user.ecoPoints.toLocaleString()}</div>
-                    <div className="text-sm text-white/80">Eco Points</div>
-                  </div>
-                  <div className="bg-white/10 rounded-lg p-3 backdrop-blur-sm">
-                    <div className="text-2xl font-bold">{unlockedBadges.length}</div>
-                    <div className="text-sm text-white/80">Badges Earned</div>
-                  </div>
-                  <div className="bg-white/10 rounded-lg p-3 backdrop-blur-sm">
-                    <div className="text-2xl font-bold">{user.level}</div>
-                    <div className="text-sm text-white/80">Level</div>
-                  </div>
-                  <div className="bg-white/10 rounded-lg p-3 backdrop-blur-sm">
-                    <div className="text-2xl font-bold">{Math.round((unlockedBadges.length / badges.length) * 100)}%</div>
-                    <div className="text-sm text-white/80">Collection Rate</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-center md:justify-start space-x-4 text-white/80">
-                  <div className="flex items-center space-x-2">
-                    <CalendarIcon className="w-4 h-4" />
-                    <span className="text-sm">Joined {new Date(user.joinedDate).toLocaleDateString()}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Environmental Impact Stats */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="mb-8"
-        >
-          <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Environmental Impact</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <StatsCounter
-              value={user.totalTreesPlanted}
-              label="Trees Planted"
-              icon="🌳"
-            />
-            <StatsCounter
-              value={user.wasteReduced}
-              label="Waste Reduced"
-              icon="♻️"
-              suffix=" kg"
-              decimals={1}
-            />
-            <StatsCounter
-              value={user.waterSaved}
-              label="Water Saved"
-              icon="💧"
-              suffix=" L"
-            />
+          <div className="flex items-center justify-center space-x-2 mb-4">
+            <Award className="w-8 h-8 text-badge-gold" />
+            <h1 className="text-3xl font-bold text-foreground">Badge Collection</h1>
           </div>
-        </motion.section>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Unlock badges by completing challenges, learning lessons, and contributing to the community. 
+            Show off your environmental expertise! 🏆
+          </p>
+        </motion.div>
 
         {/* Stats Overview */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.1 }}
           className="mb-12"
         >
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -151,7 +82,7 @@ const Badges = () => {
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.2 }}
           className="mb-8"
         >
           <div className="flex flex-wrap gap-2 justify-center">
@@ -174,10 +105,10 @@ const Badges = () => {
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.3 }}
           className="mb-12"
         >
-          <h2 className="text-2xl font-bold text-foreground mb-6">Your Achievements</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-6">Unlocked Badges</h2>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {unlockedBadges.map((badge, index) => (
@@ -244,9 +175,9 @@ const Badges = () => {
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.4 }}
         >
-          <h2 className="text-2xl font-bold text-foreground mb-6">Yet to Unlock</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-6">Locked Badges</h2>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {lockedBadges.map((badge, index) => (
@@ -312,7 +243,7 @@ const Badges = () => {
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.5 }}
           className="mt-16 text-center"
         >
           <Card variant="default" className="p-8 bg-gradient-hero text-white">

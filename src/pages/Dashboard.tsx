@@ -1,17 +1,35 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Calendar, Clock, TrendingUp, Target, Award, Users } from "lucide-react";
+import { Calendar, Clock, TrendingUp, Target, Award, Users, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Card from "@/components/Card";
 import StatsCounter from "@/components/StatsCounter";
 import ProgressBar from "@/components/ProgressBar";
 import LevelPill from "@/components/LevelPill";
-import { user, dailyChallenges, recentActivity, challenges, lessons } from "@/data/mockData";
+import { user, dailyChallenges, recentActivity, challenges, lessons, badges } from "@/data/mockData";
 
 const Dashboard = () => {
   const completedLessons = lessons.filter(l => l.completed).length;
   const completedChallenges = challenges.filter(c => c.submitted).length;
   const completedDaily = dailyChallenges.filter(dc => dc.completed).length;
+  const unlockedBadges = badges.filter(badge => badge.unlocked);
+  const lockedBadges = badges.filter(badge => !badge.unlocked);
+
+  const rarityColors = {
+    common: "border-slate-300 bg-slate-50",
+    uncommon: "border-emerald-300 bg-emerald-50", 
+    rare: "border-blue-300 bg-blue-50",
+    legendary: "border-purple-300 bg-purple-50"
+  };
+
+  const rarityGradients = {
+    common: "from-slate-400 to-slate-500",
+    uncommon: "from-emerald-400 to-emerald-600",
+    rare: "from-blue-400 to-blue-600", 
+    legendary: "from-purple-400 to-purple-600"
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -154,6 +172,66 @@ const Dashboard = () => {
                     </div>
                   </Card>
                 ))}
+              </div>
+            </motion.section>
+
+            {/* Badges Section */}
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-foreground">Your Badges</h2>
+                <Button variant="ghost" size="sm" asChild>
+                  <Link to="/badges">View All</Link>
+                </Button>
+              </div>
+              
+              <div className="grid grid-cols-4 md:grid-cols-8 gap-3 mb-4">
+                {unlockedBadges.slice(0, 8).map((badge, index) => (
+                  <Dialog key={badge.id}>
+                    <DialogTrigger asChild>
+                      <div className={`p-3 cursor-pointer group ${rarityColors[badge.rarity]} hover:shadow-hover border-2 rounded-lg`}>
+                        <div className="text-center">
+                          <div className={`w-12 h-12 mx-auto rounded-full bg-gradient-to-br ${rarityGradients[badge.rarity]} flex items-center justify-center text-lg text-white shadow-soft group-hover:scale-110 transition-transform`}>
+                            {badge.icon}
+                          </div>
+                        </div>
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle className="text-center">
+                          <div className={`w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br ${rarityGradients[badge.rarity]} flex items-center justify-center text-3xl text-white shadow-soft`}>
+                            {badge.icon}
+                          </div>
+                          {badge.name}
+                        </DialogTitle>
+                      </DialogHeader>
+                      <div className="text-center space-y-4">
+                        <Badge variant="outline" className={`capitalize ${badge.rarity === 'legendary' ? 'border-purple-500 text-purple-700' : ''}`}>
+                          {badge.rarity}
+                        </Badge>
+                        <p className="text-muted-foreground">{badge.description}</p>
+                        <div className="bg-success/10 border border-success/20 rounded-lg p-4">
+                          <div className="flex items-center justify-center space-x-2 text-success">
+                            <Calendar className="w-4 h-4" />
+                            <span className="text-sm font-medium">
+                              Unlocked on {new Date(badge.unlockedDate).toLocaleDateString()}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                ))}
+              </div>
+              
+              <div className="bg-muted/30 rounded-lg p-4 text-center">
+                <p className="text-sm text-muted-foreground">
+                  {unlockedBadges.length} of {badges.length} badges unlocked ({Math.round((unlockedBadges.length / badges.length) * 100)}%)
+                </p>
               </div>
             </motion.section>
           </div>

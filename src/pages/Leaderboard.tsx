@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Card from "@/components/Card";
 import LevelPill from "@/components/LevelPill";
-import { leaderboard } from "@/data/mockData";
+import { leaderboard, user } from "@/data/mockData";
 
 const Leaderboard = () => {
   const [timeFrame, setTimeFrame] = useState("all-time");
@@ -15,6 +15,9 @@ const Leaderboard = () => {
   const sortedLeaderboard = [...leaderboard].sort((a, b) => a.rank - b.rank);
   const topThree = sortedLeaderboard.slice(0, 3);
   const others = sortedLeaderboard.slice(3);
+  
+  // Find current user's position
+  const currentUser = leaderboard.find(u => u.id === user.id);
 
   const getRankIcon = (rank) => {
     switch (rank) {
@@ -172,11 +175,51 @@ const Leaderboard = () => {
           </div>
         </motion.section>
 
+        {/* Current User Position */}
+        {currentUser && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="mb-8"
+          >
+            <Card variant="default" className="p-4 bg-primary/5 border-primary/20">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 flex justify-center">
+                  <span className="text-primary font-bold">#{currentUser.rank}</span>
+                </div>
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary shadow-soft">
+                  <img 
+                    src={currentUser.avatarUrl}
+                    alt={currentUser.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center space-x-3">
+                    <h3 className="font-semibold text-foreground">{currentUser.name} (You)</h3>
+                    <LevelPill level={currentUser.level} size="sm" />
+                    <Badge variant="outline" className="text-xs">
+                      {currentUser.badgeCount} badges
+                    </Badge>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-lg font-bold text-primary">
+                    {currentUser.points.toLocaleString()}
+                  </div>
+                  <div className="text-xs text-muted-foreground">points</div>
+                </div>
+              </div>
+            </Card>
+          </motion.section>
+        )}
+
         {/* Full Leaderboard */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.7 }}
         >
           <Card variant="default" className="overflow-hidden">
             <div className="p-6 border-b border-border">
@@ -192,7 +235,7 @@ const Leaderboard = () => {
                   transition={{ delay: 0.1 * index }}
                   className={`p-4 hover:bg-muted/50 transition-colors ${
                     user.rank <= 3 ? 'bg-primary/5' : ''
-                  }`}
+                  } ${user.id === currentUser?.id ? 'bg-primary/10 border-l-4 border-primary' : ''}`}
                 >
                   <div className="flex items-center space-x-4">
                     {/* Rank */}
@@ -245,7 +288,7 @@ const Leaderboard = () => {
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
+          transition={{ delay: 0.9 }}
           className="mt-12 text-center"
         >
           <Card variant="default" className="p-8 bg-gradient-hero text-white">
