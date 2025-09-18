@@ -25,10 +25,17 @@ const Profile = () => {
   };
 
   const rarityGradients = {
-    common: "from-slate-400 to-slate-500",
-    uncommon: "from-emerald-400 to-emerald-600",
-    rare: "from-blue-400 to-blue-600", 
-    legendary: "from-purple-400 to-purple-600"
+    common: "from-slate-500 to-slate-600",
+    uncommon: "from-emerald-500 to-emerald-600",
+    rare: "from-blue-500 to-purple-600", 
+    legendary: "from-amber-400 to-orange-500"
+  };
+
+  const badgeIconColors = {
+    common: "text-slate-700",
+    uncommon: "text-emerald-700",
+    rare: "text-blue-700",
+    legendary: "text-amber-800"
   };
 
   return (
@@ -179,43 +186,47 @@ const Profile = () => {
                           {/* Hexagonal Badge */}
                           <div className={`relative w-14 h-14 mx-auto group-hover:scale-110 transition-transform duration-300`}>
                             {/* Hexagon Background */}
-                            <div className={`absolute inset-0 bg-gradient-to-b ${rarityGradients[badge.rarity]} rounded-lg transform rotate-0`} 
+                            <div className={`absolute inset-0 bg-gradient-to-br ${rarityGradients[badge.rarity]} rounded-lg shadow-lg`} 
                                  style={{
                                    clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
                                  }}>
                             </div>
                             {/* Inner Hexagon for icon background */}
-                            <div className="absolute inset-1 bg-white/90 rounded-lg"
+                            <div className="absolute inset-1.5 bg-white/95 rounded-lg shadow-inner"
                                  style={{
                                    clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
                                  }}>
                             </div>
                             {/* Badge Icon */}
                             <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold">
-                              <span className={`${
-                                badge.rarity === 'legendary' ? 'text-purple-600' :
-                                badge.rarity === 'rare' ? 'text-blue-600' :
-                                badge.rarity === 'uncommon' ? 'text-emerald-600' :
-                                'text-slate-600'
-                              }`}>
+                              <span className={badgeIconColors[badge.rarity]}>
                                 {badge.icon}
                               </span>
                             </div>
-                            {/* Shine Effect */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent rounded-lg"
+                            {/* Enhanced Shine Effect */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-white/20 to-transparent rounded-lg opacity-80"
                                  style={{
                                    clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
                                  }}>
                             </div>
+                            {/* Additional shine streak */}
+                            <div className="absolute top-1 left-3 w-6 h-1 bg-white/40 rounded-full transform -rotate-45"></div>
                             {/* Sparkle decorations */}
                             {badge.rarity === 'legendary' && (
                               <>
-                                <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></div>
-                                <div className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-yellow-200 rounded-full animate-pulse delay-300"></div>
+                                <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-400 rounded-full animate-pulse shadow-glow"></div>
+                                <div className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-amber-300 rounded-full animate-pulse delay-300"></div>
+                                <div className="absolute top-0 -left-1 w-1 h-1 bg-orange-300 rounded-full animate-pulse delay-500"></div>
                               </>
                             )}
                             {badge.rarity === 'rare' && (
-                              <div className="absolute -top-1 right-0 w-1.5 h-1.5 bg-blue-300 rounded-full animate-pulse"></div>
+                              <>
+                                <div className="absolute -top-1 right-0 w-1.5 h-1.5 bg-blue-300 rounded-full animate-pulse"></div>
+                                <div className="absolute -bottom-0.5 -right-0.5 w-1 h-1 bg-purple-300 rounded-full animate-pulse delay-700"></div>
+                              </>
+                            )}
+                            {badge.rarity === 'uncommon' && (
+                              <div className="absolute -top-0.5 -right-0.5 w-1 h-1 bg-emerald-300 rounded-full animate-pulse delay-200"></div>
                             )}
                           </div>
                         </div>
@@ -226,37 +237,51 @@ const Profile = () => {
                         <DialogTitle className="text-center">
                           {/* Larger Hexagon for Dialog */}
                           <div className="relative w-24 h-24 mx-auto mb-4">
-                            <div className={`absolute inset-0 bg-gradient-to-b ${rarityGradients[badge.rarity]} rounded-xl`} 
+                            <div className={`absolute inset-0 bg-gradient-to-br ${rarityGradients[badge.rarity]} rounded-xl shadow-xl`} 
                                  style={{
                                    clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
                                  }}>
                             </div>
-                            <div className="absolute inset-2 bg-white/90 rounded-xl"
+                            <div className="absolute inset-2 bg-white/95 rounded-xl shadow-inner"
                                  style={{
                                    clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
                                  }}>
                             </div>
                             <div className="absolute inset-0 flex items-center justify-center text-4xl font-bold">
-                              <span className={`${
-                                badge.rarity === 'legendary' ? 'text-purple-600' :
-                                badge.rarity === 'rare' ? 'text-blue-600' :
-                                badge.rarity === 'uncommon' ? 'text-emerald-600' :
-                                'text-slate-600'
-                              }`}>
+                              <span className={badgeIconColors[badge.rarity]}>
                                 {badge.icon}
                               </span>
                             </div>
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent rounded-xl"
+                            {/* Enhanced Shine Effect for Dialog */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-white/20 to-transparent rounded-xl opacity-80"
                                  style={{
                                    clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
                                  }}>
                             </div>
+                            {/* Multiple shine streaks */}
+                            <div className="absolute top-2 left-4 w-8 h-1.5 bg-white/50 rounded-full transform -rotate-45"></div>
+                            <div className="absolute top-4 left-6 w-6 h-1 bg-white/30 rounded-full transform -rotate-45"></div>
                             {/* Enhanced sparkles for dialog */}
                             {badge.rarity === 'legendary' && (
                               <>
-                                <div className="absolute -top-2 -right-2 w-3 h-3 bg-yellow-300 rounded-full animate-pulse"></div>
-                                <div className="absolute -bottom-2 -left-2 w-2 h-2 bg-yellow-200 rounded-full animate-pulse delay-300"></div>
-                                <div className="absolute top-1 -left-2 w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse delay-150"></div>
+                                <div className="absolute -top-2 -right-2 w-3 h-3 bg-yellow-400 rounded-full animate-pulse shadow-glow"></div>
+                                <div className="absolute -bottom-2 -left-2 w-2.5 h-2.5 bg-amber-300 rounded-full animate-pulse delay-300"></div>
+                                <div className="absolute top-1 -left-2 w-2 h-2 bg-orange-400 rounded-full animate-pulse delay-150"></div>
+                                <div className="absolute -top-1 left-2 w-1.5 h-1.5 bg-yellow-300 rounded-full animate-pulse delay-500"></div>
+                                <div className="absolute bottom-2 -right-1 w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse delay-700"></div>
+                              </>
+                            )}
+                            {badge.rarity === 'rare' && (
+                              <>
+                                <div className="absolute -top-2 -right-1 w-2.5 h-2.5 bg-blue-400 rounded-full animate-pulse"></div>
+                                <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-purple-400 rounded-full animate-pulse delay-400"></div>
+                                <div className="absolute top-1 -left-1 w-1.5 h-1.5 bg-indigo-300 rounded-full animate-pulse delay-200"></div>
+                              </>
+                            )}
+                            {badge.rarity === 'uncommon' && (
+                              <>
+                                <div className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                                <div className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-green-300 rounded-full animate-pulse delay-300"></div>
                               </>
                             )}
                           </div>
