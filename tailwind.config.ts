@@ -22,10 +22,13 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          light: "hsl(var(--primary-light))",
+          dark: "hsl(var(--primary-dark))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+          accent: "hsl(var(--secondary-accent))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -38,6 +41,7 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          warm: "hsl(var(--accent-warm))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -57,6 +61,34 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Gamification colors
+        eco: {
+          points: "hsl(var(--eco-points))",
+        },
+        badge: {
+          gold: "hsl(var(--badge-gold))",
+          silver: "hsl(var(--badge-silver))",
+          bronze: "hsl(var(--badge-bronze))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
+      },
+      backgroundImage: {
+        "gradient-hero": "var(--gradient-hero)",
+        "gradient-card": "var(--gradient-card)",
+        "gradient-success": "var(--gradient-success)",
+        "gradient-level": "var(--level-gradient)",
+      },
+      boxShadow: {
+        soft: "var(--shadow-soft)",
+        hover: "var(--shadow-hover)",
+        card: "var(--shadow-card)",
       },
       borderRadius: {
         lg: "var(--radius)",
