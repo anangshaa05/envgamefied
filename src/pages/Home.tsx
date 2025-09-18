@@ -6,6 +6,7 @@ import Card from "@/components/Card";
 import StatsCounter from "@/components/StatsCounter";
 import ProgressBar from "@/components/ProgressBar";
 import { user, challenges, campaigns } from "@/data/mockData";
+import logo from "@/assets/logo.png";
 
 const Home = () => {
   const completedChallenges = challenges.filter(c => c.submitted).length;
@@ -31,6 +32,13 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
+            <div className="mb-6">
+              <img 
+                src={logo} 
+                alt="EcoLearn" 
+                className="w-32 md:w-40 mx-auto mb-8 brightness-0 invert opacity-90" 
+              />
+            </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
               Learn. Play. Act
               <span className="block bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">

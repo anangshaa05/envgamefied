@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { user } from "@/data/mockData";
+import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,9 +56,7 @@ const Navbar = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="w-10 h-10 bg-gradient-hero rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-soft">
-              🌱
-            </div>
+            <img src={logo} alt="EcoLearn" className="w-10 h-10 rounded-xl shadow-soft" />
             <Link to="/" className="text-xl font-bold text-foreground">
               EcoLearn
             </Link>
