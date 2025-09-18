@@ -20,7 +20,7 @@ const Home = () => {
           muted 
           loop 
           playsInline
-          className="absolute inset-0 w-full h-4/5 object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
         >
           <source src="/videos/hero-background.mp4" type="video/mp4" />
         </video>
