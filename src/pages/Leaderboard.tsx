@@ -79,99 +79,78 @@ const Leaderboard = () => {
           transition={{ delay: 0.2 }}
           className="mb-12"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {/* Second Place */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="order-1 md:order-1"
-            >
-              <Card className={`p-6 text-center ${getRankColors(2)} shadow-hover`}>
-                <div className="mb-4">
-                  <div className="w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden border-4 border-white shadow-soft">
+          <div className="bg-gradient-to-b from-slate-800 to-slate-900 rounded-2xl p-8 max-w-4xl mx-auto">
+            <div className="flex items-end justify-center gap-8">
+              {/* Second Place - Left */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="flex flex-col items-center mt-8"
+              >
+                <div className="relative mb-4">
+                  <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-blue-400 bg-blue-400/20 p-1">
                     <img 
                       src={topThree[1]?.avatarUrl}
                       alt={topThree[1]?.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover rounded-full"
                     />
                   </div>
-                  <div className="flex items-center justify-center mb-2">
-                    <Medal className="w-6 h-6 text-badge-silver mr-1" />
-                    <span className="font-bold">2nd Place</span>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center border-2 border-white">
+                    <span className="text-white font-bold text-sm">2</span>
                   </div>
-                  <h3 className="font-bold text-lg">{topThree[1]?.name}</h3>
                 </div>
-                <div className="space-y-2">
-                  <div className="text-2xl font-bold">{topThree[1]?.points.toLocaleString()}</div>
-                  <div className="text-sm opacity-80">Eco Points</div>
-                  <LevelPill level={topThree[1]?.level} size="sm" />
-                </div>
-              </Card>
-            </motion.div>
+                <h3 className="font-bold text-lg text-white mb-1">{topThree[1]?.name}</h3>
+                <div className="text-2xl font-bold text-blue-400 mb-1">{topThree[1]?.points.toLocaleString()}</div>
+                <div className="text-sm text-slate-400">@username</div>
+              </motion.div>
 
-            {/* First Place */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="order-2 md:order-2"
-            >
-              <Card className={`p-8 text-center ${getRankColors(1)} shadow-hover transform scale-105`}>
-                <div className="mb-6">
-                  <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-white shadow-soft">
+              {/* First Place - Center (Elevated) */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="flex flex-col items-center"
+              >
+                <div className="relative mb-4">
+                  <Crown className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
+                  <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-yellow-400 bg-yellow-400/20 p-1">
                     <img 
                       src={topThree[0]?.avatarUrl}
                       alt={topThree[0]?.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover rounded-full"
                     />
                   </div>
-                  <div className="flex items-center justify-center mb-3">
-                    <Crown className="w-8 h-8 text-yellow-300 mr-2" />
-                    <span className="font-bold text-lg">Champion</span>
-                  </div>
-                  <h3 className="font-bold text-xl">{topThree[0]?.name}</h3>
                 </div>
-                <div className="space-y-3">
-                  <div className="text-3xl font-bold">{topThree[0]?.points.toLocaleString()}</div>
-                  <div className="text-sm opacity-90">Eco Points</div>
-                  <LevelPill level={topThree[0]?.level} size="md" />
-                  <Badge variant="secondary" className="bg-white/20">
-                    {topThree[0]?.badgeCount} Badges
-                  </Badge>
-                </div>
-              </Card>
-            </motion.div>
+                <h3 className="font-bold text-xl text-white mb-1">{topThree[0]?.name}</h3>
+                <div className="text-3xl font-bold text-yellow-400 mb-1">{topThree[0]?.points.toLocaleString()}</div>
+                <div className="text-sm text-slate-400">@username</div>
+              </motion.div>
 
-            {/* Third Place */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="order-3 md:order-3"
-            >
-              <Card className={`p-6 text-center ${getRankColors(3)} shadow-hover`}>
-                <div className="mb-4">
-                  <div className="w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden border-4 border-white shadow-soft">
+              {/* Third Place - Right */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="flex flex-col items-center mt-8"
+              >
+                <div className="relative mb-4">
+                  <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-green-400 bg-green-400/20 p-1">
                     <img 
                       src={topThree[2]?.avatarUrl}
                       alt={topThree[2]?.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover rounded-full"
                     />
                   </div>
-                  <div className="flex items-center justify-center mb-2">
-                    <Medal className="w-6 h-6 text-badge-bronze mr-1" />
-                    <span className="font-bold">3rd Place</span>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center border-2 border-white">
+                    <span className="text-white font-bold text-sm">3</span>
                   </div>
-                  <h3 className="font-bold text-lg">{topThree[2]?.name}</h3>
                 </div>
-                <div className="space-y-2">
-                  <div className="text-2xl font-bold">{topThree[2]?.points.toLocaleString()}</div>
-                  <div className="text-sm opacity-80">Eco Points</div>
-                  <LevelPill level={topThree[2]?.level} size="sm" />
-                </div>
-              </Card>
-            </motion.div>
+                <h3 className="font-bold text-lg text-white mb-1">{topThree[2]?.name}</h3>
+                <div className="text-2xl font-bold text-green-400 mb-1">{topThree[2]?.points.toLocaleString()}</div>
+                <div className="text-sm text-slate-400">@username</div>
+              </motion.div>
+            </div>
           </div>
         </motion.section>
 
