@@ -126,60 +126,11 @@ const Profile = () => {
               </div>
             </motion.section>
 
-            {/* Daily Challenges */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-foreground">Today's Challenges</h2>
-                <span className="text-sm text-muted-foreground">
-                  {completedDaily} of {dailyChallenges.length} completed
-                </span>
-              </div>
-              <div className="space-y-3">
-                {dailyChallenges.map((challenge, index) => (
-                  <Card 
-                    key={challenge.id}
-                    variant="challenge"
-                    className={`p-4 ${challenge.completed ? 'opacity-75' : ''}`}
-                  >
-                    <div className="flex items-center space-x-4">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                        challenge.completed 
-                          ? 'bg-success text-white' 
-                          : 'bg-muted text-muted-foreground'
-                      }`}>
-                        {challenge.completed ? '✓' : index + 1}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className={`font-medium ${
-                          challenge.completed ? 'line-through text-muted-foreground' : 'text-foreground'
-                        }`}>
-                          {challenge.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">{challenge.description}</p>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-sm font-medium text-primary">+{challenge.points}</span>
-                        {!challenge.completed && (
-                          <Button size="sm" variant="outline">
-                            Complete
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </motion.section>
-
             {/* Badges Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.3 }}
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
@@ -223,10 +174,37 @@ const Profile = () => {
                 {unlockedBadges.slice(0, 8).map((badge, index) => (
                   <Dialog key={badge.id}>
                     <DialogTrigger asChild>
-                      <div className={`p-3 cursor-pointer group ${rarityColors[badge.rarity]} hover:shadow-hover border-2 rounded-lg`}>
+                      <div className="cursor-pointer group relative">
                         <div className="text-center">
-                          <div className={`w-12 h-12 mx-auto rounded-full bg-gradient-to-br ${rarityGradients[badge.rarity]} flex items-center justify-center text-lg text-white shadow-soft group-hover:scale-110 transition-transform`}>
-                            {badge.icon}
+                          {/* Shield Shape */}
+                          <div className={`relative w-14 h-16 mx-auto group-hover:scale-110 transition-transform duration-300`}>
+                            {/* Shield Background */}
+                            <div className={`absolute inset-0 bg-gradient-to-b ${rarityGradients[badge.rarity]} rounded-t-lg`} 
+                                 style={{
+                                   clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)'
+                                 }}>
+                            </div>
+                            {/* Shield Border */}
+                            <div className={`absolute inset-0 border-2 ${
+                              badge.rarity === 'legendary' ? 'border-yellow-300' :
+                              badge.rarity === 'rare' ? 'border-blue-300' :
+                              badge.rarity === 'uncommon' ? 'border-emerald-300' :
+                              'border-slate-300'
+                            } rounded-t-lg shadow-lg`}
+                                 style={{
+                                   clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)'
+                                 }}>
+                            </div>
+                            {/* Badge Icon */}
+                            <div className="absolute inset-0 flex items-center justify-center text-white text-lg font-bold pt-1">
+                              {badge.icon}
+                            </div>
+                            {/* Shine Effect */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent rounded-t-lg"
+                                 style={{
+                                   clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)'
+                                 }}>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -234,8 +212,31 @@ const Profile = () => {
                     <DialogContent>
                       <DialogHeader>
                         <DialogTitle className="text-center">
-                          <div className={`w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br ${rarityGradients[badge.rarity]} flex items-center justify-center text-3xl text-white shadow-soft`}>
-                            {badge.icon}
+                          {/* Larger Shield for Dialog */}
+                          <div className="relative w-24 h-28 mx-auto mb-4">
+                            <div className={`absolute inset-0 bg-gradient-to-b ${rarityGradients[badge.rarity]} rounded-t-xl`} 
+                                 style={{
+                                   clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)'
+                                 }}>
+                            </div>
+                            <div className={`absolute inset-0 border-3 ${
+                              badge.rarity === 'legendary' ? 'border-yellow-300' :
+                              badge.rarity === 'rare' ? 'border-blue-300' :
+                              badge.rarity === 'uncommon' ? 'border-emerald-300' :
+                              'border-slate-300'
+                            } rounded-t-xl shadow-xl`}
+                                 style={{
+                                   clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)'
+                                 }}>
+                            </div>
+                            <div className="absolute inset-0 flex items-center justify-center text-white text-3xl font-bold pt-2">
+                              {badge.icon}
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent rounded-t-xl"
+                                 style={{
+                                   clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)'
+                                 }}>
+                            </div>
                           </div>
                           {badge.name}
                         </DialogTitle>
@@ -265,6 +266,55 @@ const Profile = () => {
                 </p>
               </div>
             </motion.section>
+
+            {/* Daily Challenges */}
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-foreground">Today's Challenges</h2>
+                <span className="text-sm text-muted-foreground">
+                  {completedDaily} of {dailyChallenges.length} completed
+                </span>
+              </div>
+              <div className="space-y-3">
+                {dailyChallenges.map((challenge, index) => (
+                  <Card 
+                    key={challenge.id}
+                    variant="challenge"
+                    className={`p-4 ${challenge.completed ? 'opacity-75' : ''}`}
+                  >
+                    <div className="flex items-center space-x-4">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                        challenge.completed 
+                          ? 'bg-success text-white' 
+                          : 'bg-muted text-muted-foreground'
+                      }`}>
+                        {challenge.completed ? '✓' : index + 1}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className={`font-medium ${
+                          challenge.completed ? 'line-through text-muted-foreground' : 'text-foreground'
+                        }`}>
+                          {challenge.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">{challenge.description}</p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-sm font-medium text-primary">+{challenge.points}</span>
+                        {!challenge.completed && (
+                          <Button size="sm" variant="outline">
+                            Complete
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </motion.section>
           </div>
 
           {/* Right Column - Sidebar */}
@@ -273,7 +323,7 @@ const Profile = () => {
             <motion.section
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.5 }}
             >
               <Card variant="default" className="p-6">
                 <h3 className="font-semibold text-foreground mb-4">Quick Actions</h3>
@@ -304,7 +354,7 @@ const Profile = () => {
             <motion.section
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.6 }}
             >
               <Card variant="lesson" className="p-6">
                 <h3 className="font-semibold text-foreground mb-4">Learning Progress</h3>
@@ -329,7 +379,7 @@ const Profile = () => {
             <motion.section
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6 }}
+              transition={{ delay: 0.7 }}
             >
               <Card variant="challenge" className="p-6">
                 <h3 className="font-semibold text-foreground mb-4">Challenge Stats</h3>
@@ -359,7 +409,7 @@ const Profile = () => {
             <motion.section
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.7 }}
+              transition={{ delay: 0.8 }}
             >
               <Card variant="community" className="p-6">
                 <div className="flex items-center justify-between mb-4">
