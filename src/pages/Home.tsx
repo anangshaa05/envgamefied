@@ -64,6 +64,115 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Global Stats Section */}
+      <section className="bg-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-4xl md:text-5xl font-bold text-success mb-2">50K+</div>
+              <div className="text-muted-foreground">Active Learners</div>
+            </div>
+            <div>
+              <div className="text-4xl md:text-5xl font-bold text-success mb-2">1M+</div>
+              <div className="text-muted-foreground">Trees Planted</div>
+            </div>
+            <div>
+              <div className="text-4xl md:text-5xl font-bold text-success mb-2">500+</div>
+              <div className="text-muted-foreground">Challenges Completed</div>
+            </div>
+            <div>
+              <div className="text-4xl md:text-5xl font-bold text-success mb-2">100+</div>
+              <div className="text-muted-foreground">Partner NGOs</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose EcoLearn Section */}
+      <section className="py-20 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+              Why Choose EcoLearn?
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Our platform combines education, gamification, and real-world impact to 
+              create the most engaging environmental learning experience.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-success/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <div className="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
+                  <span className="text-white text-lg">📚</span>
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold text-foreground mb-4">Interactive Learning</h3>
+              <p className="text-muted-foreground">
+                Engage with gamified lessons on environmental topics
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-success/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <div className="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
+                  <span className="text-white text-lg">🏆</span>
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold text-foreground mb-4">Real Challenges</h3>
+              <p className="text-muted-foreground">
+                Complete real-world environmental challenges
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-success/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <div className="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
+                  <span className="text-white text-lg">👥</span>
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold text-foreground mb-4">Community Impact</h3>
+              <p className="text-muted-foreground">
+                Join a global community making a difference
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-success/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <div className="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
+                  <span className="text-white text-lg">🎯</span>
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold text-foreground mb-4">Track Progress</h3>
+              <p className="text-muted-foreground">
+                Monitor your environmental impact and achievements
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Ready to Make a Difference CTA */}
+      <section className="bg-success py-20">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            Ready to Make a Difference?
+          </h2>
+          <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
+            Join our community of environmental champions and start your journey 
+            toward a sustainable future.
+          </p>
+          <Button 
+            size="lg" 
+            className="bg-white text-success hover:bg-white/90 font-semibold px-8 py-6 text-lg rounded-xl shadow-hover"
+            asChild
+          >
+            <Link to="/profile">Start Your Journey</Link>
+          </Button>
+        </div>
+      </section>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Quick Stats */}
         <motion.section
