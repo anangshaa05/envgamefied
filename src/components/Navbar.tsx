@@ -51,7 +51,7 @@ const Navbar = () => {
         }} whileTap={{
           scale: 0.95
         }}>
-            <img src={logo} alt="EcoLearn" className="w-10 h-10 rounded-xl shadow-soft" />
+            <img src={logo} alt="EcoLearn" className="w-12 h-12 rounded-xl shadow-soft" />
             
           </motion.div>
 
