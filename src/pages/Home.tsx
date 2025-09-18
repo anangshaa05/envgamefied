@@ -32,9 +32,9 @@ const Home = () => {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Learn. Play. Act for the
-              <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
-                Planet.
+              Learn. Play. Act
+              <span className="block bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
+                for the Planet.
               </span>
             </h1>
             <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
