@@ -14,7 +14,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-hero py-20 px-4">
+      <section className="relative overflow-hidden bg-gradient-hero py-32 px-4 min-h-screen">
         <video 
           autoPlay 
           muted 
