@@ -32,11 +32,11 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="mb-6">
+            <div className="mb-3">
               <img 
                 src={logo} 
                 alt="EcoLearn" 
-                className="w-32 md:w-40 mx-auto mb-8 brightness-0 invert opacity-90" 
+                className="w-32 md:w-40 mx-auto mb-4 brightness-0 invert opacity-90" 
               />
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
