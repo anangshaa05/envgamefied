@@ -55,7 +55,7 @@ const Home = () => {
               <Button 
                 variant="outline" 
                 size="lg"
-                className="bg-white/10 border-white/30 text-white hover:bg-primary/20 hover:border-primary/40 font-semibold px-8 py-6 text-lg rounded-xl transition-colors"
+                className="bg-white/10 border-white/30 text-white hover:bg-primary/20 hover:border-primary/40 hover:text-emerald-300 font-semibold px-8 py-6 text-lg rounded-xl transition-colors"
               >
                 Join as Teacher/NGO
               </Button>
