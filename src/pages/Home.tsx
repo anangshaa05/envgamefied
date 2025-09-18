@@ -32,14 +32,14 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="mb-2">
+            <div className="mb-0 relative">
               <img 
                 src={logo} 
                 alt="EcoLearn" 
-                className="w-40 md:w-52 mx-auto mb-2 brightness-0 invert opacity-90" 
+                className="w-40 md:w-52 mx-auto mb-0 brightness-0 invert opacity-90" 
               />
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 -mt-2">
               Learn. Play. Act
               <span className="block bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
                 for the Planet.
@@ -64,8 +64,9 @@ const Home = () => {
                 variant="outline" 
                 size="lg"
                 className="bg-white/10 border-white/30 text-white hover:bg-primary/20 hover:border-primary/40 hover:text-emerald-300 font-semibold px-8 py-6 text-lg rounded-xl transition-colors"
+                asChild
               >
-                Join as Teacher/NGO
+                <Link to="/community">Join as Teacher/NGO</Link>
               </Button>
             </div>
           </motion.div>
@@ -190,18 +191,19 @@ const Home = () => {
       </section>
 
       {/* Ready to Make a Difference CTA */}
-      <section className="bg-success py-20">
+      <section className="py-12" style={{ backgroundColor: 'hsl(120 80% 35%)' }}>
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Ready to Make a Difference?
           </h2>
-          <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-white/90 mb-6 max-w-2xl mx-auto">
             Join our community of environmental champions and start your journey 
             toward a sustainable future.
           </p>
           <Button 
             size="lg" 
-            className="bg-white text-success hover:bg-white/90 font-semibold px-8 py-6 text-lg rounded-xl shadow-hover"
+            className="bg-white hover:bg-white/90 font-semibold px-6 py-4 text-lg rounded-xl shadow-hover"
+            style={{ color: 'hsl(120 80% 35%)' }}
             asChild
           >
             <Link to="/profile">Start Your Journey</Link>

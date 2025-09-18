@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Trophy, Medal, Crown, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -79,8 +80,8 @@ const Leaderboard = () => {
           transition={{ delay: 0.2 }}
           className="mb-12"
         >
-          <div className="bg-gradient-to-b from-slate-800 to-slate-900 rounded-2xl p-8 max-w-4xl mx-auto">
-            <div className="flex items-end justify-center gap-8">
+          <div className="bg-white rounded-2xl p-10 max-w-5xl mx-auto shadow-card border border-border">
+            <div className="flex items-end justify-center gap-12">
               {/* Second Place - Left */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -89,20 +90,20 @@ const Leaderboard = () => {
                 className="flex flex-col items-center mt-8"
               >
                 <div className="relative mb-4">
-                  <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-blue-400 bg-blue-400/20 p-1">
+                  <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-badge-silver bg-badge-silver/20 p-1">
                     <img 
                       src={topThree[1]?.avatarUrl}
                       alt={topThree[1]?.name}
                       className="w-full h-full object-cover rounded-full"
                     />
                   </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center border-2 border-white">
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-badge-silver rounded-full flex items-center justify-center border-2 border-white">
                     <span className="text-white font-bold text-sm">2</span>
                   </div>
                 </div>
-                <h3 className="font-bold text-lg text-white mb-1">{topThree[1]?.name}</h3>
-                <div className="text-2xl font-bold text-blue-400 mb-1">{topThree[1]?.points.toLocaleString()}</div>
-                <div className="text-sm text-slate-400">@username</div>
+                <h3 className="font-bold text-xl text-foreground mb-1">{topThree[1]?.name}</h3>
+                <div className="text-3xl font-bold text-badge-silver mb-1">{topThree[1]?.points.toLocaleString()}</div>
+                <div className="text-sm text-muted-foreground">@username</div>
               </motion.div>
 
               {/* First Place - Center (Elevated) */}
@@ -113,8 +114,8 @@ const Leaderboard = () => {
                 className="flex flex-col items-center"
               >
                 <div className="relative mb-4">
-                  <Crown className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
-                  <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-yellow-400 bg-yellow-400/20 p-1">
+                  <Crown className="w-10 h-10 text-badge-gold mx-auto mb-2" />
+                  <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-badge-gold bg-badge-gold/20 p-1">
                     <img 
                       src={topThree[0]?.avatarUrl}
                       alt={topThree[0]?.name}
@@ -122,9 +123,9 @@ const Leaderboard = () => {
                     />
                   </div>
                 </div>
-                <h3 className="font-bold text-xl text-white mb-1">{topThree[0]?.name}</h3>
-                <div className="text-3xl font-bold text-yellow-400 mb-1">{topThree[0]?.points.toLocaleString()}</div>
-                <div className="text-sm text-slate-400">@username</div>
+                <h3 className="font-bold text-2xl text-foreground mb-1">{topThree[0]?.name}</h3>
+                <div className="text-4xl font-bold text-badge-gold mb-1">{topThree[0]?.points.toLocaleString()}</div>
+                <div className="text-sm text-muted-foreground">@username</div>
               </motion.div>
 
               {/* Third Place - Right */}
@@ -135,20 +136,20 @@ const Leaderboard = () => {
                 className="flex flex-col items-center mt-8"
               >
                 <div className="relative mb-4">
-                  <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-green-400 bg-green-400/20 p-1">
+                  <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-badge-bronze bg-badge-bronze/20 p-1">
                     <img 
                       src={topThree[2]?.avatarUrl}
                       alt={topThree[2]?.name}
                       className="w-full h-full object-cover rounded-full"
                     />
                   </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center border-2 border-white">
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-badge-bronze rounded-full flex items-center justify-center border-2 border-white">
                     <span className="text-white font-bold text-sm">3</span>
                   </div>
                 </div>
-                <h3 className="font-bold text-lg text-white mb-1">{topThree[2]?.name}</h3>
-                <div className="text-2xl font-bold text-green-400 mb-1">{topThree[2]?.points.toLocaleString()}</div>
-                <div className="text-sm text-slate-400">@username</div>
+                <h3 className="font-bold text-xl text-foreground mb-1">{topThree[2]?.name}</h3>
+                <div className="text-3xl font-bold text-badge-bronze mb-1">{topThree[2]?.points.toLocaleString()}</div>
+                <div className="text-sm text-muted-foreground">@username</div>
               </motion.div>
             </div>
           </div>
@@ -276,11 +277,11 @@ const Leaderboard = () => {
               Complete more challenges, learn new lessons, and engage with the community to boost your ranking!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90">
-                Take Challenges
+              <Button size="lg" className="bg-white text-primary hover:bg-white/90" asChild>
+                <Link to="/challenges">Take Challenges</Link>
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                Join Community
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/20 hover:text-white" asChild>
+                <Link to="/community">Join Community</Link>
               </Button>
             </div>
           </Card>
