@@ -68,22 +68,42 @@ const Home = () => {
       <section className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-success mb-2">50K+</div>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <div className="text-3xl md:text-4xl font-bold text-success mb-2">50K+</div>
               <div className="text-muted-foreground">Active Learners</div>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-success mb-2">1M+</div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <div className="text-3xl md:text-4xl font-bold text-success mb-2">1M+</div>
               <div className="text-muted-foreground">Trees Planted</div>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-success mb-2">500+</div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <div className="text-3xl md:text-4xl font-bold text-success mb-2">500+</div>
               <div className="text-muted-foreground">Challenges Completed</div>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-success mb-2">100+</div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <div className="text-3xl md:text-4xl font-bold text-success mb-2">100+</div>
               <div className="text-muted-foreground">Partner NGOs</div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
