@@ -47,7 +47,7 @@ const Home = () => {
                 className="bg-white text-primary hover:bg-white/90 font-semibold px-8 py-6 text-lg rounded-xl shadow-hover"
                 asChild
               >
-                <Link to="/dashboard" className="flex items-center space-x-2">
+                <Link to="/profile" className="flex items-center space-x-2">
                   <span>Get Started</span>
                   <ArrowRight className="w-5 h-5" />
                 </Link>
@@ -55,7 +55,7 @@ const Home = () => {
               <Button 
                 variant="outline" 
                 size="lg"
-                className="bg-white/10 border-white/30 text-white hover:bg-white/20 font-semibold px-8 py-6 text-lg rounded-xl"
+                className="bg-white/10 border-white/30 text-white hover:bg-primary/20 hover:border-primary/40 font-semibold px-8 py-6 text-lg rounded-xl transition-colors"
               >
                 Join as Teacher/NGO
               </Button>
@@ -287,13 +287,13 @@ const Home = () => {
                 link: "/community",
                 color: "from-purple-500 to-pink-500"
               },
-              { 
-                title: "View Badges", 
-                desc: "See achievements", 
-                icon: "🏅", 
-                link: "/badges",
-                color: "from-orange-500 to-red-500"
-              }
+                { 
+                  title: "View Profile", 
+                  desc: "See achievements", 
+                  icon: "🏅", 
+                  link: "/profile",
+                  color: "from-orange-500 to-red-500"
+                }
             ].map((action, index) => (
               <Card 
                 key={action.title}

@@ -5,13 +5,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Home from "@/pages/Home";
-import Dashboard from "@/pages/Dashboard";
+import Profile from "@/pages/Profile";
 import LearningHub from "@/pages/LearningHub";
 import LessonDetail from "@/pages/LessonDetail";
 import Challenges from "@/pages/Challenges";
 import Leaderboard from "@/pages/Leaderboard";
 import Community from "@/pages/Community";
-import Badges from "@/pages/Badges";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,13 +25,12 @@ const App = () => (
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/learning" element={<LearningHub />} />
             <Route path="/learning/:id" element={<LessonDetail />} />
             <Route path="/challenges" element={<Challenges />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/community" element={<Community />} />
-            <Route path="/badges" element={<Badges />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

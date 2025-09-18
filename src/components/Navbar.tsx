@@ -36,8 +36,7 @@ const Navbar = () => {
     { name: "Challenges", href: "/challenges", icon: Target },
     { name: "Leaderboard", href: "/leaderboard", icon: Trophy },
     { name: "Community", href: "/community", icon: Users },
-    { name: "Dashboard", href: "/dashboard", icon: BarChart3 },
-    { name: "Badges", href: "/badges", icon: Award },
+    { name: "Profile", href: "/profile", icon: User },
   ];
 
   const isActive = (path: string) => location.pathname === path;

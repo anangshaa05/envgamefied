@@ -10,7 +10,7 @@ import ProgressBar from "@/components/ProgressBar";
 import LevelPill from "@/components/LevelPill";
 import { user, dailyChallenges, recentActivity, challenges, lessons, badges } from "@/data/mockData";
 
-const Dashboard = () => {
+const Profile = () => {
   const completedLessons = lessons.filter(l => l.completed).length;
   const completedChallenges = challenges.filter(c => c.submitted).length;
   const completedDaily = dailyChallenges.filter(dc => dc.completed).length;
@@ -182,10 +182,41 @@ const Dashboard = () => {
               transition={{ delay: 0.4 }}
             >
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-foreground">Your Badges</h2>
-                <Button variant="ghost" size="sm" asChild>
-                  <Link to="/badges">View All</Link>
+                <div className="flex items-center space-x-2">
+                  <Award className="w-6 h-6 text-badge-gold" />
+                  <h2 className="text-xl font-semibold text-foreground">Your Badges</h2>
+                </div>
+                <Button variant="ghost" size="sm">
+                  View All Collection
                 </Button>
+              </div>
+              
+              {/* Badge Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                <Card variant="default" className="p-4 text-center bg-gradient-to-br from-badge-gold/20 to-badge-gold/10">
+                  <div className="text-2xl font-bold text-badge-gold mb-1">
+                    {unlockedBadges.length}
+                  </div>
+                  <div className="text-xs text-muted-foreground">Earned</div>
+                </Card>
+                <Card variant="default" className="p-4 text-center">
+                  <div className="text-2xl font-bold text-primary mb-1">
+                    {badges.length}
+                  </div>
+                  <div className="text-xs text-muted-foreground">Total</div>
+                </Card>
+                <Card variant="default" className="p-4 text-center">
+                  <div className="text-2xl font-bold text-success mb-1">
+                    {Math.round((unlockedBadges.length / badges.length) * 100)}%
+                  </div>
+                  <div className="text-xs text-muted-foreground">Complete</div>
+                </Card>
+                <Card variant="default" className="p-4 text-center">
+                  <div className="text-2xl font-bold text-warning mb-1">
+                    {badges.filter(b => b.rarity === 'legendary' && b.unlocked).length}
+                  </div>
+                  <div className="text-xs text-muted-foreground">Legendary</div>
+                </Card>
               </div>
               
               <div className="grid grid-cols-4 md:grid-cols-8 gap-3 mb-4">
@@ -369,4 +400,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Profile;
