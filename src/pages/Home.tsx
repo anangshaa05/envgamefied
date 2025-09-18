@@ -32,11 +32,11 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="mb-3">
+            <div className="mb-2">
               <img 
                 src={logo} 
                 alt="EcoLearn" 
-                className="w-32 md:w-40 mx-auto mb-4 brightness-0 invert opacity-90" 
+                className="w-40 md:w-52 mx-auto mb-2 brightness-0 invert opacity-90" 
               />
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
@@ -130,53 +130,61 @@ const Home = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-success/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <div className="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
-                  <span className="text-white text-lg">📚</span>
+            <Link to="/learning" className="group">
+              <Card className="text-center h-full p-8 transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer">
+                <div className="w-16 h-16 bg-success/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-success/20 transition-colors">
+                  <div className="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
+                    <span className="text-white text-lg">📚</span>
+                  </div>
                 </div>
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-4">Interactive Learning</h3>
-              <p className="text-muted-foreground">
-                Engage with gamified lessons on environmental topics
-              </p>
-            </div>
+                <h3 className="text-xl font-semibold text-foreground mb-4 group-hover:text-success">Interactive Learning</h3>
+                <p className="text-muted-foreground">
+                  Engage with gamified lessons on environmental topics
+                </p>
+              </Card>
+            </Link>
             
-            <div className="text-center">
-              <div className="w-16 h-16 bg-success/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <div className="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
-                  <span className="text-white text-lg">🏆</span>
+            <Link to="/challenges" className="group">
+              <Card className="text-center h-full p-8 transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer">
+                <div className="w-16 h-16 bg-success/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-success/20 transition-colors">
+                  <div className="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
+                    <span className="text-white text-lg">🏆</span>
+                  </div>
                 </div>
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-4">Real Challenges</h3>
-              <p className="text-muted-foreground">
-                Complete real-world environmental challenges
-              </p>
-            </div>
+                <h3 className="text-xl font-semibold text-foreground mb-4 group-hover:text-success">Real Challenges</h3>
+                <p className="text-muted-foreground">
+                  Complete real-world environmental challenges
+                </p>
+              </Card>
+            </Link>
             
-            <div className="text-center">
-              <div className="w-16 h-16 bg-success/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <div className="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
-                  <span className="text-white text-lg">👥</span>
+            <Link to="/community" className="group">
+              <Card className="text-center h-full p-8 transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer">
+                <div className="w-16 h-16 bg-success/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-success/20 transition-colors">
+                  <div className="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
+                    <span className="text-white text-lg">👥</span>
+                  </div>
                 </div>
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-4">Community Impact</h3>
-              <p className="text-muted-foreground">
-                Join a global community making a difference
-              </p>
-            </div>
+                <h3 className="text-xl font-semibold text-foreground mb-4 group-hover:text-success">Community Impact</h3>
+                <p className="text-muted-foreground">
+                  Join a global community making a difference
+                </p>
+              </Card>
+            </Link>
             
-            <div className="text-center">
-              <div className="w-16 h-16 bg-success/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <div className="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
-                  <span className="text-white text-lg">🎯</span>
+            <Link to="/profile" className="group">
+              <Card className="text-center h-full p-8 transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer">
+                <div className="w-16 h-16 bg-success/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-success/20 transition-colors">
+                  <div className="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
+                    <span className="text-white text-lg">🎯</span>
+                  </div>
                 </div>
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-4">Track Progress</h3>
-              <p className="text-muted-foreground">
-                Monitor your environmental impact and achievements
-              </p>
-            </div>
+                <h3 className="text-xl font-semibold text-foreground mb-4 group-hover:text-success">Track Progress</h3>
+                <p className="text-muted-foreground">
+                  Monitor your environmental impact and achievements
+                </p>
+              </Card>
+            </Link>
           </div>
         </div>
       </section>
@@ -200,256 +208,6 @@ const Home = () => {
           </Button>
         </div>
       </section>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Quick Stats */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="mb-16"
-        >
-          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">Your Impact Dashboard</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <StatsCounter
-              value={user.ecoPoints}
-              label="Eco Points Earned"
-              icon="🏆"
-              duration={2}
-            />
-            <StatsCounter
-              value={user.totalTreesPlanted}
-              label="Trees Planted"
-              icon="🌳"
-              duration={2.2}
-            />
-            <StatsCounter
-              value={user.wasteReduced}
-              label="Waste Reduced"
-              icon="♻️"
-              suffix=" kg"
-              decimals={1}
-              duration={2.4}
-            />
-            <StatsCounter
-              value={user.waterSaved}
-              label="Water Saved"
-              icon="💧"
-              suffix=" L"
-              duration={2.6}
-            />
-          </div>
-        </motion.section>
-
-        {/* Active Challenges & Progress */}
-        <section className="mb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Level Progress */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <Card variant="default" className="p-6 h-full">
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-12 h-12 bg-gradient-level rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-soft">
-                    {user.level}
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground">Level {user.level}</h3>
-                    <p className="text-sm text-muted-foreground">Eco Explorer</p>
-                  </div>
-                </div>
-                <ProgressBar
-                  progress={(user.pointsToNextLevel / 300) * 100}
-                  variant="eco"
-                  label="Progress to next level"
-                />
-                <p className="text-xs text-muted-foreground mt-2">
-                  {user.pointsToNextLevel} points until Level {user.level + 1}
-                </p>
-              </Card>
-            </motion.div>
-
-            {/* Active Challenges */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              <Card variant="challenge" className="p-6 h-full">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold text-foreground">Active Challenges</h3>
-                  <Button variant="ghost" size="sm" asChild>
-                    <Link to="/challenges">View All</Link>
-                  </Button>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-foreground">In Progress</span>
-                    <span className="font-bold text-warning">{activeChallenges}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-foreground">Completed</span>
-                    <span className="font-bold text-success">{completedChallenges}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-foreground">Success Rate</span>
-                    <span className="font-bold text-primary">
-                      {Math.round((completedChallenges / challenges.length) * 100)}%
-                    </span>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
-
-            {/* Weekly Top Contributor */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6 }}
-            >
-              <Card variant="community" className="p-6 h-full">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold text-foreground">Weekly Leader</h3>
-                  <Button variant="ghost" size="sm" asChild>
-                    <Link to="/leaderboard">Leaderboard</Link>
-                  </Button>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-badge-gold shadow-soft">
-                    <img 
-                      src="https://api.dicebear.com/7.x/avataaars/svg?seed=Maya"
-                      alt="Maya Earth"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <p className="font-medium text-foreground">Maya Earth</p>
-                    <p className="text-sm text-muted-foreground">3,850 points</p>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Featured Campaigns */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="mb-16"
-        >
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-foreground">Active Campaigns</h2>
-            <Button variant="outline" asChild>
-              <Link to="/community">View All Campaigns</Link>
-            </Button>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {campaigns.map((campaign, index) => (
-              <Card key={campaign.id} variant="default" className="overflow-hidden">
-                <div className="aspect-video relative">
-                  <img 
-                    src={campaign.image}
-                    alt={campaign.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="font-bold text-lg mb-1">{campaign.title}</h3>
-                    <p className="text-sm opacity-90">{campaign.description}</p>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="mb-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-foreground">Progress</span>
-                      <span className="text-sm text-muted-foreground">
-                        {campaign.progress.toLocaleString()} / {campaign.goal.toLocaleString()}
-                      </span>
-                    </div>
-                    <ProgressBar
-                      progress={(campaign.progress / campaign.goal) * 100}
-                      variant="success"
-                      showPercentage={false}
-                    />
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center space-x-1">
-                      <Users className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-muted-foreground">
-                        {campaign.participants.toLocaleString()} participants
-                      </span>
-                    </div>
-                    <span className="text-muted-foreground">
-                      Ends {new Date(campaign.endDate).toLocaleDateString()}
-                    </span>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Quick Action Cards */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-        >
-          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">Quick Actions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              { 
-                title: "Start Learning", 
-                desc: "Explore eco lessons", 
-                icon: "📚", 
-                link: "/learning",
-                color: "from-blue-500 to-cyan-500"
-              },
-              { 
-                title: "Take Challenge", 
-                desc: "Complete eco tasks", 
-                icon: "🎯", 
-                link: "/challenges",
-                color: "from-green-500 to-emerald-500" 
-              },
-              { 
-                title: "Join Community", 
-                desc: "Connect with others", 
-                icon: "👥", 
-                link: "/community",
-                color: "from-purple-500 to-pink-500"
-              },
-                { 
-                  title: "View Profile", 
-                  desc: "See achievements", 
-                  icon: "🏅", 
-                  link: "/profile",
-                  color: "from-orange-500 to-red-500"
-                }
-            ].map((action, index) => (
-              <Card 
-                key={action.title}
-                variant="default"
-                className="group cursor-pointer overflow-hidden"
-                onClick={() => {}}
-              >
-                <Link to={action.link} className="block p-6 text-center">
-                  <div className={`w-16 h-16 mx-auto mb-4 bg-gradient-to-br ${action.color} rounded-xl flex items-center justify-center text-3xl shadow-soft group-hover:scale-110 transition-transform duration-300`}>
-                    {action.icon}
-                  </div>
-                  <h3 className="font-semibold text-foreground mb-2">{action.title}</h3>
-                  <p className="text-sm text-muted-foreground">{action.desc}</p>
-                </Link>
-              </Card>
-            ))}
-          </div>
-        </motion.section>
-      </div>
     </div>
   );
 };
