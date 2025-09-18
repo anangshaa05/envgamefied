@@ -176,35 +176,47 @@ const Profile = () => {
                     <DialogTrigger asChild>
                       <div className="cursor-pointer group relative">
                         <div className="text-center">
-                          {/* Shield Shape */}
-                          <div className={`relative w-14 h-16 mx-auto group-hover:scale-110 transition-transform duration-300`}>
-                            {/* Shield Background */}
-                            <div className={`absolute inset-0 bg-gradient-to-b ${rarityGradients[badge.rarity]} rounded-t-lg`} 
+                          {/* Hexagonal Badge */}
+                          <div className={`relative w-14 h-14 mx-auto group-hover:scale-110 transition-transform duration-300`}>
+                            {/* Hexagon Background */}
+                            <div className={`absolute inset-0 bg-gradient-to-b ${rarityGradients[badge.rarity]} rounded-lg transform rotate-0`} 
                                  style={{
-                                   clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)'
+                                   clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
                                  }}>
                             </div>
-                            {/* Shield Border */}
-                            <div className={`absolute inset-0 border-2 ${
-                              badge.rarity === 'legendary' ? 'border-yellow-300' :
-                              badge.rarity === 'rare' ? 'border-blue-300' :
-                              badge.rarity === 'uncommon' ? 'border-emerald-300' :
-                              'border-slate-300'
-                            } rounded-t-lg shadow-lg`}
+                            {/* Inner Hexagon for icon background */}
+                            <div className="absolute inset-1 bg-white/90 rounded-lg"
                                  style={{
-                                   clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)'
+                                   clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
                                  }}>
                             </div>
                             {/* Badge Icon */}
-                            <div className="absolute inset-0 flex items-center justify-center text-white text-lg font-bold pt-1">
-                              {badge.icon}
+                            <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold">
+                              <span className={`${
+                                badge.rarity === 'legendary' ? 'text-purple-600' :
+                                badge.rarity === 'rare' ? 'text-blue-600' :
+                                badge.rarity === 'uncommon' ? 'text-emerald-600' :
+                                'text-slate-600'
+                              }`}>
+                                {badge.icon}
+                              </span>
                             </div>
                             {/* Shine Effect */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent rounded-t-lg"
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent rounded-lg"
                                  style={{
-                                   clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)'
+                                   clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
                                  }}>
                             </div>
+                            {/* Sparkle decorations */}
+                            {badge.rarity === 'legendary' && (
+                              <>
+                                <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></div>
+                                <div className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-yellow-200 rounded-full animate-pulse delay-300"></div>
+                              </>
+                            )}
+                            {badge.rarity === 'rare' && (
+                              <div className="absolute -top-1 right-0 w-1.5 h-1.5 bg-blue-300 rounded-full animate-pulse"></div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -212,31 +224,41 @@ const Profile = () => {
                     <DialogContent>
                       <DialogHeader>
                         <DialogTitle className="text-center">
-                          {/* Larger Shield for Dialog */}
-                          <div className="relative w-24 h-28 mx-auto mb-4">
-                            <div className={`absolute inset-0 bg-gradient-to-b ${rarityGradients[badge.rarity]} rounded-t-xl`} 
+                          {/* Larger Hexagon for Dialog */}
+                          <div className="relative w-24 h-24 mx-auto mb-4">
+                            <div className={`absolute inset-0 bg-gradient-to-b ${rarityGradients[badge.rarity]} rounded-xl`} 
                                  style={{
-                                   clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)'
+                                   clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
                                  }}>
                             </div>
-                            <div className={`absolute inset-0 border-3 ${
-                              badge.rarity === 'legendary' ? 'border-yellow-300' :
-                              badge.rarity === 'rare' ? 'border-blue-300' :
-                              badge.rarity === 'uncommon' ? 'border-emerald-300' :
-                              'border-slate-300'
-                            } rounded-t-xl shadow-xl`}
+                            <div className="absolute inset-2 bg-white/90 rounded-xl"
                                  style={{
-                                   clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)'
+                                   clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
                                  }}>
                             </div>
-                            <div className="absolute inset-0 flex items-center justify-center text-white text-3xl font-bold pt-2">
-                              {badge.icon}
+                            <div className="absolute inset-0 flex items-center justify-center text-4xl font-bold">
+                              <span className={`${
+                                badge.rarity === 'legendary' ? 'text-purple-600' :
+                                badge.rarity === 'rare' ? 'text-blue-600' :
+                                badge.rarity === 'uncommon' ? 'text-emerald-600' :
+                                'text-slate-600'
+                              }`}>
+                                {badge.icon}
+                              </span>
                             </div>
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent rounded-t-xl"
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent rounded-xl"
                                  style={{
-                                   clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%)'
+                                   clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
                                  }}>
                             </div>
+                            {/* Enhanced sparkles for dialog */}
+                            {badge.rarity === 'legendary' && (
+                              <>
+                                <div className="absolute -top-2 -right-2 w-3 h-3 bg-yellow-300 rounded-full animate-pulse"></div>
+                                <div className="absolute -bottom-2 -left-2 w-2 h-2 bg-yellow-200 rounded-full animate-pulse delay-300"></div>
+                                <div className="absolute top-1 -left-2 w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse delay-150"></div>
+                              </>
+                            )}
                           </div>
                           {badge.name}
                         </DialogTitle>
