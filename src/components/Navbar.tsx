@@ -46,14 +46,10 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo */}
-          <motion.div className="flex items-center space-x-3" whileHover={{
-          scale: 1.05
-        }} whileTap={{
-          scale: 0.95
-        }}>
+          <div className="flex items-center space-x-4">
             <img src={logo} alt="EcoLearn" className="w-12 h-12 rounded-xl shadow-soft" />
             
-          </motion.div>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
