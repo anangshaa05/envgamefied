@@ -1,195 +1,167 @@
-import { useState } from "react";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useToast } from "@/hooks/use-toast";
+import { X } from "lucide-react";
+import { useAuth } from '@/hooks/useAuth';
 
 interface JoinClassModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onJoinClass: (classCode: string, sectionName: string) => void;
 }
 
-// Mock class codes with their corresponding sections
-const validClassCodes = {
-  "ENV101": "Environmental Science - Section A",
-  "ECO201": "Ecology and Conservation - Section B", 
-  "SUS301": "Sustainability Studies - Section C",
-  "BIO150": "Environmental Biology - Section D",
-  "CHM250": "Green Chemistry - Section E"
-};
+export default function JoinClassModal({ isOpen, onClose }: JoinClassModalProps) {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [showRoleSelection, setShowRoleSelection] = useState(false);
+  const [classCode, setClassCode] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
 
-const JoinClassModal = ({ isOpen, onClose, onJoinClass }: JoinClassModalProps) => {
-  const [classCode, setClassCode] = useState("");
-  const [currentUser, setCurrentUser] = useState({
-    name: "5134_Kanika",
-    email: "2305134@kiit.ac.in",
-    initial: "K"
-  });
-  const [showAccountSwitcher, setShowAccountSwitcher] = useState(false);
-  const { toast } = useToast();
-
-  const mockAccounts = [
-    { name: "5134_Kanika", email: "2305134@kiit.ac.in", initial: "K" },
-    { name: "5678_Arjun", email: "2305678@kiit.ac.in", initial: "A" },
-    { name: "9012_Priya", email: "2309012@kiit.ac.in", initial: "P" }
-  ];
-
-  const handleJoin = () => {
-    if (!classCode.trim()) {
-      toast({
-        title: "Class code required",
-        description: "Please enter a class code to join",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    const upperClassCode = classCode.toUpperCase();
-    const sectionName = validClassCodes[upperClassCode as keyof typeof validClassCodes];
-
-    if (!sectionName) {
-      toast({
-        title: "Invalid class code",
-        description: "Please check the class code and try again.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    onJoinClass(upperClassCode, sectionName);
-    setClassCode("");
-    onClose();
-    toast({
-      title: "Successfully joined class! 🎉",
-      description: `Welcome to ${sectionName}`,
-    });
-  };
-
-  const handleSwitchAccount = (account: typeof currentUser) => {
-    setCurrentUser(account);
-    setShowAccountSwitcher(false);
-    toast({
-      title: "Account switched",
-      description: `Switched to ${account.name}`,
-    });
-  };
-
-  const handleCancel = () => {
-    setClassCode("");
+  const handleJoinAsStudent = (e: React.FormEvent) => {
+    e.preventDefault();
+    // TODO: Implement student class joining logic
+    console.log('Joining class as student:', { classCode, name, email });
     onClose();
   };
+
+  const handleRoleSelection = (role: 'teacher' | 'ngo') => {
+    onClose();
+    if (user) {
+      // User is logged in, redirect to appropriate dashboard
+      navigate(role === 'teacher' ? '/teacher-dashboard' : '/ngo-dashboard');
+    } else {
+      // User not logged in, redirect to auth with role pre-selected
+      navigate('/auth');
+    }
+  };
+
+  const handleJoinAsTeacherOrNGO = () => {
+    setShowRoleSelection(true);
+  };
+
+  if (showRoleSelection) {
+    return (
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <DialogTitle>Join as Teacher/NGO</DialogTitle>
+              <Button variant="ghost" size="sm" onClick={onClose}>
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            <DialogDescription>
+              Choose your role to get started with EcoWise
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <Button
+              onClick={() => handleRoleSelection('teacher')}
+              variant="outline"
+              className="w-full h-16 text-left flex items-center gap-3"
+            >
+              <span className="text-2xl">👩‍🏫</span>
+              <div>
+                <div className="font-semibold">I'm a Teacher</div>
+                <div className="text-sm text-muted-foreground">Create classes and manage students</div>
+              </div>
+            </Button>
+            
+            <Button
+              onClick={() => handleRoleSelection('ngo')}
+              variant="outline"  
+              className="w-full h-16 text-left flex items-center gap-3"
+            >
+              <span className="text-2xl">🌍</span>
+              <div>
+                <div className="font-semibold">I represent an NGO</div>
+                <div className="text-sm text-muted-foreground">Create programs and sponsor contests</div>
+              </div>
+            </Button>
+
+            <div className="text-center">
+              <Button 
+                variant="ghost" 
+                onClick={() => setShowRoleSelection(false)}
+                className="text-sm"
+              >
+                Back to student signup
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">Join class</DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle>Join EcoWise</DialogTitle>
+            <Button variant="ghost" size="sm" onClick={onClose}>
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+          <DialogDescription>
+            Join as a student or educator to get started.
+          </DialogDescription>
         </DialogHeader>
         
-        <div className="space-y-6">
-          {/* Current user section */}
-          <div className="bg-muted/50 rounded-lg p-4">
-            <p className="text-sm text-muted-foreground mb-3">You're currently signed in as</p>
-            <div className="flex items-center space-x-3">
-              <Avatar className="h-10 w-10">
-                <AvatarImage src="/placeholder.svg" alt="User" />
-                <AvatarFallback className="bg-primary text-primary-foreground">{currentUser.initial}</AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="font-medium">{currentUser.name}</p>
-                <p className="text-sm text-muted-foreground">{currentUser.email}</p>
+        <div className="space-y-4">
+          <div className="border rounded-lg p-4">
+            <h3 className="font-semibold mb-3">Join as Student</h3>
+            <form onSubmit={handleJoinAsStudent} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="classCode">Class Code</Label>
+                <Input
+                  id="classCode"
+                  placeholder="Enter 6-digit class code"
+                  value={classCode}
+                  onChange={(e) => setClassCode(e.target.value)}
+                  maxLength={6}
+                  className="uppercase"
+                />
               </div>
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="name">Your Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Enter your full name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <Button type="submit" className="w-full">Join Class</Button>
+            </form>
+          </div>
+
+          <div className="text-center">
             <Button 
               variant="outline" 
-              className="mt-3" 
-              size="sm"
-              onClick={() => setShowAccountSwitcher(!showAccountSwitcher)}
+              onClick={handleJoinAsTeacherOrNGO}
+              className="w-full"
             >
-              Switch account
-            </Button>
-
-            {/* Account Switcher */}
-            {showAccountSwitcher && (
-              <div className="mt-3 p-3 bg-background border rounded-lg">
-                <p className="text-sm font-medium mb-2">Select account:</p>
-                <div className="space-y-2">
-                  {mockAccounts.map((account) => (
-                    <div
-                      key={account.email}
-                      onClick={() => handleSwitchAccount(account)}
-                      className={`flex items-center space-x-2 p-2 rounded-lg cursor-pointer transition-colors ${
-                        currentUser.email === account.email 
-                          ? "bg-primary/10 border border-primary/20" 
-                          : "hover:bg-muted/50"
-                      }`}
-                    >
-                      <Avatar className="h-6 w-6">
-                        <AvatarFallback className="bg-muted text-xs">{account.initial}</AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{account.name}</p>
-                        <p className="text-xs text-muted-foreground truncate">{account.email}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Class code section */}
-          <div className="space-y-3">
-            <div>
-              <Label htmlFor="classCode" className="text-base font-medium">Class code</Label>
-              <p className="text-sm text-muted-foreground mt-1">
-                Ask your teacher for the class code, then enter it here.
-              </p>
-            </div>
-            <Input
-              id="classCode"
-              placeholder="Class code"
-              value={classCode}
-              onChange={(e) => setClassCode(e.target.value)}
-              className="text-base"
-            />
-          </div>
-
-          {/* Instructions */}
-          <div className="bg-muted/30 rounded-lg p-4">
-            <p className="text-sm font-medium mb-2">To sign in with a class code</p>
-            <ul className="text-sm text-muted-foreground space-y-1">
-              <li>• Use an authorized account</li>
-              <li>• Use a class code with 5-8 letters or numbers, and no spaces or symbols</li>
-            </ul>
-            <div className="mt-3 p-2 bg-info/10 rounded border border-info/20">
-              <p className="text-xs text-muted-foreground font-medium mb-1">Demo class codes:</p>
-              <p className="text-xs text-muted-foreground">ENV101, ECO201, SUS301, BIO150, CHM250</p>
-            </div>
-            <p className="text-sm text-muted-foreground mt-3">
-              If you have trouble joining the class, go to the{" "}
-              <Button variant="link" className="p-0 h-auto text-primary underline text-sm">
-                Help Center article
-              </Button>
-            </p>
-          </div>
-
-          {/* Action buttons */}
-          <div className="flex justify-end space-x-3 pt-4">
-            <Button variant="ghost" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button onClick={handleJoin}>
-              Join
+              Join as Teacher/NGO
             </Button>
           </div>
         </div>
       </DialogContent>
     </Dialog>
   );
-};
-
-export default JoinClassModal;
+}

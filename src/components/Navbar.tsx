@@ -1,23 +1,24 @@
 import { useState } from "react";
 import * as React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Home, BookOpen, Target, Trophy, Users, BarChart3, Award, Menu, X, User, Settings, LogOut, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { user } from "@/data/mockData";
+import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import logo from "@/assets/ecowise-logo-new.png";
 import JoinClassModal from "./JoinClassModal";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
-  const [joinedSection, setJoinedSection] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
   const { toast } = useToast();
+  
   const navigation = [{
     name: "Home",
     href: "/",
@@ -31,7 +32,7 @@ const Navbar = () => {
     href: "/challenges",
     icon: Target
   }, {
-    name: "Leaderboard",
+    name: "Leaderboard",  
     href: "/leaderboard",
     icon: Trophy
   }, {
@@ -46,37 +47,21 @@ const Navbar = () => {
   
   const isActive = (path: string) => location.pathname === path;
   
-  const handleJoinClass = (classCode: string, sectionName: string) => {
-    setIsSignedIn(true);
-    setJoinedSection(sectionName);
-    // Store in localStorage for persistence across page refreshes
-    localStorage.setItem('joinedSection', sectionName);
-    localStorage.setItem('isSignedIn', 'true');
-  };
-  
-  const handleSignOut = () => {
-    setIsSignedIn(false);
-    setJoinedSection(null);
-    // Clear from localStorage
-    localStorage.removeItem('joinedSection');
-    localStorage.removeItem('isSignedIn');
+  const handleSignOut = async () => {
+    await signOut();
     toast({
       title: "Signed out",
       description: "You have been successfully signed out.",
-      variant: "destructive"
     });
   };
 
-  // Load persisted state on component mount
-  React.useEffect(() => {
-    const savedIsSignedIn = localStorage.getItem('isSignedIn') === 'true';
-    const savedSection = localStorage.getItem('joinedSection');
-    
-    if (savedIsSignedIn && savedSection) {
-      setIsSignedIn(true);
-      setJoinedSection(savedSection);
+  const handleAuthAction = () => {
+    if (user) {
+      handleSignOut();
+    } else {
+      setShowJoinModal(true);
     }
-  }, []);
+  };
   return <motion.nav initial={{
     y: -100,
     opacity: 0
@@ -114,22 +99,21 @@ const Navbar = () => {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-9 w-9 rounded-full">
                   <Avatar className="h-9 w-9">
-                    <AvatarImage src={user.avatarUrl} alt={user.name} />
-                    <AvatarFallback>AG</AvatarFallback>
+                    <AvatarImage src="/placeholder.svg" alt={user?.email || "User"} />
+                    <AvatarFallback>
+                      {user?.email ? user.email.charAt(0).toUpperCase() : "U"}
+                    </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end">
                 <div className="px-2 py-2">
-                  <p className="text-sm font-medium">{user.name}</p>
-                  <p className="text-xs text-muted-foreground">Welcome back!</p>
-                  {joinedSection && (
-                    <div className="mt-1">
-                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                        📚 {joinedSection}
-                      </span>
-                    </div>
-                  )}
+                  <p className="text-sm font-medium">
+                    {user?.email || "Guest User"}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {user ? "Welcome back!" : "Please sign in"}
+                  </p>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => toast({ title: "Settings", description: "Settings panel coming soon!" })}>
@@ -137,7 +121,7 @@ const Navbar = () => {
                   Settings
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                {!isSignedIn ? (
+                {!user ? (
                   <DropdownMenuItem onClick={() => setShowJoinModal(true)}>
                     <LogIn className="mr-2 h-4 w-4" />
                     Sign in
@@ -184,11 +168,10 @@ const Navbar = () => {
           </motion.div>}
       </div>
       
-      <JoinClassModal 
-        isOpen={showJoinModal}
-        onClose={() => setShowJoinModal(false)}
-        onJoinClass={handleJoinClass}
-      />
+        <JoinClassModal 
+          isOpen={showJoinModal} 
+          onClose={() => setShowJoinModal(false)}
+        />
     </motion.nav>;
 };
 export default Navbar;
