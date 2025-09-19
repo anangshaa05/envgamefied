@@ -50,7 +50,7 @@ export const lessons = [
     category: "Climate",
     summary: "Explore the causes and effects of global climate change and mitigation strategies.",
     estimatedTime: 30,
-    image: "https://images.unsplash.com/photo-1569163139290-de82fb4f6093?w=400",
+    image: "/src/assets/climate-change-science.jpg",
     completed: false,
     progress: 0
   },
