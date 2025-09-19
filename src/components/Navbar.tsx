@@ -9,13 +9,14 @@ import { user } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
 import logo from "@/assets/ecowise-logo-new.png";
 import JoinClassModal from "./JoinClassModal";
+import { useUser } from "@/contexts/UserContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const location = useLocation();
   const { toast } = useToast();
+  const { isSignedIn, sectionName, clearUserData } = useUser();
   const navigation = [{
     name: "Home",
     href: "/",
@@ -45,15 +46,11 @@ const Navbar = () => {
   const isActive = (path: string) => location.pathname === path;
   
   const handleJoinClass = (classCode: string) => {
-    setIsSignedIn(true);
-    toast({
-      title: "Successfully joined class",
-      description: `You've joined class with code: ${classCode}`,
-    });
+    // This is handled by the JoinClassModal now
   };
   
   const handleSignOut = () => {
-    setIsSignedIn(false);
+    clearUserData();
     toast({
       title: "Signed out",
       description: "You have been successfully signed out.",
@@ -106,6 +103,9 @@ const Navbar = () => {
                 <div className="px-2 py-2">
                   <p className="text-sm font-medium">{user.name}</p>
                   <p className="text-xs text-muted-foreground">Welcome back!</p>
+                  {sectionName && (
+                    <p className="text-xs text-primary font-medium mt-1">{sectionName}</p>
+                  )}
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => toast({ title: "Settings", description: "Settings panel coming soon!" })}>
