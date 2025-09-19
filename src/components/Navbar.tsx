@@ -71,15 +71,6 @@ const Navbar = () => {
 
           {/* User Menu & Mobile Toggle */}
           <div className="flex items-center space-x-4">
-            {/* Eco Points Display */}
-            <div className="hidden sm:flex items-center space-x-2 bg-gradient-level rounded-full px-3 py-1 text-white text-sm font-medium shadow-soft">
-              <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center text-xs">
-                {user.level}
-              </div>
-              <span>{user.ecoPoints.toLocaleString()}</span>
-              <span className="text-xs opacity-80">pts</span>
-            </div>
-
             {/* User Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -93,13 +84,9 @@ const Navbar = () => {
               <DropdownMenuContent className="w-56" align="end">
                 <div className="px-2 py-2">
                   <p className="text-sm font-medium">{user.name}</p>
-                  <p className="text-xs text-muted-foreground">Level {user.level} • {user.ecoPoints} points</p>
+                  <p className="text-xs text-muted-foreground">Welcome back!</p>
                 </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => toast({ title: "Profile", description: "Profile page coming soon!" })}>
-                  <User className="mr-2 h-4 w-4" />
-                  Profile
-                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => toast({ title: "Settings", description: "Settings panel coming soon!" })}>
                   <Settings className="mr-2 h-4 w-4" />
                   Settings
@@ -145,19 +132,6 @@ const Navbar = () => {
                     <span>{item.name}</span>
                   </Link>;
           })}
-            </div>
-            
-            {/* Mobile Points Display */}
-            <div className="mt-3 pt-3 border-t border-border">
-              <div className="flex items-center justify-between px-3 py-2 bg-gradient-level rounded-lg text-white">
-                <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center text-xs font-bold">
-                    {user.level}
-                  </div>
-                  <span className="font-medium">Level {user.level}</span>
-                </div>
-                <span className="font-bold">{user.ecoPoints.toLocaleString()} pts</span>
-              </div>
             </div>
           </motion.div>}
       </div>

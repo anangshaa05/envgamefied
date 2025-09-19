@@ -74,7 +74,7 @@ const Community = () => {
             </div>
             <Dialog>
               <DialogTrigger asChild>
-                <Button className="hidden sm:flex">
+                <Button className="hidden sm:flex bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5">
                   <Plus className="w-4 h-4 mr-2" />
                   New Post
                 </Button>
@@ -165,7 +165,7 @@ const Community = () => {
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-foreground">Community Feed</h2>
-            <Button variant="outline" size="sm" className="sm:hidden">
+            <Button variant="outline" size="sm" className="sm:hidden bg-gradient-to-r from-primary to-primary-dark text-white hover:from-primary-dark hover:to-primary shadow-md hover:shadow-lg transition-all duration-300">
               <Plus className="w-4 h-4 mr-1" />
               Post
             </Button>
