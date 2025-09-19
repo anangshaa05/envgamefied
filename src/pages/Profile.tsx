@@ -19,38 +19,38 @@ const Profile = () => {
   const lockedBadges = badges.filter(badge => !badge.unlocked);
 
   const rarityColors = {
-    common: "border-amber-300 bg-amber-50",
+    common: "border-emerald-300 bg-emerald-50",
     uncommon: "border-yellow-400 bg-yellow-50", 
-    rare: "border-amber-400 bg-amber-100",
-    legendary: "border-amber-500 bg-amber-200"
+    rare: "border-emerald-400 bg-emerald-100",
+    legendary: "border-emerald-500 bg-emerald-200"
   };
 
   const rarityGradients = {
-    common: "from-amber-400 via-yellow-500 to-amber-600",
+    common: "from-emerald-400 via-green-500 to-emerald-600",
     uncommon: "from-yellow-400 via-amber-500 to-yellow-600",
-    rare: "from-amber-500 via-yellow-600 to-amber-700", 
-    legendary: "from-amber-400 via-yellow-500 to-amber-600"
+    rare: "from-emerald-500 via-green-600 to-emerald-700", 
+    legendary: "from-emerald-400 via-green-500 to-emerald-600"
   };
 
   const rarityBorders = {
-    common: "from-amber-600 to-amber-800",
+    common: "from-emerald-600 to-green-800",
     uncommon: "from-yellow-600 to-amber-700",
-    rare: "from-amber-700 to-yellow-800",
-    legendary: "from-amber-500 to-yellow-700"
+    rare: "from-emerald-700 to-green-800",
+    legendary: "from-emerald-500 to-green-700"
   };
 
   const rarityInner = {
-    common: "from-yellow-200 via-amber-300 to-yellow-400",
+    common: "from-green-200 via-emerald-300 to-green-400",
     uncommon: "from-amber-200 via-yellow-300 to-amber-400",
-    rare: "from-yellow-300 via-amber-400 to-yellow-500",
-    legendary: "from-amber-200 via-yellow-300 to-amber-400"
+    rare: "from-green-300 via-emerald-400 to-green-500",
+    legendary: "from-emerald-200 via-green-300 to-emerald-400"
   };
 
   const badgeIconColors = {
-    common: "text-amber-900",
+    common: "text-emerald-900",
     uncommon: "text-yellow-900",
-    rare: "text-amber-800",
-    legendary: "text-amber-900"
+    rare: "text-emerald-800",
+    legendary: "text-emerald-900"
   };
 
   return (
@@ -198,8 +198,8 @@ const Profile = () => {
                     <DialogTrigger asChild>
                       <div className="cursor-pointer group relative">
                         <div className="text-center">
-                          {/* Shield Badge - exact replica of reference */}
-                          <div className="relative w-16 h-20 mx-auto group-hover:scale-110 transition-transform duration-300">
+                          {/* Shield Badge - larger size with centered icon */}
+                          <div className="relative w-20 h-24 mx-auto group-hover:scale-110 transition-transform duration-300">
                             {/* Outer Shield Border */}
                             <div className={`absolute inset-0 bg-gradient-to-b ${rarityBorders[badge.rarity]} shadow-lg`} 
                                  style={{
@@ -226,10 +226,10 @@ const Profile = () => {
                                    clipPath: 'polygon(50% 0%, 0% 20%, 0% 75%, 50% 100%)'
                                  }}>
                             </div>
-                            {/* Badge Icon positioned at top center */}
-                            <div className="absolute top-1 left-1/2 transform -translate-x-1/2 z-10">
-                              <div className="w-6 h-6 bg-white/95 rounded-full flex items-center justify-center shadow-sm border border-white/50">
-                                <span className={badgeIconColors[badge.rarity]} style={{ fontSize: '0.8rem' }}>
+                            {/* Badge Icon positioned at center */}
+                            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+                              <div className="w-8 h-8 bg-white/95 rounded-full flex items-center justify-center shadow-sm border border-white/50">
+                                <span className={badgeIconColors[badge.rarity]} style={{ fontSize: '1.2rem' }}>
                                   {badge.icon}
                                 </span>
                               </div>
@@ -258,7 +258,7 @@ const Profile = () => {
                     <DialogContent>
                       <DialogHeader>
                         <DialogTitle className="text-center">
-                          {/* Larger Shield for Dialog - exact replica */}
+                          {/* Larger Shield for Dialog - centered icon */}
                           <div className="relative w-32 h-40 mx-auto mb-4">
                             {/* Outer Shield Border */}
                             <div className={`absolute inset-0 bg-gradient-to-b ${rarityBorders[badge.rarity]} shadow-xl`} 
@@ -286,8 +286,8 @@ const Profile = () => {
                                    clipPath: 'polygon(50% 0%, 0% 20%, 0% 75%, 50% 100%)'
                                  }}>
                             </div>
-                            {/* Large Badge Icon positioned at top center */}
-                            <div className="absolute top-3 left-1/2 transform -translate-x-1/2 z-10">
+                            {/* Large Badge Icon positioned at center */}
+                            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
                               <div className="w-12 h-12 bg-white/95 rounded-full flex items-center justify-center shadow-lg border-2 border-white/50">
                                 <span className={badgeIconColors[badge.rarity]} style={{ fontSize: '1.8rem' }}>
                                   {badge.icon}
