@@ -240,12 +240,16 @@ const Home = () => {
               <div className="flex space-x-6">
                 <Instagram className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
                 <Facebook className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
-                <img 
-                  src={xLogo} 
-                  alt="X" 
-                  className="w-6 h-6 cursor-pointer transition-all hover:opacity-80" 
-                  style={{ filter: 'brightness(0) saturate(100%) invert(100%)' }}
-                />
+                <svg 
+                  width="24" 
+                  height="24" 
+                  viewBox="0 0 108 98" 
+                  fill="none" 
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6 cursor-pointer transition-all hover:opacity-80"
+                >
+                  <path d="M85.05 0H101.613L65.4326 41.4566L108 97.8789H74.6743L48.5537 63.666L18.6994 97.8789H2.12143L40.8163 53.5217L0 0.00771419H34.1743L57.7491 31.2737L85.05 0ZM79.2257 87.9429H88.4057L29.16 9.41914H19.3166L79.2257 87.9429Z" fill="white"/>
+                </svg>
                 <Youtube className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
               </div>
               <p className="text-sm text-white/80">
