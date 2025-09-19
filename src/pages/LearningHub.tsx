@@ -210,23 +210,6 @@ const LearningHub = () => {
           </div>
         </motion.section>
 
-        {/* Call to Action */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="mt-16 text-center"
-        >
-          <Card variant="default" className="p-8 bg-gradient-hero text-white">
-            <h2 className="text-2xl font-bold mb-4">Ready to Become an Eco-Expert?</h2>
-            <p className="text-white/90 mb-6 max-w-2xl mx-auto">
-              Complete all lessons to unlock advanced environmental courses and earn exclusive badges!
-            </p>
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90">
-              Continue Learning Journey
-            </Button>
-          </Card>
-        </motion.section>
 
         {/* Inspiring Footer Quote */}
         <motion.section
