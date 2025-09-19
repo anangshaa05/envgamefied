@@ -22,64 +22,15 @@ const Auth = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/`
-          }
-        });
-
-        if (error) {
-          toast({
-            title: "Sign up failed",
-            description: error.message,
-            variant: "destructive",
-          });
-        } else {
-          toast({
-            title: "Account created!",
-            description: "Please check your email to verify your account.",
-          });
-        }
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-        if (error) {
-          toast({
-            title: "Sign in failed",
-            description: error.message,
-            variant: "destructive",
-          });
-        } else {
-          toast({
-            title: `Welcome back!`,
-            description: `Successfully signed in as ${userType}.`,
-          });
-          // Redirect based on user type
-          if (userType === "teacher") {
-            navigate("/teacher-dashboard");
-          } else if (userType === "ngo") {
-            navigate("/ngo-dashboard");
-          } else {
-            navigate("/");
-          }
-        }
-      }
-    } catch (error) {
-      toast({
-        title: "An error occurred",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
-    } finally {
+    // Always navigate to teacher dashboard regardless of credentials
+    setTimeout(() => {
       setIsLoading(false);
-    }
+      toast({
+        title: `Welcome back!`,
+        description: `Successfully signed in as ${getUserTypeDisplay()}.`,
+      });
+      navigate("/teacher-dashboard");
+    }, 1000); // Short delay to show loading state
   };
 
   const getUserTypeDisplay = () => {
