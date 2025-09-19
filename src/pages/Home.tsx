@@ -8,6 +8,7 @@ import ProgressBar from "@/components/ProgressBar";
 import { user, challenges, campaigns } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
 import ecolearnLogo from "@/assets/ecolearn-logo.png";
+import xLogo from "@/assets/x-logo.png";
 
 const Home = () => {
   const { toast } = useToast();
@@ -239,7 +240,12 @@ const Home = () => {
               <div className="flex space-x-6">
                 <Instagram className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
                 <Facebook className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
-                <X className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
+                <img 
+                  src={xLogo} 
+                  alt="X" 
+                  className="w-6 h-6 cursor-pointer transition-all hover:opacity-80" 
+                  style={{ filter: 'brightness(0) invert(1)' }}
+                />
                 <Youtube className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
               </div>
               <p className="text-sm text-white/80">
