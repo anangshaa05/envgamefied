@@ -19,10 +19,10 @@ const Profile = () => {
   const lockedBadges = badges.filter(badge => !badge.unlocked);
 
   const rarityColors = {
-    common: "border-emerald-300 bg-emerald-50",
-    uncommon: "border-yellow-400 bg-yellow-50", 
-    rare: "border-emerald-400 bg-emerald-100",
-    legendary: "border-emerald-500 bg-emerald-200"
+    common: "border-emerald-300 bg-emerald-50 rounded-xl shadow-lg",
+    uncommon: "border-yellow-400 bg-yellow-50 rounded-xl shadow-lg",
+    rare: "border-emerald-400 bg-emerald-100 rounded-xl shadow-lg",
+    legendary: "border-emerald-500 bg-emerald-200 rounded-xl shadow-lg"
   };
 
   const rarityGradients = {
@@ -33,10 +33,10 @@ const Profile = () => {
   };
 
   const rarityBorders = {
-    common: "from-emerald-600 to-green-800",
-    uncommon: "from-yellow-600 to-amber-700",
-    rare: "from-emerald-700 to-green-800",
-    legendary: "from-emerald-500 to-green-700"
+    common: "border-gradient-to-r from-emerald-600 to-green-800",
+    uncommon: "border-gradient-to-r from-yellow-600 to-amber-700",
+    rare: "border-gradient-to-r from-emerald-700 to-green-800",
+    legendary: "border-gradient-to-r from-emerald-500 to-green-700"
   };
 
   const rarityInner = {
