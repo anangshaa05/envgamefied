@@ -13,6 +13,7 @@ import Challenges from "@/pages/Challenges";
 import Leaderboard from "@/pages/Leaderboard";
 import Community from "@/pages/Community";
 import Auth from "@/pages/Auth";
+import VerificationPending from "@/pages/VerificationPending";
 import TeacherDashboard from "@/pages/TeacherDashboard";
 import NGODashboard from "@/pages/NGODashboard";
 import NotFound from "./pages/NotFound";
@@ -32,6 +33,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/verification-pending" element={<VerificationPending />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/learning" element={<LearningHub />} />
               <Route path="/learning/:id" element={<LessonDetail />} />

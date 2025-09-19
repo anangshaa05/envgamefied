@@ -12,6 +12,15 @@ import { supabase } from '@/integrations/supabase/client';
 type UserRole = 'teacher' | 'ngo';
 type NGOType = 'education' | 'welfare' | 'stem_outreach' | 'environmental' | 'community_development' | 'other';
 
+const institutions = [
+  'Kalinga Institute of Industrial Technology (KIIT)',
+  'Indian Institute of Technology (IIT) Delhi',
+  'Indian Institute of Technology (IIT) Mumbai',
+  'Delhi University',
+  'Jawaharlal Nehru University (JNU)',
+  'Other'
+];
+
 export default function Auth() {
   const navigate = useNavigate();
   const { user, signUp, signIn } = useAuth();
@@ -28,7 +37,8 @@ export default function Auth() {
   
   // Teacher specific
   const [institution, setInstitution] = useState('');
-  const [schoolEmail, setSchoolEmail] = useState('');
+  const [collegeEmail, setCollegeEmail] = useState('');
+  const [customInstitution, setCustomInstitution] = useState('');
   
   // NGO specific
   const [organizationName, setOrganizationName] = useState('');
@@ -56,12 +66,13 @@ export default function Auth() {
 
     // Create role-specific profile
     if (role === 'teacher') {
+      const finalInstitution = institution === 'Other' ? customInstitution : institution;
       const { error: teacherError } = await supabase
         .from('teacher_profiles')
         .insert({
           id: userId,
-          institution,
-          school_email: schoolEmail,
+          institution: finalInstitution,
+          school_email: collegeEmail,
         });
       if (teacherError) throw teacherError;
     } else if (role === 'ngo') {
@@ -137,15 +148,14 @@ export default function Auth() {
           }
         } else {
           // Get the user ID from the auth response
-          const { data: { user } } = await supabase.auth.getUser();
-          if (user) {
-            await createProfile(user.id, selectedRole);
+          const { data: { user: newUser } } = await supabase.auth.getUser();
+          if (newUser) {
+            await createProfile(newUser.id, selectedRole);
           }
           
-          toast({
-            title: "Account Created!",
-            description: "Please check your email to verify your account.",
-          });
+          // Redirect to verification page
+          const emailToVerify = selectedRole === 'teacher' ? collegeEmail : officialEmail;
+          navigate(`/verification-pending?role=${selectedRole}&email=${encodeURIComponent(emailToVerify)}`);
         }
       }
     } catch (error: any) {
@@ -258,21 +268,37 @@ export default function Auth() {
               <>
                 <div className="space-y-2">
                   <Label htmlFor="institution">Institution (School/College)</Label>
-                  <Input
-                    id="institution"
-                    value={institution}
-                    onChange={(e) => setInstitution(e.target.value)}
-                    required
-                  />
+                  <Select value={institution} onValueChange={setInstitution} required>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your institution" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {institutions.map((inst) => (
+                        <SelectItem key={inst} value={inst}>{inst}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
+                {institution === 'Other' && (
+                  <div className="space-y-2">
+                    <Label htmlFor="customInstitution">Enter Institution Name</Label>
+                    <Input
+                      id="customInstitution"
+                      value={customInstitution}
+                      onChange={(e) => setCustomInstitution(e.target.value)}
+                      required
+                    />
+                  </div>
+                )}
                 <div className="space-y-2">
-                  <Label htmlFor="schoolEmail">School Email (Optional)</Label>
+                  <Label htmlFor="collegeEmail">College Email ID</Label>
                   <Input
-                    id="schoolEmail"
+                    id="collegeEmail"
                     type="email"
-                    value={schoolEmail}
-                    onChange={(e) => setSchoolEmail(e.target.value)}
-                    placeholder="For verification purposes"
+                    value={collegeEmail}
+                    onChange={(e) => setCollegeEmail(e.target.value)}
+                    placeholder="Enter your official college email"
+                    required
                   />
                 </div>
               </>
