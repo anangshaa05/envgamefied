@@ -1,173 +1,162 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Users, Trophy, Target, GraduationCap } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Plus, Users, Trophy, Target, CheckCircle, XCircle } from "lucide-react";
+import TeacherNavbar from "@/components/TeacherNavbar";
 
 const TeacherDashboard = () => {
-  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("class-management");
+  const [selectedClass, setSelectedClass] = useState("");
   
   // Mock data for classes
-  const [classes] = useState([
+  const classes = [
     {
-      id: 1,
+      id: "1",
       name: "Environmental Science 101",
       students: 28,
-      totalPoints: 2450,
-      challengesCompleted: 15,
-      avgGrade: "B+"
     },
     {
-      id: 2,
+      id: "2", 
       name: "Climate Change Studies",
       students: 22,
-      totalPoints: 1890,
-      challengesCompleted: 12,
-      avgGrade: "A-"
     },
     {
-      id: 3,
-      name: "Sustainability Workshop",
+      id: "3",
+      name: "Sustainability Workshop", 
       students: 35,
-      totalPoints: 3200,
-      challengesCompleted: 18,
-      avgGrade: "B"
     }
-  ]);
+  ];
+
+  // Mock student data
+  const students = [
+    { id: 1, name: "Alice Johnson", points: 1250, position: 1, challengesCompleted: 8, grade: "A" },
+    { id: 2, name: "Bob Smith", points: 1100, position: 2, challengesCompleted: 7, grade: "B+" },
+    { id: 3, name: "Carol Davis", points: 950, position: 3, challengesCompleted: 6, grade: "B" },
+  ];
+
+  const renderClassManagement = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-semibold">Class Management</h2>
+        <Button className="flex items-center gap-2">
+          <Plus className="w-4 h-4" />
+          Create New Class
+        </Button>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {classes.map((classItem) => (
+          <Card key={classItem.id} className="hover:shadow-lg transition-all">
+            <CardHeader>
+              <CardTitle className="text-lg">{classItem.name}</CardTitle>
+              <CardDescription className="flex items-center gap-2">
+                <Users className="w-4 h-4" />
+                {classItem.students} Students
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button className="w-full">Manage Class</Button>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderStudentAssessment = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-semibold">Student Assessment</h2>
+        <Select value={selectedClass} onValueChange={setSelectedClass}>
+          <SelectTrigger className="w-64">
+            <SelectValue placeholder="Select a class" />
+          </SelectTrigger>
+          <SelectContent>
+            {classes.map((classItem) => (
+              <SelectItem key={classItem.id} value={classItem.id}>
+                {classItem.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {selectedClass && (
+        <div className="grid gap-4">
+          {students.map((student) => (
+            <Card key={student.id}>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-semibold text-lg">{student.name}</h3>
+                    <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <Trophy className="w-4 h-4" />
+                        {student.points} points
+                      </span>
+                      <span>Position: #{student.position}</span>
+                      <span>Challenges: {student.challengesCompleted}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="default">{student.grade}</Badge>
+                    <Button size="sm">Assign Grade</Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  const renderProfile = () => (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-semibold">Teacher Profile</h2>
+      
+      <Card className="max-w-2xl">
+        <CardContent className="p-6">
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-muted-foreground">Name</label>
+              <p className="text-lg">Prof. Sarah Williams</p>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-muted-foreground">Institute</label>
+              <p className="text-lg">GreenTech University</p>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-muted-foreground">Email</label>
+              <p className="text-lg">sarah.williams@greentech.edu</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "class-management":
+        return renderClassManagement();
+      case "student-assessment":
+        return renderStudentAssessment();
+      case "profile":
+        return renderProfile();
+      default:
+        return renderClassManagement();
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
+      <TeacherNavbar activeTab={activeTab} onTabChange={setActiveTab} />
+      
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Teacher Dashboard</h1>
-          <p className="text-muted-foreground">Manage your classes and track student progress</p>
-        </div>
-
-        {/* Classes Section */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-foreground mb-6">My Classes</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Create New Class Card - Prominent */}
-            <Card className="border-2 border-dashed border-primary/30 hover:border-primary/60 transition-colors cursor-pointer group">
-              <CardContent className="flex flex-col items-center justify-center p-8 text-center">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                  <Plus className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Create New Class</h3>
-                <p className="text-sm text-muted-foreground">Start teaching a new group of students</p>
-              </CardContent>
-            </Card>
-
-            {/* Existing Classes */}
-            {classes.map((classItem) => (
-              <Card key={classItem.id} className="hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-lg font-semibold">{classItem.name}</CardTitle>
-                  <CardDescription className="flex items-center gap-2 text-muted-foreground">
-                    <Users className="w-4 h-4" />
-                    {classItem.students} Students
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center p-3 bg-muted/50 rounded-lg">
-                      <div className="text-lg font-bold text-primary">{classItem.totalPoints}</div>
-                      <div className="text-xs text-muted-foreground">Total Points</div>
-                    </div>
-                    <div className="text-center p-3 bg-muted/50 rounded-lg">
-                      <div className="text-lg font-bold text-secondary">{classItem.challengesCompleted}</div>
-                      <div className="text-xs text-muted-foreground">Challenges</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Average Grade</span>
-                    <Badge variant="default" className="bg-primary/10 text-primary hover:bg-primary/20">
-                      {classItem.avgGrade}
-                    </Badge>
-                  </div>
-                  
-                  <Button className="w-full">
-                    View & Manage Class
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Assessment & Analytics Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Students
-              </CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">85</div>
-              <p className="text-xs text-muted-foreground">
-                Across all classes
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Average Points
-              </CardTitle>
-              <Trophy className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">2,513</div>
-              <p className="text-xs text-muted-foreground">
-                Per student this month
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Challenges Assigned
-              </CardTitle>
-              <Target className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">45</div>
-              <p className="text-xs text-muted-foreground">
-                This academic year
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="mt-8">
-          <h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2">
-              <GraduationCap className="w-6 h-6" />
-              <span>Assign Grades</span>
-            </Button>
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2">
-              <Target className="w-6 h-6" />
-              <span>Create Challenge</span>
-            </Button>
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2">
-              <Trophy className="w-6 h-6" />
-              <span>View Leaderboard</span>
-            </Button>
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2">
-              <Users className="w-6 h-6" />
-              <span>Student Analytics</span>
-            </Button>
-          </div>
-        </div>
+        {renderContent()}
       </div>
     </div>
   );

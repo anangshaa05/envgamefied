@@ -22,10 +22,11 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   const location = useLocation();
   const isNGODashboard = location.pathname === "/ngo-dashboard";
+  const isTeacherDashboard = location.pathname === "/teacher-dashboard";
 
   return (
     <div className="min-h-screen bg-background">
-      {!isNGODashboard && <Navbar />}
+      {!isNGODashboard && !isTeacherDashboard && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
