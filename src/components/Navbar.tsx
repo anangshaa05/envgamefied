@@ -159,7 +159,7 @@ const Navbar = () => {
                 )}
                 <DropdownMenuSeparator />
                 {!user ? (
-                  <DropdownMenuItem onClick={() => setShowJoinModal(true)}>
+                  <DropdownMenuItem onClick={() => navigate('/auth')}>
                     <LogIn className="mr-2 h-4 w-4" />
                     Sign in
                   </DropdownMenuItem>
