@@ -4,9 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Globe, Users, Award, TrendingUp, Building, Mail, ExternalLink } from 'lucide-react';
+import { Globe, Users, Award, TrendingUp, Building, Mail, ExternalLink, Target, Trophy } from 'lucide-react';
+import ProgramManager from '@/components/ngo/ProgramManager';
+import ContestManager from '@/components/ngo/ContestManager';
 
 interface NGOProfile {
   organization_name: string;
@@ -192,63 +195,109 @@ export default function NGODashboard() {
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Create NGO Programs</CardTitle>
-              <CardDescription>
-                Design educational programs and challenges for students
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full" disabled>
-                Coming Soon
-              </Button>
-            </CardContent>
-          </Card>
+        <Tabs defaultValue="overview" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="overview" className="flex items-center gap-2">
+              <Building className="h-4 w-4" />
+              Overview
+            </TabsTrigger>
+            <TabsTrigger value="programs" className="flex items-center gap-2">
+              <Target className="h-4 w-4" />
+              Programs
+            </TabsTrigger>
+            <TabsTrigger value="contests" className="flex items-center gap-2">
+              <Trophy className="h-4 w-4" />
+              Contests
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex items-center gap-2">
+              <TrendingUp className="h-4 w-4" />
+              Analytics
+            </TabsTrigger>
+          </TabsList>
           
-          <Card>
-            <CardHeader>
-              <CardTitle>Sponsor Contests</CardTitle>
-              <CardDescription>
-                Sponsor competitions across schools and colleges
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full" disabled>
-                Coming Soon
-              </Button>
-            </CardContent>
-          </Card>
+          <TabsContent value="overview">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Quick Actions</CardTitle>
+                  <CardDescription>
+                    Get started with your NGO initiatives
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button className="w-full justify-start" variant="outline">
+                    <Target className="mr-2 h-4 w-4" />
+                    Create New Program
+                  </Button>
+                  <Button className="w-full justify-start" variant="outline">
+                    <Trophy className="mr-2 h-4 w-4" />
+                    Sponsor Contest
+                  </Button>
+                  <Button className="w-full justify-start" variant="outline">
+                    <Users className="mr-2 h-4 w-4" />
+                    Connect with Schools
+                  </Button>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle>Recent Activity</CardTitle>
+                  <CardDescription>
+                    Your latest programs and contests
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    No recent activity. Create your first program to get started!
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
           
-          <Card>
-            <CardHeader>
-              <CardTitle>Impact Analytics</CardTitle>
-              <CardDescription>
-                Track participation and measure your impact
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full" disabled>
-                Coming Soon
-              </Button>
-            </CardContent>
-          </Card>
+          <TabsContent value="programs">
+            <ProgramManager ngoId={user?.id || ''} />
+          </TabsContent>
           
-          <Card>
-            <CardHeader>
-              <CardTitle>School Partnerships</CardTitle>
-              <CardDescription>
-                Connect with schools and teachers for collaborations  
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full" disabled>
-                Coming Soon
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+          <TabsContent value="contests">
+            <ContestManager ngoId={user?.id || ''} />
+          </TabsContent>
+          
+          <TabsContent value="analytics">
+            <div className="grid gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Impact Analytics</CardTitle>
+                  <CardDescription>
+                    Measure your organization's impact and reach
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-primary">0</div>
+                      <p className="text-sm text-muted-foreground">Schools Reached</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-primary">0</div>
+                      <p className="text-sm text-muted-foreground">Students Impacted</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-primary">0</div>
+                      <p className="text-sm text-muted-foreground">Programs Completed</p>
+                    </div>
+                  </div>
+                  <div className="mt-6">
+                    <p className="text-sm text-muted-foreground">
+                      Analytics will be available once you start creating programs and contests.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
 
         {ngoProfile?.verification_status === 'pending' && (
           <Card className="mt-8 border-orange-200 bg-orange-50">

@@ -8,9 +8,13 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Users, Copy, BookOpen, Award } from 'lucide-react';
+import { Plus, Users, Copy, BookOpen, Award, MessageSquare, FileText } from 'lucide-react';
+import StudentList from '@/components/teacher/StudentList';
+import AssignmentManager from '@/components/teacher/AssignmentManager';
+import AnnouncementManager from '@/components/teacher/AnnouncementManager';
 
 interface Class {
   id: string;
@@ -31,6 +35,8 @@ export default function TeacherDashboard() {
   const [className, setClassName] = useState('');
   const [classDescription, setClassDescription] = useState('');
   const [creating, setCreating] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [selectedClass, setSelectedClass] = useState<Class | null>(null);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -116,6 +122,55 @@ export default function TeacherDashboard() {
 
   if (loading) {
     return <div className="min-h-screen bg-background flex items-center justify-center">Loading...</div>;
+  }
+
+  if (selectedClass) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="container mx-auto py-8 px-4">
+          <div className="mb-6">
+            <Button 
+              variant="outline" 
+              onClick={() => setSelectedClass(null)}
+              className="mb-4"
+            >
+              ← Back to Classes
+            </Button>
+            <h1 className="text-3xl font-bold mb-2">{selectedClass.name}</h1>
+            <p className="text-muted-foreground">Class Code: <code className="font-mono font-bold">{selectedClass.class_code}</code></p>
+          </div>
+
+          <Tabs defaultValue="students" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="students" className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                Students
+              </TabsTrigger>
+              <TabsTrigger value="assignments" className="flex items-center gap-2">
+                <FileText className="h-4 w-4" />
+                Assignments
+              </TabsTrigger>
+              <TabsTrigger value="announcements" className="flex items-center gap-2">
+                <MessageSquare className="h-4 w-4" />
+                Announcements
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="students">
+              <StudentList classId={selectedClass.id} className={selectedClass.name} />
+            </TabsContent>
+            
+            <TabsContent value="assignments">
+              <AssignmentManager classId={selectedClass.id} className={selectedClass.name} />
+            </TabsContent>
+            
+            <TabsContent value="announcements">
+              <AnnouncementManager classId={selectedClass.id} className={selectedClass.name} />
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -251,11 +306,20 @@ export default function TeacherDashboard() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="flex-1">
-                      View Students
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => setSelectedClass(cls)}
+                    >
+                      Manage Class
                     </Button>
-                    <Button variant="outline" size="sm" className="flex-1">
-                      Assignments
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => copyClassCode(cls.class_code)}
+                    >
+                      <Copy className="h-4 w-4" />
                     </Button>
                   </div>
                 </CardContent>
