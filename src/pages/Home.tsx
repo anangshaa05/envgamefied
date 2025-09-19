@@ -59,7 +59,7 @@ const Home = () => {
               <img 
                 src={ecolearnLogo} 
                 alt="EcoLearn" 
-                className="w-80 md:w-96 mx-auto mb-4 opacity-90" 
+                className="w-64 md:w-72 mx-auto mb-4 opacity-90" 
               />
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
