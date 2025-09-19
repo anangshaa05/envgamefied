@@ -56,10 +56,17 @@ const Profile = () => {
   };
 
   const rarityGlows = {
-    common: "drop-shadow-[0_0_8px_rgba(16,185,129,0.4)] shadow-[0_0_15px_rgba(16,185,129,0.3)]",
-    uncommon: "drop-shadow-[0_0_10px_rgba(245,158,11,0.5)] shadow-[0_0_20px_rgba(245,158,11,0.4)]",
-    rare: "drop-shadow-[0_0_12px_rgba(5,150,105,0.6)] shadow-[0_0_25px_rgba(5,150,105,0.4)]",
-    legendary: "drop-shadow-[0_0_15px_rgba(16,185,129,0.7)] shadow-[0_0_30px_rgba(16,185,129,0.5)] animate-pulse"
+    common: "drop-shadow-[0_0_12px_rgba(16,185,129,0.6)] shadow-[0_0_20px_rgba(16,185,129,0.4)] shadow-[0_0_35px_rgba(16,185,129,0.2)]",
+    uncommon: "drop-shadow-[0_0_15px_rgba(245,158,11,0.7)] shadow-[0_0_25px_rgba(245,158,11,0.5)] shadow-[0_0_40px_rgba(245,158,11,0.3)]",
+    rare: "drop-shadow-[0_0_18px_rgba(5,150,105,0.8)] shadow-[0_0_30px_rgba(5,150,105,0.6)] shadow-[0_0_45px_rgba(5,150,105,0.4)]",
+    legendary: "drop-shadow-[0_0_20px_rgba(16,185,129,0.9)] shadow-[0_0_35px_rgba(16,185,129,0.7)] shadow-[0_0_50px_rgba(16,185,129,0.5)] animate-pulse"
+  };
+
+  const rarityBackgroundGlows = {
+    common: "before:absolute before:inset-0 before:bg-gradient-radial before:from-emerald-400/20 before:via-emerald-400/10 before:to-transparent before:blur-xl before:-z-10",
+    uncommon: "before:absolute before:inset-0 before:bg-gradient-radial before:from-yellow-400/25 before:via-yellow-400/15 before:to-transparent before:blur-xl before:-z-10",
+    rare: "before:absolute before:inset-0 before:bg-gradient-radial before:from-emerald-500/30 before:via-emerald-500/20 before:to-transparent before:blur-xl before:-z-10",
+    legendary: "before:absolute before:inset-0 before:bg-gradient-radial before:from-emerald-400/35 before:via-emerald-400/25 before:to-transparent before:blur-xl before:-z-10 before:animate-pulse"
   };
 
   const rarityGradients = {
@@ -240,8 +247,10 @@ const Profile = () => {
                     <DialogTrigger asChild>
                       <div className="cursor-pointer group relative">
                         <div className="text-center">
+                          {/* Background Glow Container */}
+                          <div className={`relative w-20 h-24 mx-auto group-hover:scale-110 transition-transform duration-300 ${rarityBackgroundGlows[badge.rarity]}`}>
                           {/* Shield Badge - larger size with centered icon */}
-                          <div className="relative w-20 h-24 mx-auto group-hover:scale-110 transition-transform duration-300">
+                          <div className="relative w-20 h-24 mx-auto">
                             {/* Outer Shield Border */}
                             <div className={`absolute inset-0 bg-gradient-to-b ${rarityBorders[badge.rarity]} shadow-lg ${rarityGlows[badge.rarity]}`} 
                                  style={{
@@ -294,14 +303,17 @@ const Profile = () => {
                               <div className="absolute -top-0.5 -right-0.5 w-1 h-1 bg-emerald-300 rounded-full animate-pulse delay-200"></div>
                             )}
                           </div>
+                          </div>
                         </div>
                       </div>
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
                         <DialogTitle className="text-center">
+                          {/* Background Glow Container for Dialog */}
+                          <div className={`relative w-32 h-40 mx-auto mb-4 ${rarityBackgroundGlows[badge.rarity]}`}>
                           {/* Larger Shield for Dialog - centered icon */}
-                          <div className="relative w-32 h-40 mx-auto mb-4">
+                          <div className="relative w-32 h-40 mx-auto">
                             {/* Outer Shield Border */}
                             <div className={`absolute inset-0 bg-gradient-to-b ${rarityBorders[badge.rarity]} shadow-xl ${rarityGlows[badge.rarity]}`} 
                                  style={{
@@ -359,6 +371,7 @@ const Profile = () => {
                                 <div className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-green-300 rounded-full animate-pulse delay-300"></div>
                               </>
                             )}
+                          </div>
                           </div>
                           {badge.name}
                         </DialogTitle>
