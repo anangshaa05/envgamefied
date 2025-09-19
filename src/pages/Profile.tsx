@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Calendar, Clock, TrendingUp, Target, Award, Users, Lock } from "lucide-react";
@@ -8,15 +9,34 @@ import Card from "@/components/Card";
 import StatsCounter from "@/components/StatsCounter";
 import ProgressBar from "@/components/ProgressBar";
 import LevelPill from "@/components/LevelPill";
+import { useToast } from "@/hooks/use-toast";
 import { user, dailyChallenges, recentActivity, challenges, lessons, badges } from "@/data/mockData";
 
 
 const Profile = () => {
+  const [challengesState, setChallengesState] = useState(dailyChallenges);
+  const { toast } = useToast();
+  
   const completedLessons = lessons.filter(l => l.completed).length;
   const completedChallenges = challenges.filter(c => c.submitted).length;
-  const completedDaily = dailyChallenges.filter(dc => dc.completed).length;
+  const completedDaily = challengesState.filter(dc => dc.completed).length;
   const unlockedBadges = badges.filter(badge => badge.unlocked);
   const lockedBadges = badges.filter(badge => !badge.unlocked);
+
+  const handleCompleteChallenge = (challengeId: string) => {
+    setChallengesState(prev => 
+      prev.map(challenge => 
+        challenge.id === challengeId 
+          ? { ...challenge, completed: true }
+          : challenge
+      )
+    );
+    
+    toast({
+      title: "Challenge Completed! 🎉",
+      description: "Great job! You've earned points for completing this challenge.",
+    });
+  };
 
   const rarityColors = {
     common: "border-emerald-300 bg-emerald-50 rounded-xl shadow-lg",
@@ -363,11 +383,11 @@ const Profile = () => {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold text-foreground">Today's Challenges</h2>
                 <span className="text-sm text-muted-foreground">
-                  {completedDaily} of {dailyChallenges.length} completed
+                  {completedDaily} of {challengesState.length} completed
                 </span>
               </div>
               <div className="space-y-3">
-                {dailyChallenges.map((challenge, index) => (
+                {challengesState.map((challenge, index) => (
                   <Card 
                     key={challenge.id}
                     variant="challenge"
@@ -395,12 +415,7 @@ const Profile = () => {
                           <Button 
                             size="sm" 
                             variant="outline"
-                            onClick={() => {
-                              // Mark challenge as completed
-                              challenge.completed = true;
-                              // You could add toast notification here
-                              window.location.reload(); // Simple refresh to show changes
-                            }}
+                            onClick={() => handleCompleteChallenge(challenge.id)}
                           >
                             Complete
                           </Button>
