@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { Mail, CheckCircle, AlertCircle } from 'lucide-react';
 
 type UserRole = 'teacher' | 'ngo';
 type NGOType = 'education' | 'welfare' | 'stem_outreach' | 'environmental' | 'community_development' | 'other';
@@ -23,16 +24,13 @@ const institutions = [
 
 export default function Auth() {
   const navigate = useNavigate();
-  const { user, signUp, signIn } = useAuth();
+  const { user, signInWithMagicLink } = useAuth();
   const { toast } = useToast();
   
-  const [isLogin, setIsLogin] = useState(true);
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [loading, setLoading] = useState(false);
-
-  // Form states
+  const [emailSent, setEmailSent] = useState(false);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
   
   // Teacher specific
@@ -52,111 +50,99 @@ export default function Auth() {
     }
   }, [user, navigate]);
 
-  const createProfile = async (userId: string, role: UserRole) => {
-    // Create base profile
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .insert({
-        id: userId,
-        role,
-        display_name: displayName,
-      });
-
-    if (profileError) throw profileError;
-
-    // Create role-specific profile
-    if (role === 'teacher') {
-      const finalInstitution = institution === 'Other' ? customInstitution : institution;
-      const { error: teacherError } = await supabase
-        .from('teacher_profiles')
-        .insert({
-          id: userId,
-          institution: finalInstitution,
-          school_email: collegeEmail,
-        });
-      if (teacherError) throw teacherError;
-    } else if (role === 'ngo') {
-      const { error: ngoError } = await supabase
-        .from('ngo_profiles')
-        .insert({
-          id: userId,
-          organization_name: organizationName,
-          ngo_type: ngoType,
-          official_email: officialEmail,
-          website_url: websiteUrl,
-        });
-      if (ngoError) throw ngoError;
+  const createRoleSpecificProfile = async (userId: string, role: UserRole) => {
+    try {
+      if (role === 'teacher') {
+        const finalInstitution = institution === 'Other' ? customInstitution : institution;
+        const { error: teacherError } = await supabase
+          .from('teacher_profiles')
+          .insert({
+            id: userId,
+            institution: finalInstitution,
+            school_email: collegeEmail,
+          });
+        if (teacherError) throw teacherError;
+      } else if (role === 'ngo') {
+        const { error: ngoError } = await supabase
+          .from('ngo_profiles')
+          .insert({
+            id: userId,
+            organization_name: organizationName,
+            ngo_type: ngoType,
+            official_email: officialEmail,
+            website_url: websiteUrl,
+          });
+        if (ngoError) throw ngoError;
+      }
+    } catch (error) {
+      console.error('Error creating role-specific profile:', error);
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleMagicLinkAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!selectedRole) {
+      toast({
+        title: "Role Required",
+        description: "Please select whether you're a teacher or represent an NGO.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!email) {
+      toast({
+        title: "Email Required",
+        description: "Please enter your email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
-      if (isLogin) {
-        const { error } = await signIn(email, password);
-        
-        if (error) {
-          if (error.message === 'Invalid login credentials') {
-            toast({
-              title: "Login Failed",
-              description: "Invalid email or password. Please check your credentials.",
-              variant: "destructive",
-            });
-          } else {
-            toast({
-              title: "Login Failed",
-              description: error.message,
-              variant: "destructive",
-            });
-          }
+      const { error } = await signInWithMagicLink(email, selectedRole);
+      
+      if (error) {
+        if (error.message?.includes('Email not confirmed')) {
+          toast({
+            title: "Email Configuration Issue",
+            description: "Email sending is not properly configured. Please contact support or check your Supabase email settings.",
+            variant: "destructive",
+          });
+        } else if (error.message?.includes('rate limit')) {
+          toast({
+            title: "Too Many Requests",
+            description: "Please wait a moment before requesting another sign-in link.",
+            variant: "destructive",
+          });
         } else {
           toast({
-            title: "Welcome back!",
-            description: "You have been successfully logged in.",
+            title: "Authentication Failed",
+            description: error.message || "Failed to send sign-in link. Please try again.",
+            variant: "destructive",
           });
         }
       } else {
-        if (!selectedRole) {
-          toast({
-            title: "Role Required",
-            description: "Please select whether you're a teacher or represent an NGO.",
-            variant: "destructive",
-          });
-          return;
-        }
-
-        const { error } = await signUp(email, password, {
-          display_name: displayName,
-          role: selectedRole,
+        setEmailSent(true);
+        toast({
+          title: "Sign-in Link Sent! 📧",
+          description: `Check your email at ${email} for the sign-in link.`,
         });
-        
-        if (error) {
-          if (error.message === 'User already registered') {
-            toast({
-              title: "Account Exists",
-              description: "An account with this email already exists. Please try logging in instead.",
-              variant: "destructive",
-            });
-          } else {
-            toast({
-              title: "Signup Failed",
-              description: error.message,
-              variant: "destructive",
-            });
-          }
-        } else {
-          // Get the user ID from the auth response
-          const { data: { user: newUser } } = await supabase.auth.getUser();
-          if (newUser) {
-            await createProfile(newUser.id, selectedRole);
-          }
-          
-          // Redirect to verification page
-          const emailToVerify = selectedRole === 'teacher' ? collegeEmail : officialEmail;
-          navigate(`/verification-pending?role=${selectedRole}&email=${encodeURIComponent(emailToVerify)}`);
-        }
+
+        // Store additional profile data for when user completes auth
+        localStorage.setItem('pendingProfileData', JSON.stringify({
+          role: selectedRole,
+          displayName,
+          institution: selectedRole === 'teacher' ? (institution === 'Other' ? customInstitution : institution) : undefined,
+          collegeEmail: selectedRole === 'teacher' ? collegeEmail : undefined,
+          organizationName: selectedRole === 'ngo' ? organizationName : undefined,
+          ngoType: selectedRole === 'ngo' ? ngoType : undefined,
+          officialEmail: selectedRole === 'ngo' ? officialEmail : undefined,
+          websiteUrl: selectedRole === 'ngo' ? websiteUrl : undefined,
+        }));
       }
     } catch (error: any) {
       toast({
@@ -169,13 +155,83 @@ export default function Auth() {
     }
   };
 
-  if (!isLogin && !selectedRole) {
+  // Handle completion of profile creation after auth
+  useEffect(() => {
+    const handleAuthCompletion = async () => {
+      if (user) {
+        const pendingData = localStorage.getItem('pendingProfileData');
+        if (pendingData) {
+          try {
+            const profileData = JSON.parse(pendingData);
+            await createRoleSpecificProfile(user.id, profileData.role);
+            localStorage.removeItem('pendingProfileData');
+          } catch (error) {
+            console.error('Error completing profile:', error);
+          }
+        }
+      }
+    };
+
+    handleAuthCompletion();
+  }, [user]);
+
+  if (emailSent) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Join EcoWise</CardTitle>
-            <CardDescription>Choose your role to get started</CardDescription>
+            <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+              <Mail className="w-8 h-8 text-primary" />
+            </div>
+            <CardTitle className="text-2xl">Check Your Email</CardTitle>
+            <CardDescription>
+              We've sent a sign-in link to <strong>{email}</strong>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="bg-muted/50 p-4 rounded-lg space-y-2">
+              <div className="flex items-center gap-2 text-sm">
+                <CheckCircle className="w-4 h-4 text-success" />
+                <span>Click the link in your email to sign in</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <CheckCircle className="w-4 h-4 text-success" />
+                <span>The link will redirect you back to this app</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <CheckCircle className="w-4 h-4 text-success" />
+                <span>You'll be automatically taken to your dashboard</span>
+              </div>
+            </div>
+            
+            <div className="text-center space-y-2">
+              <p className="text-sm text-muted-foreground">
+                Didn't receive the email? Check your spam folder or:
+              </p>
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setEmailSent(false);
+                  setLoading(false);
+                }}
+                className="w-full"
+              >
+                Try Again
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!selectedRole) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl">Sign in to EcoWise</CardTitle>
+            <CardDescription>Choose your role to continue</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <Button
@@ -185,8 +241,8 @@ export default function Auth() {
             >
               <span className="text-2xl">👩‍🏫</span>
               <div>
-                <div className="font-semibold">I'm a Teacher</div>
-                <div className="text-sm text-muted-foreground">Create classes and manage students</div>
+                <div className="font-semibold">Sign in as Teacher</div>
+                <div className="text-sm text-muted-foreground">Manage classes and students</div>
               </div>
             </Button>
             
@@ -197,20 +253,10 @@ export default function Auth() {
             >
               <span className="text-2xl">🌍</span>
               <div>
-                <div className="font-semibold">I represent an NGO</div>
-                <div className="text-sm text-muted-foreground">Create programs and sponsor contests</div>
+                <div className="font-semibold">Sign in as NGO</div>
+                <div className="text-sm text-muted-foreground">Create programs and contests</div>
               </div>
             </Button>
-
-            <div className="text-center">
-              <Button 
-                variant="ghost" 
-                onClick={() => setIsLogin(true)}
-                className="text-sm"
-              >
-                Already have an account? Sign in
-              </Button>
-            </div>
           </CardContent>
         </Card>
       </div>
@@ -222,49 +268,37 @@ export default function Auth() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">
-            {isLogin ? 'Welcome Back' : `${selectedRole === 'teacher' ? 'Teacher' : 'NGO'} Registration`}
+            {selectedRole === 'teacher' ? 'Teacher Sign-in' : 'NGO Sign-in'}
           </CardTitle>
           <CardDescription>
-            {isLogin ? 'Sign in to your account' : 'Create your account to get started'}
+            Enter your details to receive a sign-in link via email
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {!isLogin && (
-              <div className="space-y-2">
-                <Label htmlFor="displayName">Full Name</Label>
-                <Input
-                  id="displayName"
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  required
-                />
-              </div>
-            )}
+          <form onSubmit={handleMagicLinkAuth} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="displayName">Full Name</Label>
+              <Input
+                id="displayName"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                required
+              />
+            </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">Email Address</Label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email address"
                 required
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-
-            {!isLogin && selectedRole === 'teacher' && (
+            {selectedRole === 'teacher' && (
               <>
                 <div className="space-y-2">
                   <Label htmlFor="institution">Institution (School/College)</Label>
@@ -304,7 +338,7 @@ export default function Auth() {
               </>
             )}
 
-            {!isLogin && selectedRole === 'ngo' && (
+            {selectedRole === 'ngo' && (
               <>
                 <div className="space-y-2">
                   <Label htmlFor="organizationName">Organization Name</Label>
@@ -354,18 +388,38 @@ export default function Auth() {
               </>
             )}
 
+            <div className="bg-muted/50 p-3 rounded-lg">
+              <div className="flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                <div className="text-sm text-muted-foreground">
+                  <strong>Passwordless sign-in:</strong> We'll send a secure link to your email. 
+                  Click the link to sign in - no password needed!
+                </div>
+              </div>
+            </div>
+
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Create Account')}
+              {loading ? (
+                <>
+                  <Mail className="w-4 h-4 mr-2" />
+                  Sending sign-in link...
+                </>
+              ) : (
+                <>
+                  <Mail className="w-4 h-4 mr-2" />
+                  Send sign-in link
+                </>
+              )}
             </Button>
 
             <div className="text-center">
               <Button
                 type="button"
                 variant="ghost"
-                onClick={() => setIsLogin(!isLogin)}
+                onClick={() => setSelectedRole(null)}
                 className="text-sm"
               >
-                {isLogin ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
+                ← Choose different role
               </Button>
             </div>
           </form>
