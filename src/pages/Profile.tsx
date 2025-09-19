@@ -184,34 +184,40 @@ const Profile = () => {
                     <DialogTrigger asChild>
                       <div className="cursor-pointer group relative">
                         <div className="text-center">
-                          {/* Hexagonal Badge */}
-                          <div className={`relative w-14 h-14 mx-auto group-hover:scale-110 transition-transform duration-300`}>
-                            {/* Hexagon Background */}
-                            <div className={`absolute inset-0 bg-gradient-to-br ${rarityGradients[badge.rarity]} rounded-lg shadow-lg`} 
+                          {/* Shield Badge */}
+                          <div className={`relative w-16 h-20 mx-auto group-hover:scale-110 transition-transform duration-300`}>
+                            {/* Shield Background */}
+                            <div className={`absolute inset-0 bg-gradient-to-br ${rarityGradients[badge.rarity]} shadow-lg`} 
                                  style={{
-                                   clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
+                                   clipPath: 'polygon(50% 0%, 0% 25%, 0% 80%, 50% 100%, 100% 80%, 100% 25%)'
                                  }}>
                             </div>
-                            {/* Inner Hexagon for icon background */}
-                            <div className="absolute inset-1.5 bg-white/95 rounded-lg shadow-inner"
+                            {/* Inner Shield for depth */}
+                            <div className="absolute inset-1 bg-gradient-to-br from-white/30 to-white/10 shadow-inner"
                                  style={{
-                                   clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
+                                   clipPath: 'polygon(50% 0%, 0% 25%, 0% 80%, 50% 100%, 100% 80%, 100% 25%)'
                                  }}>
                             </div>
-                            {/* Badge Icon */}
-                            <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold">
-                              <span className={badgeIconColors[badge.rarity]}>
-                                {badge.icon}
-                              </span>
+                            {/* Center highlight */}
+                            <div className="absolute inset-2 bg-gradient-to-br from-white/50 to-transparent"
+                                 style={{
+                                   clipPath: 'polygon(50% 0%, 0% 25%, 0% 80%, 50% 100%, 100% 80%, 100% 25%)'
+                                 }}>
+                            </div>
+                            {/* Badge Icon positioned at top of shield */}
+                            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 text-2xl font-bold">
+                              <div className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center shadow-md">
+                                <span className={badgeIconColors[badge.rarity]} style={{ fontSize: '1.2rem' }}>
+                                  {badge.icon}
+                                </span>
+                              </div>
                             </div>
                             {/* Enhanced Shine Effect */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-white/20 to-transparent rounded-lg opacity-80"
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/20 to-transparent opacity-60"
                                  style={{
-                                   clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
+                                   clipPath: 'polygon(50% 0%, 0% 25%, 0% 80%, 50% 100%, 100% 80%, 100% 25%)'
                                  }}>
                             </div>
-                            {/* Additional shine streak */}
-                            <div className="absolute top-1 left-3 w-6 h-1 bg-white/40 rounded-full transform -rotate-45"></div>
                             {/* Sparkle decorations */}
                             {badge.rarity === 'legendary' && (
                               <>
@@ -236,32 +242,37 @@ const Profile = () => {
                     <DialogContent>
                       <DialogHeader>
                         <DialogTitle className="text-center">
-                          {/* Larger Hexagon for Dialog */}
-                          <div className="relative w-24 h-24 mx-auto mb-4">
-                            <div className={`absolute inset-0 bg-gradient-to-br ${rarityGradients[badge.rarity]} rounded-xl shadow-xl`} 
+                          {/* Larger Shield for Dialog */}
+                          <div className="relative w-32 h-40 mx-auto mb-4">
+                            <div className={`absolute inset-0 bg-gradient-to-br ${rarityGradients[badge.rarity]} shadow-xl`} 
                                  style={{
-                                   clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
+                                   clipPath: 'polygon(50% 0%, 0% 25%, 0% 80%, 50% 100%, 100% 80%, 100% 25%)'
                                  }}>
                             </div>
-                            <div className="absolute inset-2 bg-white/95 rounded-xl shadow-inner"
+                            <div className="absolute inset-2 bg-gradient-to-br from-white/30 to-white/10 shadow-inner"
                                  style={{
-                                   clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
+                                   clipPath: 'polygon(50% 0%, 0% 25%, 0% 80%, 50% 100%, 100% 80%, 100% 25%)'
                                  }}>
                             </div>
-                            <div className="absolute inset-0 flex items-center justify-center text-4xl font-bold">
-                              <span className={badgeIconColors[badge.rarity]}>
-                                {badge.icon}
-                              </span>
+                            <div className="absolute inset-4 bg-gradient-to-br from-white/50 to-transparent"
+                                 style={{
+                                   clipPath: 'polygon(50% 0%, 0% 25%, 0% 80%, 50% 100%, 100% 80%, 100% 25%)'
+                                 }}>
+                            </div>
+                            {/* Large Badge Icon positioned at top of shield */}
+                            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-4xl font-bold">
+                              <div className="w-16 h-16 bg-white/95 rounded-full flex items-center justify-center shadow-lg">
+                                <span className={badgeIconColors[badge.rarity]} style={{ fontSize: '2.5rem' }}>
+                                  {badge.icon}
+                                </span>
+                              </div>
                             </div>
                             {/* Enhanced Shine Effect for Dialog */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-white/20 to-transparent rounded-xl opacity-80"
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/20 to-transparent opacity-60"
                                  style={{
-                                   clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
+                                   clipPath: 'polygon(50% 0%, 0% 25%, 0% 80%, 50% 100%, 100% 80%, 100% 25%)'
                                  }}>
                             </div>
-                            {/* Multiple shine streaks */}
-                            <div className="absolute top-2 left-4 w-8 h-1.5 bg-white/50 rounded-full transform -rotate-45"></div>
-                            <div className="absolute top-4 left-6 w-6 h-1 bg-white/30 rounded-full transform -rotate-45"></div>
                             {/* Enhanced sparkles for dialog */}
                             {badge.rarity === 'legendary' && (
                               <>
