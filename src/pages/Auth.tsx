@@ -89,7 +89,7 @@ const Auth = () => {
               className="w-full"
               disabled={isLoading}
             >
-              {isLoading ? "Loading..." : (isSignUp ? "Sign Up" : "Sign In")}
+              {isLoading ? "Loading..." : (isSignUp ? "Sign Up as Teacher" : "Sign In as Teacher")}
             </Button>
           </form>
           
