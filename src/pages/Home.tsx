@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, TreePine, Droplets, Recycle, Users, Sparkles, Instagram, Facebook, Youtube, X } from "lucide-react";
@@ -5,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Card from "@/components/Card";
 import StatsCounter from "@/components/StatsCounter";
 import ProgressBar from "@/components/ProgressBar";
+import JoinClassModal from "@/components/JoinClassModal";
 import { user, challenges, campaigns } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
 import ecolearnLogo from "@/assets/ecolearn-logo.png";
@@ -12,6 +14,7 @@ import xLogo from "@/assets/x-logo.png";
 
 const Home = () => {
   const { toast } = useToast();
+  const [showJoinModal, setShowJoinModal] = useState(false);
   const completedChallenges = challenges.filter(c => c.submitted).length;
   const activeChallenges = challenges.filter(c => !c.submitted).length;
 
@@ -23,10 +26,7 @@ const Home = () => {
   };
 
   const handleJoinAsTeacher = () => {
-    toast({
-      title: "Teacher/NGO Registration",
-      description: "Thank you for your interest! We'll be in touch soon.",
-    });
+    setShowJoinModal(true);
   };
 
   const handleStartJourney = () => {
@@ -259,6 +259,11 @@ const Home = () => {
           </div>
         </div>
       </section>
+      
+      <JoinClassModal 
+        isOpen={showJoinModal} 
+        onClose={() => setShowJoinModal(false)}
+      />
     </div>
   );
 };
