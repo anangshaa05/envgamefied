@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, TreePine, Droplets, Recycle, Users, Sparkles } from "lucide-react";
+import { ArrowRight, TreePine, Droplets, Recycle, Users, Sparkles, Instagram, Facebook, Youtube, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Card from "@/components/Card";
 import StatsCounter from "@/components/StatsCounter";
@@ -232,6 +232,21 @@ const Home = () => {
           >
             <Link to="/profile">Start Your Journey</Link>
           </Button>
+          
+          {/* Copyright and Social Media */}
+          <div className="mt-8 pt-6 border-t border-white/20">
+            <div className="flex flex-col items-center space-y-4">
+              <div className="flex space-x-6">
+                <Instagram className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
+                <Facebook className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
+                <Twitter className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
+                <Youtube className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
+              </div>
+              <p className="text-sm text-white/80">
+                © All rights reserved to EcoWise
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </div>
