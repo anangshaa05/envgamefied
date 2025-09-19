@@ -47,7 +47,9 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex items-center space-x-4">
-            <img src={logo} alt="EcoLearn Logo" className="h-8 w-auto" />
+            <Link to="/logo-processor" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+              <img src={logo} alt="EcoLearn Logo" className="h-12 w-auto" />
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
