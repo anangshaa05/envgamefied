@@ -46,39 +46,51 @@ const TeacherDashboard = () => {
 
         {/* Classes Section */}
         <div className="mb-8">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-semibold text-foreground">My Classes</h2>
-            <Button className="gap-2">
-              <Plus className="w-4 h-4" />
-              Create New Class
-            </Button>
-          </div>
+          <h2 className="text-2xl font-semibold text-foreground mb-6">My Classes</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Create New Class Card - Prominent */}
+            <Card className="border-2 border-dashed border-primary/30 hover:border-primary/60 transition-colors cursor-pointer group">
+              <CardContent className="flex flex-col items-center justify-center p-8 text-center">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                  <Plus className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">Create New Class</h3>
+                <p className="text-sm text-muted-foreground">Start teaching a new group of students</p>
+              </CardContent>
+            </Card>
+
+            {/* Existing Classes */}
             {classes.map((classItem) => (
-              <Card key={classItem.id} className="hover:shadow-lg transition-shadow cursor-pointer">
-                <CardHeader>
-                  <CardTitle className="text-lg">{classItem.name}</CardTitle>
-                  <CardDescription className="flex items-center gap-2">
+              <Card key={classItem.id} className="hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-lg font-semibold">{classItem.name}</CardTitle>
+                  <CardDescription className="flex items-center gap-2 text-muted-foreground">
                     <Users className="w-4 h-4" />
                     {classItem.students} Students
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Total Points</span>
-                    <Badge variant="secondary">{classItem.totalPoints}</Badge>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center p-3 bg-muted/50 rounded-lg">
+                      <div className="text-lg font-bold text-primary">{classItem.totalPoints}</div>
+                      <div className="text-xs text-muted-foreground">Total Points</div>
+                    </div>
+                    <div className="text-center p-3 bg-muted/50 rounded-lg">
+                      <div className="text-lg font-bold text-secondary">{classItem.challengesCompleted}</div>
+                      <div className="text-xs text-muted-foreground">Challenges</div>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Challenges</span>
-                    <Badge variant="outline">{classItem.challengesCompleted}</Badge>
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">Average Grade</span>
+                    <Badge variant="default" className="bg-primary/10 text-primary hover:bg-primary/20">
+                      {classItem.avgGrade}
+                    </Badge>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Avg Grade</span>
-                    <Badge variant="default">{classItem.avgGrade}</Badge>
-                  </div>
-                  <Button variant="outline" className="w-full mt-4">
-                    View Class Details
+                  
+                  <Button className="w-full">
+                    View & Manage Class
                   </Button>
                 </CardContent>
               </Card>
