@@ -38,13 +38,13 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 px-4 h-screen bg-black">
+      <section className="relative overflow-hidden py-24 px-4 h-3/4">
         <video 
           autoPlay 
           muted 
           loop 
           playsInline
-          className="absolute inset-0 w-full h-3/4 object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
         >
           <source src="/videos/hero-background.mp4" type="video/mp4" />
         </video>
