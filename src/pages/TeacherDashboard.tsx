@@ -16,16 +16,19 @@ const TeacherDashboard = () => {
       id: "1",
       name: "Environmental Science 101",
       students: 28,
+      totalPoints: 15650,
     },
     {
       id: "2", 
       name: "Climate Change Studies",
       students: 22,
+      totalPoints: 12420,
     },
     {
       id: "3",
       name: "Sustainability Workshop", 
       students: 35,
+      totalPoints: 18950,
     }
   ];
 
@@ -48,16 +51,33 @@ const TeacherDashboard = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {classes.map((classItem) => (
-          <Card key={classItem.id} className="hover:shadow-lg transition-all">
-            <CardHeader>
-              <CardTitle className="text-lg">{classItem.name}</CardTitle>
-              <CardDescription className="flex items-center gap-2">
-                <Users className="w-4 h-4" />
+          <Card key={classItem.id} className="group relative overflow-hidden border-0 bg-gradient-to-br from-card via-card/50 to-card/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+                {classItem.name}
+              </CardTitle>
+              <CardDescription className="flex items-center gap-2 text-muted-foreground">
+                <Users className="w-4 h-4 text-primary" />
                 {classItem.students} Students
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <Button className="w-full">Manage Class</Button>
+            
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-border/50">
+                <div className="flex items-center gap-2">
+                  <Trophy className="w-5 h-5 text-primary" />
+                  <span className="text-sm font-medium text-muted-foreground">Total Points</span>
+                </div>
+                <span className="text-lg font-bold text-foreground">
+                  {classItem.totalPoints.toLocaleString()}
+                </span>
+              </div>
+              
+              <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all">
+                Manage Class
+              </Button>
             </CardContent>
           </Card>
         ))}
