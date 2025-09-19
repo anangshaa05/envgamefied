@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      announcements: {
+        Row: {
+          class_id: string
+          content: string
+          created_at: string
+          id: string
+          teacher_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          class_id: string
+          content: string
+          created_at?: string
+          id?: string
+          teacher_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          class_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          teacher_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       class_enrollments: {
         Row: {
           class_id: string | null

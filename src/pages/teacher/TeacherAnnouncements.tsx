@@ -72,20 +72,42 @@ export default function TeacherAnnouncements() {
   const fetchAnnouncements = async () => {
     if (!user) return;
 
-    const { data, error } = await supabase
-      .from('announcements')
-      .select(`
-        *,
-        classes(name, class_code)
-      `)
-      .eq('teacher_id', user.id)
-      .order('created_at', { ascending: false });
+    try {
+      const { data, error } = await supabase
+        .from('announcements' as any)
+        .select('*')
+        .eq('teacher_id', user.id)
+        .order('created_at', { ascending: false });
 
-    if (error) {
+      if (error) {
+        console.error('Error fetching announcements:', error);
+        return;
+      }
+
+      if (!data) {
+        setAnnouncements([]);
+        return;
+      }
+
+      // Fetch class data separately for each announcement
+      const announcementsWithClasses = await Promise.all(
+        data.map(async (announcement: any) => {
+          const { data: classData } = await supabase
+            .from('classes')
+            .select('name, class_code')
+            .eq('id', announcement.class_id)
+            .single();
+          
+          return {
+            ...announcement,
+            classes: classData || { name: 'Unknown Class', class_code: '' }
+          };
+        })
+      );
+
+      setAnnouncements(announcementsWithClasses as Announcement[]);
+    } catch (error) {
       console.error('Error fetching announcements:', error);
-      // Don't show error toast as the table might not exist yet
-    } else {
-      setAnnouncements(data || []);
     }
   };
 
@@ -97,7 +119,7 @@ export default function TeacherAnnouncements() {
     
     try {
       const { error } = await supabase
-        .from('announcements')
+        .from('announcements' as any)
         .insert({
           teacher_id: user.id,
           class_id: selectedClassId,
