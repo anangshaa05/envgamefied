@@ -55,7 +55,7 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="mb-6 relative">
+            <div className="mb-2 relative">
               <img 
                 src={ecolearnLogo} 
                 alt="EcoLearn" 
