@@ -1,15 +1,31 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Trophy, Medal, Crown, TrendingUp } from "lucide-react";
+import { Trophy, Medal, Crown, TrendingUp, Users, Filter, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Card from "@/components/Card";
 import LevelPill from "@/components/LevelPill";
+import { useToast } from "@/hooks/use-toast";
 import { leaderboard, user } from "@/data/mockData";
 
 const Leaderboard = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterType, setFilterType] = useState<"all" | "friends" | "region">("all");
+  const { toast } = useToast();
+  
+  const filteredLeaderboard = leaderboard.filter(user => 
+    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleFollowUser = (userName: string) => {
+    toast({
+      title: "Following User",
+      description: `You are now following ${userName}!`,
+    });
+  };
   const [timeFrame, setTimeFrame] = useState("all-time");
   
   // Sort leaderboard by rank
@@ -73,7 +89,48 @@ const Leaderboard = () => {
           </Tabs>
         </motion.div>
 
-        {/* Top 3 Podium */}
+        {/* Search and Filter */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="mb-8"
+        >
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Input 
+                placeholder="Search eco-warriors..." 
+                className="pl-10"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="flex gap-2">
+              <Badge 
+                variant={filterType === "all" ? "default" : "outline"}
+                className="cursor-pointer px-4 py-2"
+                onClick={() => setFilterType("all")}
+              >
+                All
+              </Badge>
+              <Badge 
+                variant={filterType === "friends" ? "default" : "outline"}
+                className="cursor-pointer px-4 py-2"
+                onClick={() => setFilterType("friends")}
+              >
+                Friends
+              </Badge>
+              <Badge 
+                variant={filterType === "region" ? "default" : "outline"}
+                className="cursor-pointer px-4 py-2"
+                onClick={() => setFilterType("region")}
+              >
+                My Region
+              </Badge>
+            </div>
+          </div>
+        </motion.section>
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

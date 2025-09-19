@@ -6,11 +6,34 @@ import Card from "@/components/Card";
 import StatsCounter from "@/components/StatsCounter";
 import ProgressBar from "@/components/ProgressBar";
 import { user, challenges, campaigns } from "@/data/mockData";
+import { useToast } from "@/hooks/use-toast";
 import ecowiseLogo from "@/assets/ecowise-logo-white.png";
 
 const Home = () => {
+  const { toast } = useToast();
   const completedChallenges = challenges.filter(c => c.submitted).length;
   const activeChallenges = challenges.filter(c => !c.submitted).length;
+
+  const handleGetStarted = () => {
+    toast({
+      title: "Welcome to EcoWise! 🌱",
+      description: "Your environmental journey starts now!",
+    });
+  };
+
+  const handleJoinAsTeacher = () => {
+    toast({
+      title: "Teacher/NGO Registration",
+      description: "Thank you for your interest! We'll be in touch soon.",
+    });
+  };
+
+  const handleStartJourney = () => {
+    toast({
+      title: "Journey Started! 🚀",
+      description: "Ready to make a difference? Let's go!",
+    });
+  };
 
   return (
     <div className="min-h-screen">
@@ -55,7 +78,7 @@ const Home = () => {
                 className="bg-white text-primary hover:bg-white/90 font-semibold px-8 py-6 text-lg rounded-xl shadow-hover"
                 asChild
               >
-                <Link to="/profile" className="flex items-center space-x-2">
+                <Link to="/profile" className="flex items-center space-x-2" onClick={handleGetStarted}>
                   <Sparkles className="w-5 h-5" />
                   <span>Get Started</span>
                 </Link>
@@ -64,9 +87,9 @@ const Home = () => {
                 variant="outline" 
                 size="lg"
                 className="bg-white/10 border-white/30 text-white hover:bg-primary/20 hover:border-primary/40 hover:text-emerald-300 font-semibold px-8 py-6 text-lg rounded-xl transition-colors"
-                asChild
+                onClick={handleJoinAsTeacher}
               >
-                <Link to="/community">Join as Teacher/NGO</Link>
+                Join as Teacher/NGO
               </Button>
             </div>
           </motion.div>
@@ -204,6 +227,7 @@ const Home = () => {
             size="lg" 
             className="bg-white hover:bg-white/90 font-semibold px-6 py-4 text-lg rounded-xl shadow-hover"
             style={{ color: 'hsl(120 80% 35%)' }}
+            onClick={handleStartJourney}
             asChild
           >
             <Link to="/profile">Start Your Journey</Link>

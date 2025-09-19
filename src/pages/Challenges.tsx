@@ -13,8 +13,16 @@ import { challenges } from "@/data/mockData";
 const Challenges = () => {
   const [selectedChallenge, setSelectedChallenge] = useState<any>(null);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>("All Challenges");
+  const [completedChallenges, setCompletedChallenges] = useState(
+    new Set(challenges.filter(c => c.submitted).map(c => c.id))
+  );
   
   const categories = [...new Set(challenges.map(challenge => challenge.category))] as string[];
+  
+  const filteredChallenges = selectedCategory === "All Challenges" 
+    ? challenges 
+    : challenges.filter(challenge => challenge.category === selectedCategory);
   
   const difficultyColors = {
     Easy: "bg-success text-success-foreground",
@@ -33,8 +41,22 @@ const Challenges = () => {
   const handleSubmitProof = () => {
     // Mock submission - in a real app this would upload to backend
     console.log("Challenge proof submitted:", selectedChallenge?.id, uploadedImage);
+    
+    // Update challenge status locally
+    if (selectedChallenge) {
+      const updatedChallenges = challenges.map(c => 
+        c.id === selectedChallenge.id 
+          ? { ...c, submitted: true, proofImageUrl: uploadedImage }
+          : c
+      );
+      console.log("Updated challenges:", updatedChallenges);
+    }
+    
     setUploadedImage(null);
     setSelectedChallenge(null);
+    
+    // Show success feedback
+    alert("Challenge proof submitted successfully! You earned " + selectedChallenge?.points + " points!");
   };
 
   return (
@@ -96,14 +118,19 @@ const Challenges = () => {
           className="mb-8"
         >
           <div className="flex flex-wrap gap-2">
-            <Badge variant="default" className="px-4 py-2 cursor-pointer">
+            <Badge 
+              variant={selectedCategory === "All Challenges" ? "default" : "outline"}
+              className="px-4 py-2 cursor-pointer"
+              onClick={() => setSelectedCategory("All Challenges")}
+            >
               All Challenges
             </Badge>
             {categories.map((category) => (
               <Badge 
                 key={category}
-                variant="outline" 
+                variant={selectedCategory === category ? "default" : "outline"}
                 className="px-4 py-2 cursor-pointer hover:bg-primary hover:text-primary-foreground"
+                onClick={() => setSelectedCategory(category)}
               >
                 {category}
               </Badge>
@@ -118,7 +145,7 @@ const Challenges = () => {
           transition={{ delay: 0.3 }}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {challenges.map((challenge, index) => (
+            {filteredChallenges.map((challenge, index) => (
               <motion.div
                 key={challenge.id}
                 initial={{ opacity: 0, y: 20 }}

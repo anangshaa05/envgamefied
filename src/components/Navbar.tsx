@@ -6,10 +6,13 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { user } from "@/data/mockData";
+import { useToast } from "@/hooks/use-toast";
 import logo from "@/assets/logo.png";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { toast } = useToast();
   const navigation = [{
     name: "Home",
     href: "/",
@@ -47,9 +50,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex items-center space-x-4">
-            <Link to="/logo-processor" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-              <img src={logo} alt="EcoLearn Logo" className="h-12 w-auto" />
-            </Link>
+            <img src={logo} alt="EcoLearn Logo" className="h-12 w-auto" />
           </div>
 
           {/* Desktop Navigation */}
@@ -95,16 +96,23 @@ const Navbar = () => {
                   <p className="text-xs text-muted-foreground">Level {user.level} • {user.ecoPoints} points</p>
                 </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => toast({ title: "Profile", description: "Profile page coming soon!" })}>
                   <User className="mr-2 h-4 w-4" />
                   Profile
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => toast({ title: "Settings", description: "Settings panel coming soon!" })}>
                   <Settings className="mr-2 h-4 w-4" />
                   Settings
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-destructive">
+                <DropdownMenuItem 
+                  className="text-destructive"
+                  onClick={() => toast({ 
+                    title: "Logged Out", 
+                    description: "You have been successfully logged out.",
+                    variant: "destructive"
+                  })}
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   Logout
                 </DropdownMenuItem>

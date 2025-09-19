@@ -6,9 +6,32 @@ import { Badge } from "@/components/ui/badge";
 import Card from "@/components/Card";
 import ProgressBar from "@/components/ProgressBar";
 import { lessons } from "@/data/mockData";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const LearningHub = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string>("All Lessons");
+  const { toast } = useToast();
   const categories = [...new Set(lessons.map(lesson => lesson.category))] as string[];
+  
+  const filteredLessons = selectedCategory === "All Lessons" 
+    ? lessons 
+    : lessons.filter(lesson => lesson.category === selectedCategory);
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
+    toast({
+      title: "Filter Applied",
+      description: `Showing ${category === "All Lessons" ? "all" : category} lessons`,
+    });
+  };
+
+  const handleLessonStart = (lessonId: string, lessonTitle: string) => {
+    toast({
+      title: "Lesson Started!",
+      description: `Starting "${lessonTitle}". Good luck with your learning!`,
+    });
+  };
   
   return (
     <div className="min-h-screen bg-background">
@@ -65,14 +88,19 @@ const LearningHub = () => {
           className="mb-8"
         >
           <div className="flex flex-wrap gap-2">
-            <Badge variant="default" className="px-4 py-2 cursor-pointer">
+            <Badge 
+              variant={selectedCategory === "All Lessons" ? "default" : "outline"}
+              className="px-4 py-2 cursor-pointer"
+              onClick={() => handleCategoryClick("All Lessons")}
+            >
               All Lessons
             </Badge>
             {categories.map((category) => (
               <Badge 
                 key={category}
-                variant="outline" 
+                variant={selectedCategory === category ? "default" : "outline"}
                 className="px-4 py-2 cursor-pointer hover:bg-primary hover:text-primary-foreground"
+                onClick={() => handleCategoryClick(category)}
               >
                 {category}
               </Badge>
@@ -87,7 +115,7 @@ const LearningHub = () => {
           transition={{ delay: 0.3 }}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {lessons.map((lesson, index) => (
+            {filteredLessons.map((lesson, index) => (
               <motion.div
                 key={lesson.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -163,6 +191,10 @@ const LearningHub = () => {
                           size="sm" 
                           variant={lesson.completed ? "outline" : "default"}
                           className="group-hover:translate-x-1 transition-transform"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleLessonStart(lesson.id, lesson.title);
+                          }}
                         >
                           {lesson.completed ? "Review" : lesson.progress > 0 ? "Continue" : "Start"}
                           <ArrowRight className="w-4 h-4 ml-1" />

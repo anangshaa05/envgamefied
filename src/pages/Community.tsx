@@ -12,6 +12,7 @@ import { communityPosts, campaigns } from "@/data/mockData";
 const Community = () => {
   const [newPost, setNewPost] = useState("");
   const [likedPosts, setLikedPosts] = useState(new Set());
+  const [posts, setPosts] = useState(communityPosts);
 
   const handleLike = (postId: string) => {
     const newLikedPosts = new Set(likedPosts);
@@ -21,6 +22,28 @@ const Community = () => {
       newLikedPosts.add(postId);
     }
     setLikedPosts(newLikedPosts);
+  };
+
+  const handleSharePost = () => {
+    if (newPost.trim()) {
+      const newPostData = {
+        id: Date.now().toString(),
+        author: {
+          name: "You",
+          level: 5,
+          avatarUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+        },
+        content: newPost,
+        timestamp: new Date().toISOString(),
+        likes: 0,
+        comments: 0,
+        pinned: false,
+        imageUrl: null
+      };
+      setPosts([newPostData, ...posts]);
+      setNewPost("");
+      alert("Post shared successfully!");
+    }
   };
 
   const formatTimeAgo = (timestamp: string) => {
@@ -71,7 +94,7 @@ const Community = () => {
                     <Button variant="outline" className="flex-1">
                       Add Photo
                     </Button>
-                    <Button className="flex-1">
+                    <Button className="flex-1" onClick={handleSharePost}>
                       Share Post
                     </Button>
                   </div>
@@ -149,7 +172,7 @@ const Community = () => {
           </div>
 
           <div className="space-y-6">
-            {communityPosts.map((post, index) => (
+            {posts.map((post, index) => (
               <motion.div
                 key={post.id}
                 initial={{ opacity: 0, y: 20 }}
