@@ -280,7 +280,7 @@ const Leaderboard = () => {
               <Button size="lg" className="bg-white text-primary hover:bg-white/90" asChild>
                 <Link to="/challenges">Take Challenges</Link>
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/20 hover:text-white" asChild>
+              <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white/20 hover:text-white" asChild>
                 <Link to="/community">Join Community</Link>
               </Button>
             </div>
