@@ -47,7 +47,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex items-center space-x-4">
-            
+            <img src={logo} alt="EcoLearn Logo" className="h-8 w-auto" />
           </div>
 
           {/* Desktop Navigation */}
