@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface TeacherNGOModalProps {
   open: boolean;
@@ -9,22 +8,16 @@ interface TeacherNGOModalProps {
 }
 
 const TeacherNGOModal = ({ open, onOpenChange }: TeacherNGOModalProps) => {
-  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleTeacherClick = () => {
-    toast({
-      title: "Teacher Registration 👩‍🏫",
-      description: "Thank you for your interest! We'll be in touch soon.",
-    });
     onOpenChange(false);
+    navigate("/auth?type=teacher");
   };
 
   const handleNGOClick = () => {
-    toast({
-      title: "NGO Partnership 🌍",
-      description: "Thank you for your interest! We'll be in touch soon.",
-    });
     onOpenChange(false);
+    navigate("/auth?type=ngo");
   };
 
   return (
