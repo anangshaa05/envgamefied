@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Home, BookOpen, Target, Trophy, Users, BarChart3, Award, Menu, X, User, Settings, LogOut } from "lucide-react";
+import { Home, BookOpen, Target, Trophy, Users, BarChart3, Award, Menu, X, User, Settings, LogOut, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { user } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
 import logo from "@/assets/ecowise-logo-new.png";
+import JoinClassModal from "./JoinClassModal";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [showJoinModal, setShowJoinModal] = useState(false);
   const location = useLocation();
   const { toast } = useToast();
   const navigation = [{
@@ -38,7 +41,25 @@ const Navbar = () => {
     href: "/profile",
     icon: User
   }];
+  
   const isActive = (path: string) => location.pathname === path;
+  
+  const handleJoinClass = (classCode: string) => {
+    setIsSignedIn(true);
+    toast({
+      title: "Successfully joined class",
+      description: `You've joined class with code: ${classCode}`,
+    });
+  };
+  
+  const handleSignOut = () => {
+    setIsSignedIn(false);
+    toast({
+      title: "Signed out",
+      description: "You have been successfully signed out.",
+      variant: "destructive"
+    });
+  };
   return <motion.nav initial={{
     y: -100,
     opacity: 0
@@ -92,17 +113,20 @@ const Navbar = () => {
                   Settings
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem 
-                  className="text-destructive"
-                  onClick={() => toast({ 
-                    title: "Logged Out", 
-                    description: "You have been successfully logged out.",
-                    variant: "destructive"
-                  })}
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Logout
-                </DropdownMenuItem>
+                {!isSignedIn ? (
+                  <DropdownMenuItem onClick={() => setShowJoinModal(true)}>
+                    <LogIn className="mr-2 h-4 w-4" />
+                    Sign in
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem 
+                    className="text-destructive"
+                    onClick={handleSignOut}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -135,6 +159,12 @@ const Navbar = () => {
             </div>
           </motion.div>}
       </div>
+      
+      <JoinClassModal 
+        isOpen={showJoinModal}
+        onClose={() => setShowJoinModal(false)}
+        onJoinClass={handleJoinClass}
+      />
     </motion.nav>;
 };
 export default Navbar;
