@@ -84,7 +84,6 @@ export default {
         "gradient-card": "var(--gradient-card)",
         "gradient-success": "var(--gradient-success)",
         "gradient-level": "var(--level-gradient)",
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       },
       boxShadow: {
         soft: "var(--shadow-soft)",

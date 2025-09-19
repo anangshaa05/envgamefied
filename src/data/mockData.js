@@ -153,8 +153,7 @@ export const leaderboard = [
     points: 2750,
     rank: 4,
     level: 8,
-    badgeCount: 12,
-    inMyClass: true
+    badgeCount: 12
   },
   {
     id: "user2",
@@ -163,8 +162,7 @@ export const leaderboard = [
     points: 3850,
     rank: 1,
     level: 12,
-    badgeCount: 18,
-    inMyClass: false
+    badgeCount: 18
   },
   {
     id: "user3",
@@ -173,8 +171,7 @@ export const leaderboard = [
     points: 3200,
     rank: 2,
     level: 10,
-    badgeCount: 15,
-    inMyClass: true
+    badgeCount: 15
   },
   {
     id: "user4", 
@@ -183,8 +180,7 @@ export const leaderboard = [
     points: 2950,
     rank: 3,
     level: 9,
-    badgeCount: 14,
-    inMyClass: false
+    badgeCount: 14
   },
   {
     id: "user5",
@@ -193,8 +189,7 @@ export const leaderboard = [
     points: 2650,
     rank: 5,
     level: 7,
-    badgeCount: 11,
-    inMyClass: true
+    badgeCount: 11
   },
   {
     id: "user6",
@@ -203,8 +198,7 @@ export const leaderboard = [
     points: 2400,
     rank: 6,
     level: 7,
-    badgeCount: 10,
-    inMyClass: false
+    badgeCount: 10
   },
   {
     id: "user7",
@@ -213,8 +207,7 @@ export const leaderboard = [
     points: 2100,
     rank: 7,
     level: 6,
-    badgeCount: 8,
-    inMyClass: true
+    badgeCount: 8
   }
 ];
 

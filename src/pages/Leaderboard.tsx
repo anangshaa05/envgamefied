@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import Card from "@/components/Card";
 import LevelPill from "@/components/LevelPill";
 import { useToast } from "@/hooks/use-toast";
@@ -116,7 +115,7 @@ const Leaderboard = () => {
                 All
               </Badge>
               <Badge variant={filterType === "friends" ? "default" : "outline"} className="cursor-pointer px-4 py-2" onClick={() => setFilterType("friends")}>My Class</Badge>
-              <Badge variant={filterType === "region" ? "default" : "outline"} className="cursor-pointer px-4 py-2" onClick={() => setFilterType("region")}>My School</Badge>
+              <Badge variant={filterType === "region" ? "default" : "outline"} className="cursor-pointer px-4 py-2" onClick={() => setFilterType("region")}>Global</Badge>
             </div>
           </div>
         </motion.section>
@@ -149,35 +148,7 @@ const Leaderboard = () => {
                     <span className="text-white font-bold text-sm">2</span>
                   </div>
                 </div>
-                <h3 className="font-bold text-xl text-foreground mb-1">
-                  <div className="flex items-center justify-center space-x-2">
-                    <span>{topThree[1]?.name}</span>
-                    {topThree[1]?.inMyClass && (
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <svg 
-                              width="16" 
-                              height="16" 
-                              viewBox="0 0 34 29" 
-                              fill="none" 
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="w-4 h-4 text-primary cursor-help"
-                            >
-                              <path 
-                                d="M19.7999 0.827458C18.9355 0.286849 17.9364 0.000183105 16.9168 0.000183105C15.8972 0.000183105 14.8982 0.286849 14.0337 0.827458L0.625922 9.21095C0.436219 9.31531 0.278041 9.46872 0.16793 9.65514C0.0578195 9.84157 -0.000178987 10.0542 4.14936e-07 10.2707V20.5416C4.14936e-07 20.8621 0.127308 21.1694 0.353916 21.396C0.580524 21.6226 0.887871 21.7499 1.20834 21.7499C1.52882 21.7499 1.83616 21.6226 2.06277 21.396C2.28938 21.1694 2.41669 20.8621 2.41669 20.5416V12.4541L14.0337 19.7187C14.8982 20.2593 15.8972 20.546 16.9168 20.546C17.9364 20.546 18.9355 20.2593 19.7999 19.7187L33.2657 11.2965C33.4392 11.1879 33.5823 11.0369 33.6815 10.8577C33.7806 10.6786 33.8327 10.4772 33.8327 10.2725C33.8327 10.0677 33.7806 9.86634 33.6815 9.68721C33.5823 9.50808 33.4392 9.35709 33.2657 9.24841L19.7999 0.827458ZM20.7606 21.2557L27.7919 16.8561V23.6217C27.7917 23.9299 27.6737 24.2265 27.462 24.4506C26.1081 25.8887 24.4739 27.0344 22.6603 27.8168C20.8467 28.5992 18.892 29.0019 16.9168 29C12.7625 29 9.01424 27.2503 6.3716 24.4518C6.15993 24.2277 6.04192 23.9311 6.04172 23.6229V16.8586L13.0731 21.2545C14.2256 21.9752 15.5575 22.3573 16.9168 22.3573C18.2761 22.3573 19.608 21.9764 20.7606 21.2557Z" 
-                                fill="currentColor"
-                              />
-                            </svg>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>This student is in your class.</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    )}
-                  </div>
-                </h3>
+                <h3 className="font-bold text-xl text-foreground mb-1">{topThree[1]?.name}</h3>
                 <div className="text-3xl font-bold text-badge-silver mb-1">{topThree[1]?.points.toLocaleString()}</div>
                 <div className="text-sm text-muted-foreground">@username</div>
               </motion.div>
@@ -198,35 +169,7 @@ const Leaderboard = () => {
                     <img src={topThree[0]?.avatarUrl} alt={topThree[0]?.name} className="w-full h-full object-cover rounded-full" />
                   </div>
                 </div>
-                <h3 className="font-bold text-2xl text-foreground mb-1">
-                  <div className="flex items-center justify-center space-x-2">
-                    <span>{topThree[0]?.name}</span>
-                    {topThree[0]?.inMyClass && (
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <svg 
-                              width="16" 
-                              height="16" 
-                              viewBox="0 0 34 29" 
-                              fill="none" 
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="w-4 h-4 text-primary cursor-help"
-                            >
-                              <path 
-                                d="M19.7999 0.827458C18.9355 0.286849 17.9364 0.000183105 16.9168 0.000183105C15.8972 0.000183105 14.8982 0.286849 14.0337 0.827458L0.625922 9.21095C0.436219 9.31531 0.278041 9.46872 0.16793 9.65514C0.0578195 9.84157 -0.000178987 10.0542 4.14936e-07 10.2707V20.5416C4.14936e-07 20.8621 0.127308 21.1694 0.353916 21.396C0.580524 21.6226 0.887871 21.7499 1.20834 21.7499C1.52882 21.7499 1.83616 21.6226 2.06277 21.396C2.28938 21.1694 2.41669 20.8621 2.41669 20.5416V12.4541L14.0337 19.7187C14.8982 20.2593 15.8972 20.546 16.9168 20.546C17.9364 20.546 18.9355 20.2593 19.7999 19.7187L33.2657 11.2965C33.4392 11.1879 33.5823 11.0369 33.6815 10.8577C33.7806 10.6786 33.8327 10.4772 33.8327 10.2725C33.8327 10.0677 33.7806 9.86634 33.6815 9.68721C33.5823 9.50808 33.4392 9.35709 33.2657 9.24841L19.7999 0.827458ZM20.7606 21.2557L27.7919 16.8561V23.6217C27.7917 23.9299 27.6737 24.2265 27.462 24.4506C26.1081 25.8887 24.4739 27.0344 22.6603 27.8168C20.8467 28.5992 18.892 29.0019 16.9168 29C12.7625 29 9.01424 27.2503 6.3716 24.4518C6.15993 24.2277 6.04192 23.9311 6.04172 23.6229V16.8586L13.0731 21.2545C14.2256 21.9752 15.5575 22.3573 16.9168 22.3573C18.2761 22.3573 19.608 21.9764 20.7606 21.2557Z" 
-                                fill="currentColor"
-                              />
-                            </svg>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>This student is in your class.</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    )}
-                  </div>
-                </h3>
+                <h3 className="font-bold text-2xl text-foreground mb-1">{topThree[0]?.name}</h3>
                 <div className="text-4xl font-bold text-badge-gold mb-1">{topThree[0]?.points.toLocaleString()}</div>
                 <div className="text-sm text-muted-foreground">@username</div>
               </motion.div>
@@ -249,35 +192,7 @@ const Leaderboard = () => {
                     <span className="text-white font-bold text-sm">3</span>
                   </div>
                 </div>
-                <h3 className="font-bold text-xl text-foreground mb-1">
-                  <div className="flex items-center justify-center space-x-2">
-                    <span>{topThree[2]?.name}</span>
-                    {topThree[2]?.inMyClass && (
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <svg 
-                              width="16" 
-                              height="16" 
-                              viewBox="0 0 34 29" 
-                              fill="none" 
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="w-4 h-4 text-primary cursor-help"
-                            >
-                              <path 
-                                d="M19.7999 0.827458C18.9355 0.286849 17.9364 0.000183105 16.9168 0.000183105C15.8972 0.000183105 14.8982 0.286849 14.0337 0.827458L0.625922 9.21095C0.436219 9.31531 0.278041 9.46872 0.16793 9.65514C0.0578195 9.84157 -0.000178987 10.0542 4.14936e-07 10.2707V20.5416C4.14936e-07 20.8621 0.127308 21.1694 0.353916 21.396C0.580524 21.6226 0.887871 21.7499 1.20834 21.7499C1.52882 21.7499 1.83616 21.6226 2.06277 21.396C2.28938 21.1694 2.41669 20.8621 2.41669 20.5416V12.4541L14.0337 19.7187C14.8982 20.2593 15.8972 20.546 16.9168 20.546C17.9364 20.546 18.9355 20.2593 19.7999 19.7187L33.2657 11.2965C33.4392 11.1879 33.5823 11.0369 33.6815 10.8577C33.7806 10.6786 33.8327 10.4772 33.8327 10.2725C33.8327 10.0677 33.7806 9.86634 33.6815 9.68721C33.5823 9.50808 33.4392 9.35709 33.2657 9.24841L19.7999 0.827458ZM20.7606 21.2557L27.7919 16.8561V23.6217C27.7917 23.9299 27.6737 24.2265 27.462 24.4506C26.1081 25.8887 24.4739 27.0344 22.6603 27.8168C20.8467 28.5992 18.892 29.0019 16.9168 29C12.7625 29 9.01424 27.2503 6.3716 24.4518C6.15993 24.2277 6.04192 23.9311 6.04172 23.6229V16.8586L13.0731 21.2545C14.2256 21.9752 15.5575 22.3573 16.9168 22.3573C18.2761 22.3573 19.608 21.9764 20.7606 21.2557Z" 
-                                fill="currentColor"
-                              />
-                            </svg>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>This student is in your class.</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    )}
-                  </div>
-                </h3>
+                <h3 className="font-bold text-xl text-foreground mb-1">{topThree[2]?.name}</h3>
                 <div className="text-3xl font-bold text-badge-bronze mb-1">{topThree[2]?.points.toLocaleString()}</div>
                 <div className="text-sm text-muted-foreground">@username</div>
               </motion.div>
@@ -361,33 +276,7 @@ const Leaderboard = () => {
                     {/* User Info */}
                     <div className="flex-1">
                       <div className="flex items-center space-x-3">
-                        <div className="flex items-center space-x-2">
-                          <h3 className="font-semibold text-foreground">{user.name}</h3>
-                          {user.inMyClass && (
-                            <TooltipProvider>
-                              <Tooltip>
-                                <TooltipTrigger>
-                                  <svg 
-                                    width="16" 
-                                    height="16" 
-                                    viewBox="0 0 34 29" 
-                                    fill="none" 
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-4 h-4 text-primary cursor-help"
-                                  >
-                                    <path 
-                                      d="M19.7999 0.827458C18.9355 0.286849 17.9364 0.000183105 16.9168 0.000183105C15.8972 0.000183105 14.8982 0.286849 14.0337 0.827458L0.625922 9.21095C0.436219 9.31531 0.278041 9.46872 0.16793 9.65514C0.0578195 9.84157 -0.000178987 10.0542 4.14936e-07 10.2707V20.5416C4.14936e-07 20.8621 0.127308 21.1694 0.353916 21.396C0.580524 21.6226 0.887871 21.7499 1.20834 21.7499C1.52882 21.7499 1.83616 21.6226 2.06277 21.396C2.28938 21.1694 2.41669 20.8621 2.41669 20.5416V12.4541L14.0337 19.7187C14.8982 20.2593 15.8972 20.546 16.9168 20.546C17.9364 20.546 18.9355 20.2593 19.7999 19.7187L33.2657 11.2965C33.4392 11.1879 33.5823 11.0369 33.6815 10.8577C33.7806 10.6786 33.8327 10.4772 33.8327 10.2725C33.8327 10.0677 33.7806 9.86634 33.6815 9.68721C33.5823 9.50808 33.4392 9.35709 33.2657 9.24841L19.7999 0.827458ZM20.7606 21.2557L27.7919 16.8561V23.6217C27.7917 23.9299 27.6737 24.2265 27.462 24.4506C26.1081 25.8887 24.4739 27.0344 22.6603 27.8168C20.8467 28.5992 18.892 29.0019 16.9168 29C12.7625 29 9.01424 27.2503 6.3716 24.4518C6.15993 24.2277 6.04192 23.9311 6.04172 23.6229V16.8586L13.0731 21.2545C14.2256 21.9752 15.5575 22.3573 16.9168 22.3573C18.2761 22.3573 19.608 21.9764 20.7606 21.2557Z" 
-                                      fill="currentColor"
-                                    />
-                                  </svg>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                  <p>This student is in your class.</p>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                          )}
-                        </div>
+                        <h3 className="font-semibold text-foreground">{user.name}</h3>
                         <LevelPill level={user.level} size="sm" />
                         {user.badgeCount > 0 && <Badge variant="outline" className="text-xs">
                             {user.badgeCount} badges

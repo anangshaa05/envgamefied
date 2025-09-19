@@ -1,76 +1,121 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { X } from "lucide-react";
-import { useAuth } from '@/hooks/useAuth';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useToast } from "@/hooks/use-toast";
 
 interface JoinClassModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onJoinClass: (classCode: string) => void;
 }
 
-export default function JoinClassModal({ isOpen, onClose }: JoinClassModalProps) {
-  const navigate = useNavigate();
-  const { user } = useAuth();
+const JoinClassModal = ({ isOpen, onClose, onJoinClass }: JoinClassModalProps) => {
+  const [classCode, setClassCode] = useState("");
+  const { toast } = useToast();
 
-  const handleClose = () => {
+  const handleJoin = () => {
+    if (!classCode.trim()) {
+      toast({
+        title: "Class code required",
+        description: "Please enter a class code to join",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (classCode.length < 5 || classCode.length > 8) {
+      toast({
+        title: "Invalid class code",
+        description: "Class code should be 5-8 characters long",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    onJoinClass(classCode);
+    setClassCode("");
     onClose();
   };
 
-  const handleRoleSelection = (role: 'teacher' | 'ngo') => {
-    handleClose();
-    if (user) {
-      // User is logged in, redirect to appropriate dashboard
-      navigate(role === 'teacher' ? '/teacher-dashboard' : '/ngo-dashboard');
-    } else {
-      // User not logged in, redirect to auth page for signup
-      navigate('/auth');
-    }
+  const handleCancel = () => {
+    setClassCode("");
+    onClose();
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <div className="flex items-center justify-between">
-            <DialogTitle>Join as Teacher/NGO</DialogTitle>
-            <Button variant="ghost" size="sm" onClick={handleClose}>
-              <X className="h-4 w-4" />
+          <DialogTitle className="text-xl font-semibold">Join class</DialogTitle>
+        </DialogHeader>
+        
+        <div className="space-y-6">
+          {/* Current user section */}
+          <div className="bg-muted/50 rounded-lg p-4">
+            <p className="text-sm text-muted-foreground mb-3">You're currently signed in as</p>
+            <div className="flex items-center space-x-3">
+              <Avatar className="h-10 w-10">
+                <AvatarImage src="/placeholder.svg" alt="User" />
+                <AvatarFallback className="bg-primary text-primary-foreground">K</AvatarFallback>
+              </Avatar>
+              <div>
+                <p className="font-medium">5134_Kanika</p>
+                <p className="text-sm text-muted-foreground">2305134@kiit.ac.in</p>
+              </div>
+            </div>
+            <Button variant="outline" className="mt-3" size="sm">
+              Switch account
             </Button>
           </div>
-          <DialogDescription>
-            Choose your role to get started with EcoWise
-          </DialogDescription>
-        </DialogHeader>
-        <div className="space-y-4">
-          <Button
-            onClick={() => handleRoleSelection('teacher')}
-            variant="outline"
-            className="w-full h-16 text-left flex items-center gap-3 hover:bg-success/5 hover:border-success"
-          >
-            <span className="text-2xl">👩‍🏫</span>
+
+          {/* Class code section */}
+          <div className="space-y-3">
             <div>
-              <div className="font-semibold">I'm a Teacher</div>
-              <div className="text-sm text-muted-foreground">Create classes and manage students</div>
+              <Label htmlFor="classCode" className="text-base font-medium">Class code</Label>
+              <p className="text-sm text-muted-foreground mt-1">
+                Ask your teacher for the class code, then enter it here.
+              </p>
             </div>
-          </Button>
-          
-          <Button
-            onClick={() => handleRoleSelection('ngo')}
-            variant="outline"  
-            className="w-full h-16 text-left flex items-center gap-3 hover:bg-success/5 hover:border-success"
-          >
-            <span className="text-2xl">🌍</span>
-            <div>
-              <div className="font-semibold">I represent an NGO</div>
-              <div className="text-sm text-muted-foreground">Create programs and sponsor contests</div>
-            </div>
-          </Button>
+            <Input
+              id="classCode"
+              placeholder="Class code"
+              value={classCode}
+              onChange={(e) => setClassCode(e.target.value)}
+              className="text-base"
+            />
+          </div>
+
+          {/* Instructions */}
+          <div className="bg-muted/30 rounded-lg p-4">
+            <p className="text-sm font-medium mb-2">To sign in with a class code</p>
+            <ul className="text-sm text-muted-foreground space-y-1">
+              <li>• Use an authorized account</li>
+              <li>• Use a class code with 5-8 letters or numbers, and no spaces or symbols</li>
+            </ul>
+            <p className="text-sm text-muted-foreground mt-3">
+              If you have trouble joining the class, go to the{" "}
+              <Button variant="link" className="p-0 h-auto text-primary underline text-sm">
+                Help Center article
+              </Button>
+            </p>
+          </div>
+
+          {/* Action buttons */}
+          <div className="flex justify-end space-x-3 pt-4">
+            <Button variant="ghost" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button onClick={handleJoin}>
+              Join
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default JoinClassModal;
