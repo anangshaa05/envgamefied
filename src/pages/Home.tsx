@@ -244,7 +244,7 @@ const Home = () => {
                   src={xLogo} 
                   alt="X" 
                   className="w-6 h-6 cursor-pointer transition-all hover:opacity-80" 
-                  style={{ filter: 'brightness(0) invert(1)' }}
+                  style={{ filter: 'brightness(0) saturate(100%) invert(100%)' }}
                 />
                 <Youtube className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
               </div>
