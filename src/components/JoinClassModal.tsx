@@ -20,20 +20,28 @@ export default function JoinClassModal({ isOpen, onClose }: JoinClassModalProps)
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
+  const handleClose = () => {
+    setShowRoleSelection(false);
+    setClassCode('');
+    setName('');
+    setEmail('');
+    onClose();
+  };
+
   const handleJoinAsStudent = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Implement student class joining logic
     console.log('Joining class as student:', { classCode, name, email });
-    onClose();
+    handleClose();
   };
 
   const handleRoleSelection = (role: 'teacher' | 'ngo') => {
-    onClose();
+    handleClose();
     if (user) {
       // User is logged in, redirect to appropriate dashboard
       navigate(role === 'teacher' ? '/teacher-dashboard' : '/ngo-dashboard');
     } else {
-      // User not logged in, redirect to auth with role pre-selected
+      // User not logged in, redirect to auth page
       navigate('/auth');
     }
   };
@@ -44,12 +52,12 @@ export default function JoinClassModal({ isOpen, onClose }: JoinClassModalProps)
 
   if (showRoleSelection) {
     return (
-      <Dialog open={isOpen} onOpenChange={onClose}>
+      <Dialog open={isOpen} onOpenChange={handleClose}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <div className="flex items-center justify-between">
               <DialogTitle>Join as Teacher/NGO</DialogTitle>
-              <Button variant="ghost" size="sm" onClick={onClose}>
+              <Button variant="ghost" size="sm" onClick={handleClose}>
                 <X className="h-4 w-4" />
               </Button>
             </div>
@@ -98,12 +106,12 @@ export default function JoinClassModal({ isOpen, onClose }: JoinClassModalProps)
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <div className="flex items-center justify-between">
             <DialogTitle>Join EcoWise</DialogTitle>
-            <Button variant="ghost" size="sm" onClick={onClose}>
+            <Button variant="ghost" size="sm" onClick={handleClose}>
               <X className="h-4 w-4" />
             </Button>
           </div>
