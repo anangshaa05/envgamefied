@@ -116,7 +116,7 @@ const Leaderboard = () => {
                 All
               </Badge>
               <Badge variant={filterType === "friends" ? "default" : "outline"} className="cursor-pointer px-4 py-2" onClick={() => setFilterType("friends")}>My Class</Badge>
-              <Badge variant={filterType === "region" ? "default" : "outline"} className="cursor-pointer px-4 py-2" onClick={() => setFilterType("region")}>Global</Badge>
+              <Badge variant={filterType === "region" ? "default" : "outline"} className="cursor-pointer px-4 py-2" onClick={() => setFilterType("region")}>My School</Badge>
             </div>
           </div>
         </motion.section>
