@@ -6,10 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import Card from "@/components/Card";
 import LevelPill from "@/components/LevelPill";
 import { useToast } from "@/hooks/use-toast";
 import { leaderboard, user } from "@/data/mockData";
+import graduationCapIcon from "@/assets/graduation-cap.svg";
 const Leaderboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState<"all" | "friends" | "region">("all");
@@ -56,7 +58,8 @@ const Leaderboard = () => {
         return "bg-card border border-border";
     }
   };
-  return <div className="min-h-screen bg-background">
+  return <TooltipProvider>
+      <div className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div initial={{
@@ -276,7 +279,23 @@ const Leaderboard = () => {
                     {/* User Info */}
                     <div className="flex-1">
                       <div className="flex items-center space-x-3">
-                        <h3 className="font-semibold text-foreground">{user.name}</h3>
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-semibold text-foreground">{user.name}</h3>
+                          {user.classId === currentUser?.classId && (
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <img 
+                                  src={graduationCapIcon} 
+                                  alt="Classmate" 
+                                  className="w-4 h-4"
+                                />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>This student is in your class.</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          )}
+                        </div>
                         <LevelPill level={user.level} size="sm" />
                         {user.badgeCount > 0 && <Badge variant="outline" className="text-xs">
                             {user.badgeCount} badges
@@ -328,6 +347,7 @@ const Leaderboard = () => {
           </Card>
         </motion.section>
       </div>
-    </div>;
+    </div>
+    </TooltipProvider>;
 };
 export default Leaderboard;
