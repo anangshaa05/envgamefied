@@ -50,7 +50,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex items-center space-x-4">
-            <img src={logo} alt="EcoWise Logo" className="h-12 w-auto" />
+            <img src={logo} alt="EcoWise Logo" className="h-16 w-auto" />
           </div>
 
           {/* Desktop Navigation */}

@@ -19,38 +19,38 @@ const Profile = () => {
   const lockedBadges = badges.filter(badge => !badge.unlocked);
 
   const rarityColors = {
-    common: "border-slate-300 bg-slate-50",
-    uncommon: "border-emerald-300 bg-emerald-50", 
-    rare: "border-blue-300 bg-blue-50",
-    legendary: "border-purple-300 bg-purple-50"
+    common: "border-amber-300 bg-amber-50",
+    uncommon: "border-yellow-400 bg-yellow-50", 
+    rare: "border-amber-400 bg-amber-100",
+    legendary: "border-amber-500 bg-amber-200"
   };
 
   const rarityGradients = {
-    common: "from-slate-400 via-slate-500 to-slate-600",
-    uncommon: "from-emerald-400 via-emerald-500 to-emerald-600",
-    rare: "from-blue-400 via-blue-500 to-purple-600", 
-    legendary: "from-amber-300 via-orange-400 to-orange-500"
+    common: "from-amber-400 via-yellow-500 to-amber-600",
+    uncommon: "from-yellow-400 via-amber-500 to-yellow-600",
+    rare: "from-amber-500 via-yellow-600 to-amber-700", 
+    legendary: "from-amber-400 via-yellow-500 to-amber-600"
   };
 
   const rarityBorders = {
-    common: "from-slate-500 to-slate-700",
-    uncommon: "from-emerald-500 to-emerald-700",
-    rare: "from-blue-500 to-purple-700",
-    legendary: "from-amber-400 to-orange-600"
+    common: "from-amber-600 to-amber-800",
+    uncommon: "from-yellow-600 to-amber-700",
+    rare: "from-amber-700 to-yellow-800",
+    legendary: "from-amber-500 to-yellow-700"
   };
 
   const rarityInner = {
-    common: "from-slate-200 via-slate-300 to-slate-400",
-    uncommon: "from-emerald-200 via-emerald-300 to-emerald-400",
-    rare: "from-blue-200 via-blue-300 to-purple-400",
-    legendary: "from-yellow-200 via-orange-300 to-orange-400"
+    common: "from-yellow-200 via-amber-300 to-yellow-400",
+    uncommon: "from-amber-200 via-yellow-300 to-amber-400",
+    rare: "from-yellow-300 via-amber-400 to-yellow-500",
+    legendary: "from-amber-200 via-yellow-300 to-amber-400"
   };
 
   const badgeIconColors = {
-    common: "text-slate-700",
-    uncommon: "text-emerald-700",
-    rare: "text-blue-700",
-    legendary: "text-amber-800"
+    common: "text-amber-900",
+    uncommon: "text-yellow-900",
+    rare: "text-amber-800",
+    legendary: "text-amber-900"
   };
 
   return (
@@ -385,7 +385,16 @@ const Profile = () => {
                       <div className="flex items-center space-x-2">
                         <span className="text-sm font-medium text-primary">+{challenge.points}</span>
                         {!challenge.completed && (
-                          <Button size="sm" variant="outline">
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => {
+                              // Mark challenge as completed
+                              challenge.completed = true;
+                              // You could add toast notification here
+                              window.location.reload(); // Simple refresh to show changes
+                            }}
+                          >
                             Complete
                           </Button>
                         )}
