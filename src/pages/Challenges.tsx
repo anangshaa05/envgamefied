@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Upload, CheckCircle, Clock, Target, Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -11,6 +12,7 @@ import Card from "@/components/Card";
 import { challenges } from "@/data/mockData";
 
 const Challenges = () => {
+  const navigate = useNavigate();
   const [selectedChallenge, setSelectedChallenge] = useState<any>(null);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("All Challenges");
@@ -307,7 +309,11 @@ const Challenges = () => {
             <p className="text-white/90 mb-6 max-w-2xl mx-auto">
               New challenges are added weekly! Join our community to suggest new environmental tasks and compete with others.
             </p>
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90">
+            <Button 
+              size="lg" 
+              className="bg-white text-primary hover:bg-white/90"
+              onClick={() => navigate('/community')}
+            >
               Join Community
             </Button>
           </Card>
