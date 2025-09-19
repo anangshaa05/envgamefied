@@ -5,8 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
-import { useUser } from "@/contexts/UserContext";
-import { validateClassCode } from "@/utils/classCodeValidator";
 
 interface JoinClassModalProps {
   isOpen: boolean;
@@ -17,7 +15,6 @@ interface JoinClassModalProps {
 const JoinClassModal = ({ isOpen, onClose, onJoinClass }: JoinClassModalProps) => {
   const [classCode, setClassCode] = useState("");
   const { toast } = useToast();
-  const { setSectionInfo, setIsSignedIn, sectionName } = useUser();
 
   const handleJoin = () => {
     if (!classCode.trim()) {
@@ -38,29 +35,9 @@ const JoinClassModal = ({ isOpen, onClose, onJoinClass }: JoinClassModalProps) =
       return;
     }
 
-    const validationResult = validateClassCode(classCode);
-    
-    if (!validationResult.isValid) {
-      toast({
-        title: "Invalid class code",
-        description: "Please check your class code and try again",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    // Store section info and sign in user
-    setSectionInfo(validationResult.sectionName!, classCode);
-    setIsSignedIn(true);
-    
     onJoinClass(classCode);
     setClassCode("");
     onClose();
-    
-    toast({
-      title: "Successfully joined class! 🎉",
-      description: `Welcome to ${validationResult.sectionName}`,
-    });
   };
 
   const handleCancel = () => {
@@ -87,22 +64,9 @@ const JoinClassModal = ({ isOpen, onClose, onJoinClass }: JoinClassModalProps) =
               <div>
                 <p className="font-medium">5134_Kanika</p>
                 <p className="text-sm text-muted-foreground">2305134@kiit.ac.in</p>
-                {sectionName && (
-                  <p className="text-xs text-primary font-medium mt-1">{sectionName}</p>
-                )}
               </div>
             </div>
-            <Button 
-              variant="outline" 
-              className="mt-3" 
-              size="sm"
-              onClick={() => {
-                toast({
-                  title: "Switch Account",
-                  description: "Account switching functionality coming soon!",
-                });
-              }}
-            >
+            <Button variant="outline" className="mt-3" size="sm">
               Switch account
             </Button>
           </div>

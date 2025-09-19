@@ -11,13 +11,11 @@ import ProgressBar from "@/components/ProgressBar";
 import LevelPill from "@/components/LevelPill";
 import { useToast } from "@/hooks/use-toast";
 import { user, dailyChallenges, recentActivity, challenges, lessons, badges } from "@/data/mockData";
-import { useUser } from "@/contexts/UserContext";
 
 
 const Profile = () => {
   const [challengesState, setChallengesState] = useState(dailyChallenges);
   const { toast } = useToast();
-  const { sectionName } = useUser();
   
   const completedLessons = lessons.filter(l => l.completed).length;
   const completedChallenges = challenges.filter(c => c.submitted).length;
@@ -99,11 +97,6 @@ const Profile = () => {
               <p className="text-muted-foreground">
                 Ready to make an impact today? Let's continue your eco journey.
               </p>
-              {sectionName && (
-                <div className="mt-3 inline-flex items-center px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
-                  <span className="text-sm font-medium text-primary">{sectionName}</span>
-                </div>
-              )}
             </div>
             <div className="hidden md:flex items-center space-x-4">
               <LevelPill level={user.level} size="lg" />
