@@ -191,7 +191,7 @@ const LearningHub = () => {
       }} className="mt-16 border-t border-border pt-12">
           <div className="text-center">
             <blockquote className="text-lg font-medium text-foreground mb-4 italic">"The greatest threat to our planet is the belief that someone else will save it."</blockquote>
-            <cite className="text-sm text-muted-foreground">- Chief Seattle</cite>
+            <cite className="text-sm text-muted-foreground">- Robert Swan</cite>
           </div>
         </motion.section>
       </div>
