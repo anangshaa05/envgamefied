@@ -14,7 +14,7 @@ interface StudentJoinClassModalProps {
 }
 
 export default function StudentJoinClassModal({ isOpen, onClose }: StudentJoinClassModalProps) {
-  const { user } = useAuth();
+  const { user, userProfile, signOut } = useAuth();
   const { toast } = useToast();
   const [classCode, setClassCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -71,13 +71,21 @@ export default function StudentJoinClassModal({ isOpen, onClose }: StudentJoinCl
     }
   };
 
-  const handleSwitchAccount = () => {
-    handleClose();
-    // In a real app, this would open account switching modal
-    toast({
-      title: "Switch Account",
-      description: "Account switching feature coming soon!",
-    });
+  const handleSwitchAccount = async () => {
+    try {
+      await signOut();
+      handleClose();
+      toast({
+        title: "Signed out",
+        description: "You can now sign in with a different account.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error signing out",
+        description: "Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -98,16 +106,22 @@ export default function StudentJoinClassModal({ isOpen, onClose }: StudentJoinCl
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">You're currently signed in as</p>
               
-              <div className="flex items-center space-x-3 p-3 bg-muted/50 rounded-lg">
-                <Avatar className="h-10 w-10">
-                  <AvatarImage src="/placeholder.svg" alt={user.email || "User"} />
-                  <AvatarFallback className="bg-primary text-primary-foreground">
-                    {user.email ? user.email.charAt(0).toUpperCase() : "U"}
+              <div className="flex items-center space-x-3 p-4 bg-muted/30 rounded-lg">
+                <Avatar className="h-12 w-12">
+                  <AvatarImage 
+                    src={userProfile?.avatar_url || "/placeholder.svg"} 
+                    alt={userProfile?.display_name || user.email || "User"} 
+                  />
+                  <AvatarFallback className="bg-primary text-primary-foreground text-lg">
+                    {userProfile?.display_name ? 
+                      userProfile.display_name.charAt(0).toUpperCase() : 
+                      user.email ? user.email.charAt(0).toUpperCase() : "U"
+                    }
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-foreground truncate">
-                    {user.user_metadata?.full_name || user.email?.split('@')[0] || 'Student'}
+                  <p className="font-semibold text-foreground truncate text-base">
+                    {userProfile?.display_name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'Student'}
                   </p>
                   <p className="text-sm text-muted-foreground truncate">{user.email}</p>
                 </div>
@@ -116,7 +130,7 @@ export default function StudentJoinClassModal({ isOpen, onClose }: StudentJoinCl
               <Button 
                 variant="outline" 
                 onClick={handleSwitchAccount}
-                className="w-full"
+                className="w-fit px-6"
               >
                 Switch account
               </Button>
