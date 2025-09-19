@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, TreePine, Droplets, Recycle, Users, Sparkles, Instagram, Facebook, Youtube, X } from "lucide-react";
@@ -5,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Card from "@/components/Card";
 import StatsCounter from "@/components/StatsCounter";
 import ProgressBar from "@/components/ProgressBar";
+import JoinClassModal from "@/components/JoinClassModal";
 import { user, challenges, campaigns } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
 import ecolearnLogo from "@/assets/ecolearn-logo.png";
@@ -12,6 +14,7 @@ import xLogo from "@/assets/x-logo.png";
 
 const Home = () => {
   const { toast } = useToast();
+  const [showJoinModal, setShowJoinModal] = useState(false);
   const completedChallenges = challenges.filter(c => c.submitted).length;
   const activeChallenges = challenges.filter(c => !c.submitted).length;
 
@@ -20,6 +23,10 @@ const Home = () => {
       title: "Welcome to EcoWise! 🌱",
       description: "Your environmental journey starts now!",
     });
+  };
+
+  const handleJoinAsTeacher = () => {
+    setShowJoinModal(true);
   };
 
   const handleStartJourney = () => {
@@ -66,7 +73,7 @@ const Home = () => {
               Join thousands of eco-warriors in gamified environmental learning. 
               Complete challenges, earn badges, and make a real impact on our planet.
             </p>
-            <div className="flex justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
                 className="bg-white text-primary hover:bg-white/90 font-semibold px-8 py-6 text-lg rounded-xl shadow-hover"
@@ -76,6 +83,14 @@ const Home = () => {
                   <Sparkles className="w-5 h-5" />
                   <span>Get Started</span>
                 </Link>
+              </Button>
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="bg-white/10 border-white/30 text-white hover:bg-primary/20 hover:border-primary/40 hover:text-emerald-300 font-semibold px-8 py-6 text-lg rounded-xl transition-colors"
+                onClick={handleJoinAsTeacher}
+              >
+                Join as Teacher/NGO
               </Button>
             </div>
           </motion.div>
@@ -244,6 +259,11 @@ const Home = () => {
           </div>
         </div>
       </section>
+      
+      <JoinClassModal 
+        isOpen={showJoinModal} 
+        onClose={() => setShowJoinModal(false)}
+      />
     </div>
   );
 };
