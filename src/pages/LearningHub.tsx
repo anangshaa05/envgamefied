@@ -227,6 +227,22 @@ const LearningHub = () => {
             </Button>
           </Card>
         </motion.section>
+
+        {/* Inspiring Footer Quote */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="mt-16 border-t border-border pt-12"
+        >
+          <div className="text-center">
+            <blockquote className="text-lg font-medium text-foreground mb-4 italic">
+              "The Earth does not belong to us; we belong to the Earth. 
+              All things are connected like the blood that unites one family."
+            </blockquote>
+            <cite className="text-sm text-muted-foreground">- Chief Seattle</cite>
+          </div>
+        </motion.section>
       </div>
     </div>
   );
