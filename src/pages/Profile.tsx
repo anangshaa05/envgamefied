@@ -25,6 +25,15 @@ const Profile = () => {
     if (savedSection) {
       setJoinedSection(savedSection);
     }
+
+    // Listen for storage changes to update section in real-time
+    const handleStorageChange = () => {
+      const updatedSection = localStorage.getItem('joinedSection');
+      setJoinedSection(updatedSection);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
   
   const completedLessons = lessons.filter(l => l.completed).length;

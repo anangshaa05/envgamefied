@@ -2,7 +2,7 @@ import { useState } from "react";
 import * as React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Home, BookOpen, Target, Trophy, Users, BarChart3, Award, Menu, X, User, Settings, LogOut, LogIn } from "lucide-react";
+import { Home, BookOpen, Target, Trophy, Users, BarChart3, Award, Menu, X, User, Settings, LogOut, LogIn, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -10,14 +10,34 @@ import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import logo from "@/assets/ecowise-logo-new.png";
 import JoinClassModal from "./JoinClassModal";
+import StudentJoinClassModal from "./StudentJoinClassModal";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
+  const [showStudentJoinModal, setShowStudentJoinModal] = useState(false);
+  const [joinedSection, setJoinedSection] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const { toast } = useToast();
+
+  // Load joined section from localStorage
+  React.useEffect(() => {
+    const savedSection = localStorage.getItem('joinedSection');
+    if (savedSection) {
+      setJoinedSection(savedSection);
+    }
+
+    // Listen for storage changes to update section in real-time
+    const handleStorageChange = () => {
+      const updatedSection = localStorage.getItem('joinedSection');
+      setJoinedSection(updatedSection);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
   
   const navigation = [{
     name: "Home",
@@ -114,12 +134,23 @@ const Navbar = () => {
                   <p className="text-xs text-muted-foreground">
                     {user ? "Welcome back!" : "Please sign in"}
                   </p>
+                  {joinedSection && (
+                    <div className="mt-2 inline-flex items-center px-2 py-1 rounded-full bg-primary/10 border border-primary/20">
+                      <span className="text-xs font-medium text-primary">📚 {joinedSection}</span>
+                    </div>
+                  )}
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => toast({ title: "Settings", description: "Settings panel coming soon!" })}>
                   <Settings className="mr-2 h-4 w-4" />
                   Settings
                 </DropdownMenuItem>
+                {user && (
+                  <DropdownMenuItem onClick={() => setShowStudentJoinModal(true)}>
+                    <GraduationCap className="mr-2 h-4 w-4" />
+                    Join class
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 {!user ? (
                   <DropdownMenuItem onClick={() => setShowJoinModal(true)}>
@@ -171,6 +202,10 @@ const Navbar = () => {
         <JoinClassModal 
           isOpen={showJoinModal} 
           onClose={() => setShowJoinModal(false)}
+        />
+        <StudentJoinClassModal 
+          isOpen={showStudentJoinModal} 
+          onClose={() => setShowStudentJoinModal(false)}
         />
     </motion.nav>;
 };
