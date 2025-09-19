@@ -7,7 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { user } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
-import logo from "@/assets/ecowise-logo.png";
+import logo from "@/assets/ecowise-logo-new.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
