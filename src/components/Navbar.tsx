@@ -129,7 +129,7 @@ const Navbar = () => {
               <DropdownMenuContent className="w-56" align="end">
                 <div className="px-2 py-2">
                   <p className="text-sm font-medium">
-                    {user?.email || "Guest User"}
+                    {user?.email || "Student User"}
                   </p>
                   <p className="text-xs text-muted-foreground">
                     {user ? "Welcome back!" : "Please sign in"}
