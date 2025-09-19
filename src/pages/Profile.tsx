@@ -25,6 +25,13 @@ const Profile = () => {
     legendary: "border-emerald-500 bg-emerald-200 rounded-xl shadow-lg"
   };
 
+  const rarityGlows = {
+    common: "drop-shadow-[0_0_8px_rgba(16,185,129,0.4)] shadow-[0_0_15px_rgba(16,185,129,0.3)]",
+    uncommon: "drop-shadow-[0_0_10px_rgba(245,158,11,0.5)] shadow-[0_0_20px_rgba(245,158,11,0.4)]",
+    rare: "drop-shadow-[0_0_12px_rgba(5,150,105,0.6)] shadow-[0_0_25px_rgba(5,150,105,0.4)]",
+    legendary: "drop-shadow-[0_0_15px_rgba(16,185,129,0.7)] shadow-[0_0_30px_rgba(16,185,129,0.5)] animate-pulse"
+  };
+
   const rarityGradients = {
     common: "from-emerald-400 via-green-500 to-emerald-600",
     uncommon: "from-yellow-400 via-amber-500 to-yellow-600",
@@ -201,7 +208,7 @@ const Profile = () => {
                           {/* Shield Badge - larger size with centered icon */}
                           <div className="relative w-20 h-24 mx-auto group-hover:scale-110 transition-transform duration-300">
                             {/* Outer Shield Border */}
-                            <div className={`absolute inset-0 bg-gradient-to-b ${rarityBorders[badge.rarity]} shadow-lg`} 
+                            <div className={`absolute inset-0 bg-gradient-to-b ${rarityBorders[badge.rarity]} shadow-lg ${rarityGlows[badge.rarity]}`} 
                                  style={{
                                    clipPath: 'polygon(50% 0%, 0% 20%, 0% 75%, 50% 100%, 100% 75%, 100% 20%)'
                                  }}>
@@ -261,7 +268,7 @@ const Profile = () => {
                           {/* Larger Shield for Dialog - centered icon */}
                           <div className="relative w-32 h-40 mx-auto mb-4">
                             {/* Outer Shield Border */}
-                            <div className={`absolute inset-0 bg-gradient-to-b ${rarityBorders[badge.rarity]} shadow-xl`} 
+                            <div className={`absolute inset-0 bg-gradient-to-b ${rarityBorders[badge.rarity]} shadow-xl ${rarityGlows[badge.rarity]}`} 
                                  style={{
                                    clipPath: 'polygon(50% 0%, 0% 20%, 0% 75%, 50% 100%, 100% 75%, 100% 20%)'
                                  }}>
