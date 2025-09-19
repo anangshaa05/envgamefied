@@ -22,14 +22,19 @@ const Auth = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Always navigate to teacher dashboard regardless of credentials
+    // Navigate to appropriate dashboard based on user type
     setTimeout(() => {
       setIsLoading(false);
       toast({
         title: `Welcome back!`,
         description: `Successfully signed in as ${getUserTypeDisplay()}.`,
       });
-      navigate("/teacher-dashboard");
+      
+      if (userType === "ngo") {
+        navigate("/ngo-dashboard");
+      } else {
+        navigate("/teacher-dashboard");
+      }
     }, 1000); // Short delay to show loading state
   };
 
