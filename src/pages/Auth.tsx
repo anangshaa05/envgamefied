@@ -362,10 +362,7 @@ export default function Auth() {
               <Button
                 type="button"
                 variant="ghost"
-                onClick={() => {
-                  setIsLogin(!isLogin);
-                  setSelectedRole(null);
-                }}
+                onClick={() => setIsLogin(!isLogin)}
                 className="text-sm"
               >
                 {isLogin ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
