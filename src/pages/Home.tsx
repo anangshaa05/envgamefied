@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, TreePine, Droplets, Recycle, Users } from "lucide-react";
+import { ArrowRight, TreePine, Droplets, Recycle, Users, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Card from "@/components/Card";
 import StatsCounter from "@/components/StatsCounter";
 import ProgressBar from "@/components/ProgressBar";
 import { user, challenges, campaigns } from "@/data/mockData";
-import logo from "@/assets/logo.png";
+import ecowiseLogo from "@/assets/ecowise-logo.png";
 
 const Home = () => {
   const completedChallenges = challenges.filter(c => c.submitted).length;
@@ -15,13 +15,13 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-hero py-24 px-4 min-h-screen">
+      <section className="relative overflow-hidden bg-gradient-hero py-24 px-4 h-screen">
         <video 
           autoPlay 
           muted 
           loop 
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-3/4 object-cover"
         >
           <source src="/videos/hero-background.mp4" type="video/mp4" />
         </video>
@@ -32,14 +32,14 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="mb-0 relative">
+            <div className="mb-6 relative">
               <img 
-                src={logo} 
-                alt="EcoLearn" 
-                className="w-40 md:w-52 mx-auto mb-0 brightness-0 invert opacity-90" 
+                src={ecowiseLogo} 
+                alt="EcoWise" 
+                className="w-60 md:w-72 mx-auto mb-4 brightness-0 invert opacity-90" 
               />
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 -mt-2">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
               Learn. Play. Act
               <span className="block bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
                 for the Planet.
@@ -56,8 +56,8 @@ const Home = () => {
                 asChild
               >
                 <Link to="/profile" className="flex items-center space-x-2">
+                  <Sparkles className="w-5 h-5" />
                   <span>Get Started</span>
-                  <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>
               <Button 
