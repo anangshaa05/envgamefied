@@ -4,9 +4,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Plus, Building2, Users, CheckCircle, XCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import NGONavbar from "@/components/NGONavbar";
 
 const NGODashboard = () => {
   const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState("challenges");
 
   // Mock data for challenges
   const [challenges] = useState([
@@ -112,143 +114,152 @@ const NGODashboard = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-8">
-        {/* Header */}
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">NGO Dashboard</h1>
-            <p className="text-muted-foreground">Manage challenges and monitor institute progress</p>
-          </div>
-          <div className="text-right">
-            <p className="text-sm text-muted-foreground">Welcome back,</p>
-            <p className="font-semibold text-foreground">{ngoProfile.name}</p>
-          </div>
+  const renderChallengesTab = () => (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-2xl font-semibold text-foreground">Challenges Management</h2>
+          <p className="text-muted-foreground">Create and manage your sustainability challenges</p>
         </div>
+        <Button onClick={handleCreateChallenge} className="flex items-center gap-2">
+          <Plus className="w-4 h-4" />
+          Create Challenge
+        </Button>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {challenges.map((challenge) => (
+          <Card key={challenge.id} className="hover:shadow-md transition-shadow">
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <CardTitle className="text-lg">{challenge.title}</CardTitle>
+                <Badge className={getStatusColor(challenge.status)}>
+                  {challenge.status}
+                </Badge>
+              </div>
+              <CardDescription>{challenge.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Building2 className="w-4 h-4" />
+                <span>{challenge.participatingInstitutes} institutes participating</span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">
+                Created: {challenge.createdDate}
+              </p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
 
-        {/* Challenges Management Section */}
-        <section className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-semibold text-foreground">Challenges Management</h2>
-            <Button onClick={handleCreateChallenge} className="flex items-center gap-2">
-              <Plus className="w-4 h-4" />
-              Create New Challenge
-            </Button>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {challenges.map((challenge) => (
-              <Card key={challenge.id} className="hover:shadow-md transition-shadow">
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <CardTitle className="text-lg">{challenge.title}</CardTitle>
-                    <Badge className={getStatusColor(challenge.status)}>
-                      {challenge.status}
+  const renderSubmissionsTab = () => (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-semibold text-foreground">Institution Submissions</h2>
+        <p className="text-muted-foreground">Review and approve submissions from participating institutions</p>
+      </div>
+      
+      <div className="grid gap-4">
+        {submissions.map((submission) => (
+          <Card key={submission.id}>
+            <CardContent className="pt-6">
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Building2 className="w-5 h-5 text-primary" />
+                    <h3 className="font-semibold text-foreground">{submission.instituteName}</h3>
+                    <Badge className={getStatusColor(submission.status)}>
+                      {submission.status}
                     </Badge>
                   </div>
-                  <CardDescription>{challenge.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Building2 className="w-4 h-4" />
-                    <span>{challenge.participatingInstitutes} institutes participating</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Created: {challenge.createdDate}
+                  <p className="text-sm text-muted-foreground mb-1">
+                    Challenge: {submission.challengeTitle}
                   </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Institute Submissions Section */}
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-foreground">Institute Submissions</h2>
-          
-          <div className="grid gap-4">
-            {submissions.map((submission) => (
-              <Card key={submission.id}>
-                <CardContent className="pt-6">
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <Building2 className="w-5 h-5 text-primary" />
-                        <h3 className="font-semibold text-foreground">{submission.instituteName}</h3>
-                        <Badge className={getStatusColor(submission.status)}>
-                          {submission.status}
-                        </Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-1">
-                        Challenge: {submission.challengeTitle}
-                      </p>
-                      <p className="text-sm mb-2">{submission.proofDescription}</p>
-                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                        <span>Submitted: {submission.submissionDate}</span>
-                        <span className="flex items-center gap-1">
-                          <Users className="w-3 h-3" />
-                          {submission.points} points
-                        </span>
-                      </div>
-                    </div>
-                    
-                    {submission.status === "Pending Review" && (
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleApproveSubmission(submission.id)}
-                          className="text-green-600 border-green-200 hover:bg-green-50"
-                        >
-                          <CheckCircle className="w-4 h-4 mr-1" />
-                          Approve
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleRejectSubmission(submission.id)}
-                          className="text-red-600 border-red-200 hover:bg-red-50"
-                        >
-                          <XCircle className="w-4 h-4 mr-1" />
-                          Reject
-                        </Button>
-                      </div>
-                    )}
+                  <p className="text-sm mb-2">{submission.proofDescription}</p>
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                    <span>Submitted: {submission.submissionDate}</span>
+                    <span className="flex items-center gap-1">
+                      <Users className="w-3 h-3" />
+                      {submission.points} points
+                    </span>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Profile Section */}
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-foreground">Profile</h2>
-          
-          <Card className="max-w-md">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Building2 className="w-5 h-5 text-primary" />
-                NGO Information
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div>
-                <p className="text-sm text-muted-foreground">Organization Name</p>
-                <p className="font-medium">{ngoProfile.name}</p>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Email</p>
-                <p className="font-medium">{ngoProfile.email}</p>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Website</p>
-                <p className="font-medium text-primary">{ngoProfile.website}</p>
+                </div>
+                
+                {submission.status === "Pending Review" && (
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleApproveSubmission(submission.id)}
+                      className="text-green-600 border-green-200 hover:bg-green-50"
+                    >
+                      <CheckCircle className="w-4 h-4 mr-1" />
+                      ✅ Completed Successfully
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleRejectSubmission(submission.id)}
+                      className="text-red-600 border-red-200 hover:bg-red-50"
+                    >
+                      <XCircle className="w-4 h-4 mr-1" />
+                      ❌ Rejected
+                    </Button>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
-        </section>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderProfileTab = () => (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-semibold text-foreground">NGO Profile</h2>
+        <p className="text-muted-foreground">Your organization information</p>
+      </div>
+      
+      <Card className="max-w-md">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Building2 className="w-5 h-5 text-primary" />
+            Organization Details
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <p className="text-sm text-muted-foreground">Organization Name</p>
+            <p className="font-medium text-lg">{ngoProfile.name}</p>
+          </div>
+          <div>
+            <p className="text-sm text-muted-foreground">Email</p>
+            <p className="font-medium">{ngoProfile.email}</p>
+          </div>
+          <div>
+            <p className="text-sm text-muted-foreground">Website</p>
+            <p className="font-medium text-primary">{ngoProfile.website}</p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-background">
+      <NGONavbar 
+        activeTab={activeTab} 
+        onTabChange={setActiveTab}
+        ngoName={ngoProfile.name}
+      />
+      <div className="max-w-7xl mx-auto p-6">
+        {activeTab === "challenges" && renderChallengesTab()}
+        {activeTab === "submissions" && renderSubmissionsTab()}
+        {activeTab === "profile" && renderProfileTab()}
       </div>
     </div>
   );
