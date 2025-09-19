@@ -3,12 +3,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Plus, Users, Trophy, Target, CheckCircle, XCircle } from "lucide-react";
 import TeacherNavbar from "@/components/TeacherNavbar";
+import { useToast } from "@/hooks/use-toast";
 
 const TeacherDashboard = () => {
   const [activeTab, setActiveTab] = useState("class-management");
   const [selectedClass, setSelectedClass] = useState("");
+  const [students, setStudents] = useState([
+    { id: 1, name: "Alice Johnson", points: 1250, position: 1, challengesCompleted: 8, grade: "A" },
+    { id: 2, name: "Bob Smith", points: 1100, position: 2, challengesCompleted: 7, grade: "B+" },
+    { id: 3, name: "Carol Davis", points: 950, position: 3, challengesCompleted: 6, grade: "B" },
+  ]);
+  const { toast } = useToast();
   
   // Mock data for classes
   const classes = [
@@ -32,12 +42,85 @@ const TeacherDashboard = () => {
     }
   ];
 
-  // Mock student data
-  const students = [
-    { id: 1, name: "Alice Johnson", points: 1250, position: 1, challengesCompleted: 8, grade: "A" },
-    { id: 2, name: "Bob Smith", points: 1100, position: 2, challengesCompleted: 7, grade: "B+" },
-    { id: 3, name: "Carol Davis", points: 950, position: 3, challengesCompleted: 6, grade: "B" },
-  ];
+  const handleAssignGrade = (studentId: number, newGrade: string, comments: string) => {
+    setStudents(prev => 
+      prev.map(student => 
+        student.id === studentId 
+          ? { ...student, grade: newGrade }
+          : student
+      )
+    );
+    
+    toast({
+      title: "Grade Assigned Successfully",
+      description: `Grade ${newGrade} has been assigned to the student.`,
+    });
+  };
+
+  const AssignGradeDialog = ({ student }: { student: typeof students[0] }) => {
+    const [selectedGrade, setSelectedGrade] = useState(student.grade);
+    const [comments, setComments] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
+
+    const gradeOptions = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D", "F"];
+
+    const handleSubmit = () => {
+      handleAssignGrade(student.id, selectedGrade, comments);
+      setIsOpen(false);
+      setComments("");
+    };
+
+    return (
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <Button size="sm">Assign Grade</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Assign Grade to {student.name}</DialogTitle>
+            <DialogDescription>
+              Select a grade and add optional comments for this student.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="grade">Grade</Label>
+              <Select value={selectedGrade} onValueChange={setSelectedGrade}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select grade" />
+                </SelectTrigger>
+                <SelectContent>
+                  {gradeOptions.map((grade) => (
+                    <SelectItem key={grade} value={grade}>
+                      {grade}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="comments">Comments (Optional)</Label>
+              <Textarea
+                id="comments"
+                placeholder="Add feedback or comments..."
+                value={comments}
+                onChange={(e) => setComments(e.target.value)}
+                className="min-h-[100px]"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSubmit}>
+              Assign Grade
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  };
 
   const renderClassManagement = () => (
     <div className="space-y-6">
@@ -122,7 +205,7 @@ const TeacherDashboard = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge variant="default">{student.grade}</Badge>
-                    <Button size="sm">Assign Grade</Button>
+                    <AssignGradeDialog student={student} />
                   </div>
                 </div>
               </CardContent>
