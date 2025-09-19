@@ -1,18 +1,23 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { MessageSquare, Heart, Share2, Pin, Users, Calendar, Plus } from "lucide-react";
+import { MessageSquare, Heart, Share2, Pin, Users, Calendar, Plus, Image, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Card from "@/components/Card";
 import LevelPill from "@/components/LevelPill";
+import { useToast } from "@/hooks/use-toast";
 import { communityPosts, campaigns } from "@/data/mockData";
 
 const Community = () => {
   const [newPost, setNewPost] = useState("");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [likedPosts, setLikedPosts] = useState(new Set());
   const [posts, setPosts] = useState(communityPosts);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
   const handleLike = (postId: string) => {
     const newLikedPosts = new Set(likedPosts);
@@ -22,6 +27,35 @@ const Community = () => {
       newLikedPosts.add(postId);
     }
     setLikedPosts(newLikedPosts);
+  };
+
+  const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        toast({
+          title: "File too large",
+          description: "Please select an image smaller than 5MB.",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setSelectedImage(null);
+    setImagePreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleSharePost = () => {
@@ -38,11 +72,19 @@ const Community = () => {
         likes: 0,
         comments: 0,
         pinned: false,
-        imageUrl: null
+        imageUrl: imagePreview
       };
       setPosts([newPostData, ...posts]);
       setNewPost("");
-      alert("Post shared successfully!");
+      setSelectedImage(null);
+      setImagePreview(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      toast({
+        title: "Post shared!",
+        description: "Your post has been shared with the community.",
+      });
     }
   };
 
@@ -90,11 +132,47 @@ const Community = () => {
                     onChange={(e) => setNewPost(e.target.value)}
                     rows={4}
                   />
+                  
+                  {imagePreview && (
+                    <div className="relative">
+                      <img 
+                        src={imagePreview} 
+                        alt="Selected" 
+                        className="w-full max-h-64 object-cover rounded-lg border"
+                      />
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        className="absolute top-2 right-2"
+                        onClick={handleRemoveImage}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  )}
+                  
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageSelect}
+                    className="hidden"
+                  />
+                  
                   <div className="flex gap-2">
-                    <Button variant="outline" className="flex-1">
+                    <Button 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <Image className="w-4 h-4 mr-2" />
                       Add Photo
                     </Button>
-                    <Button className="flex-1" onClick={handleSharePost}>
+                    <Button 
+                      className="flex-1" 
+                      onClick={handleSharePost}
+                      disabled={!newPost.trim()}
+                    >
                       Share Post
                     </Button>
                   </div>
