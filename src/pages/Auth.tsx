@@ -61,7 +61,14 @@ const Auth = () => {
             title: `Welcome back!`,
             description: `Successfully signed in as ${userType}.`,
           });
-          navigate("/");
+          // Redirect based on user type
+          if (userType === "teacher") {
+            navigate("/teacher-dashboard");
+          } else if (userType === "ngo") {
+            navigate("/ngo-dashboard");
+          } else {
+            navigate("/");
+          }
         }
       }
     } catch (error) {

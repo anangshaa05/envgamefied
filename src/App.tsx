@@ -14,6 +14,7 @@ import Leaderboard from "@/pages/Leaderboard";
 import Community from "@/pages/Community";
 import NotFound from "./pages/NotFound";
 import LogoProcessor from "@/components/LogoProcessor";
+import TeacherDashboard from "@/pages/TeacherDashboard";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/challenges" element={<Challenges />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/community" element={<Community />} />
+            <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
             <Route path="/logo-processor" element={<LogoProcessor />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
