@@ -14,16 +14,196 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      class_enrollments: {
+        Row: {
+          class_id: string | null
+          enrolled_at: string | null
+          id: string
+          student_id: string | null
+        }
+        Insert: {
+          class_id?: string | null
+          enrolled_at?: string | null
+          id?: string
+          student_id?: string | null
+        }
+        Update: {
+          class_id?: string | null
+          enrolled_at?: string | null
+          id?: string
+          student_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_enrollments_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "class_enrollments_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      classes: {
+        Row: {
+          class_code: string
+          created_at: string | null
+          description: string | null
+          id: string
+          name: string
+          teacher_id: string | null
+        }
+        Insert: {
+          class_code: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          teacher_id?: string | null
+        }
+        Update: {
+          class_code?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          teacher_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "classes_teacher_id_fkey"
+            columns: ["teacher_id"]
+            isOneToOne: false
+            referencedRelation: "teacher_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ngo_profiles: {
+        Row: {
+          created_at: string | null
+          id: string
+          ngo_type: Database["public"]["Enums"]["ngo_type"]
+          official_email: string
+          organization_name: string
+          verification_document_url: string | null
+          verification_status: string | null
+          website_url: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id: string
+          ngo_type: Database["public"]["Enums"]["ngo_type"]
+          official_email: string
+          organization_name: string
+          verification_document_url?: string | null
+          verification_status?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          ngo_type?: Database["public"]["Enums"]["ngo_type"]
+          official_email?: string
+          organization_name?: string
+          verification_document_url?: string | null
+          verification_status?: string | null
+          website_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ngo_profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          display_name: string | null
+          id: string
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          display_name?: string | null
+          id: string
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          display_name?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      teacher_profiles: {
+        Row: {
+          created_at: string | null
+          id: string
+          institution: string
+          school_email: string | null
+          verification_document_url: string | null
+          verification_status: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id: string
+          institution: string
+          school_email?: string | null
+          verification_document_url?: string | null
+          verification_status?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          institution?: string
+          school_email?: string | null
+          verification_document_url?: string | null
+          verification_status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teacher_profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_class_code: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
-      [_ in never]: never
+      ngo_type:
+        | "education"
+        | "welfare"
+        | "stem_outreach"
+        | "environmental"
+        | "community_development"
+        | "other"
+      user_role: "student" | "teacher" | "ngo"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +330,16 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      ngo_type: [
+        "education",
+        "welfare",
+        "stem_outreach",
+        "environmental",
+        "community_development",
+        "other",
+      ],
+      user_role: ["student", "teacher", "ngo"],
+    },
   },
 } as const
