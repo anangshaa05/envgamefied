@@ -1,4 +1,5 @@
 import { useState } from "react";
+import * as React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Home, BookOpen, Target, Trophy, Users, BarChart3, Award, Menu, X, User, Settings, LogOut, LogIn } from "lucide-react";
@@ -14,6 +15,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
+  const [joinedSection, setJoinedSection] = useState<string | null>(null);
   const location = useLocation();
   const { toast } = useToast();
   const navigation = [{
@@ -44,22 +46,37 @@ const Navbar = () => {
   
   const isActive = (path: string) => location.pathname === path;
   
-  const handleJoinClass = (classCode: string) => {
+  const handleJoinClass = (classCode: string, sectionName: string) => {
     setIsSignedIn(true);
-    toast({
-      title: "Successfully joined class",
-      description: `You've joined class with code: ${classCode}`,
-    });
+    setJoinedSection(sectionName);
+    // Store in localStorage for persistence across page refreshes
+    localStorage.setItem('joinedSection', sectionName);
+    localStorage.setItem('isSignedIn', 'true');
   };
   
   const handleSignOut = () => {
     setIsSignedIn(false);
+    setJoinedSection(null);
+    // Clear from localStorage
+    localStorage.removeItem('joinedSection');
+    localStorage.removeItem('isSignedIn');
     toast({
       title: "Signed out",
       description: "You have been successfully signed out.",
       variant: "destructive"
     });
   };
+
+  // Load persisted state on component mount
+  React.useEffect(() => {
+    const savedIsSignedIn = localStorage.getItem('isSignedIn') === 'true';
+    const savedSection = localStorage.getItem('joinedSection');
+    
+    if (savedIsSignedIn && savedSection) {
+      setIsSignedIn(true);
+      setJoinedSection(savedSection);
+    }
+  }, []);
   return <motion.nav initial={{
     y: -100,
     opacity: 0

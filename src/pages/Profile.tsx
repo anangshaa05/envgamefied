@@ -1,4 +1,5 @@
 import { useState } from "react";
+import * as React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Calendar, Clock, TrendingUp, Target, Award, Users, Lock } from "lucide-react";
@@ -15,7 +16,16 @@ import { user, dailyChallenges, recentActivity, challenges, lessons, badges } fr
 
 const Profile = () => {
   const [challengesState, setChallengesState] = useState(dailyChallenges);
+  const [joinedSection, setJoinedSection] = useState<string | null>(null);
   const { toast } = useToast();
+
+  // Load joined section from localStorage
+  React.useEffect(() => {
+    const savedSection = localStorage.getItem('joinedSection');
+    if (savedSection) {
+      setJoinedSection(savedSection);
+    }
+  }, []);
   
   const completedLessons = lessons.filter(l => l.completed).length;
   const completedChallenges = challenges.filter(c => c.submitted).length;
@@ -97,6 +107,11 @@ const Profile = () => {
               <p className="text-muted-foreground">
                 Ready to make an impact today? Let's continue your eco journey.
               </p>
+              {joinedSection && (
+                <div className="mt-3 inline-flex items-center px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                  <span className="text-sm font-medium text-primary">📚 {joinedSection}</span>
+                </div>
+              )}
             </div>
             <div className="hidden md:flex items-center space-x-4">
               <LevelPill level={user.level} size="lg" />
