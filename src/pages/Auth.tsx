@@ -89,7 +89,7 @@ const Auth = () => {
               className="w-full"
               disabled={isLoading}
             >
-              {isLoading ? "Loading..." : (isSignUp ? "Sign Up" : "Sign In")}
+              {isLoading ? "Loading..." : (isSignUp ? `Sign up as ${getUserTypeDisplay()}` : `Sign in as ${userType === "teacher" ? "Teacher" : "NGO"}`)}
             </Button>
           </form>
           
