@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import LogoProcessor from "@/components/LogoProcessor";
 import TeacherDashboard from "@/pages/TeacherDashboard";
 import NGODashboard from "@/pages/NGODashboard";
+import InstitutionDetail from "@/pages/InstitutionDetail";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const AppContent = () => {
         <Route path="/community" element={<Community />} />
         <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
         <Route path="/ngo-dashboard" element={<NGODashboard />} />
+        <Route path="/institution/:institutionId" element={<InstitutionDetail />} />
         <Route path="/logo-processor" element={<LogoProcessor />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />

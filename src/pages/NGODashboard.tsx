@@ -1,13 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Building2, Users, CheckCircle, XCircle } from "lucide-react";
+import { Plus, Building2, Users, CheckCircle, XCircle, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import NGONavbar from "@/components/NGONavbar";
 
 const NGODashboard = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("challenges");
 
   // Mock data for challenges
@@ -154,65 +156,99 @@ const NGODashboard = () => {
     </div>
   );
 
+  // Group submissions by institution
+  const institutionSubmissions = submissions.reduce((acc, submission) => {
+    if (!acc[submission.instituteName]) {
+      acc[submission.instituteName] = [];
+    }
+    acc[submission.instituteName].push(submission);
+    return acc;
+  }, {} as Record<string, typeof submissions>);
+
+  const handleInstitutionClick = (institutionName: string) => {
+    // In a real app, you'd use the institution ID
+    const institutionId = institutionName.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/institution/${institutionId}`);
+  };
+
   const renderSubmissionsTab = () => (
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-semibold text-foreground">Institution Submissions</h2>
-        <p className="text-muted-foreground">Review and approve submissions from participating institutions</p>
+        <p className="text-muted-foreground">Review submissions organized by participating institutions</p>
       </div>
       
-      <div className="grid gap-4">
-        {submissions.map((submission) => (
-          <Card key={submission.id}>
-            <CardContent className="pt-6">
-              <div className="flex justify-between items-start">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <Building2 className="w-5 h-5 text-primary" />
-                    <h3 className="font-semibold text-foreground">{submission.instituteName}</h3>
-                    <Badge className={getStatusColor(submission.status)}>
-                      {submission.status}
-                    </Badge>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {Object.entries(institutionSubmissions).map(([institutionName, institutionSubs]) => {
+          const pendingCount = institutionSubs.filter(sub => sub.status === "Pending Review").length;
+          const approvedCount = institutionSubs.filter(sub => sub.status === "Approved").length;
+          const totalPoints = institutionSubs.reduce((sum, sub) => sub.status === "Approved" ? sum + sub.points : sum, 0);
+          
+          return (
+            <Card 
+              key={institutionName} 
+              className="hover:shadow-lg transition-all duration-300 cursor-pointer group border-l-4 border-l-primary/20 hover:border-l-primary"
+              onClick={() => handleInstitutionClick(institutionName)}
+            >
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+                      <Building2 className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                        {institutionName}
+                      </CardTitle>
+                      <CardDescription className="text-sm">
+                        {institutionSubs.length} total submission{institutionSubs.length !== 1 ? 's' : ''}
+                      </CardDescription>
+                    </div>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-1">
-                    Challenge: {submission.challengeTitle}
-                  </p>
-                  <p className="text-sm mb-2">{submission.proofDescription}</p>
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                    <span>Submitted: {submission.submissionDate}</span>
-                    <span className="flex items-center gap-1">
-                      <Users className="w-3 h-3" />
-                      {submission.points} points
-                    </span>
+                  {pendingCount > 0 && (
+                    <Badge className="bg-yellow-500/10 text-yellow-700 border-yellow-200 animate-pulse">
+                      <Clock className="w-3 h-3 mr-1" />
+                      {pendingCount}
+                    </Badge>
+                  )}
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center p-3 bg-green-500/5 rounded-lg border border-green-500/10">
+                    <p className="text-2xl font-bold text-green-600">{approvedCount}</p>
+                    <p className="text-xs text-green-600/80">Approved</p>
+                  </div>
+                  <div className="text-center p-3 bg-blue-500/5 rounded-lg border border-blue-500/10">
+                    <p className="text-2xl font-bold text-blue-600">{totalPoints}</p>
+                    <p className="text-xs text-blue-600/80">Points Earned</p>
                   </div>
                 </div>
                 
-                {submission.status === "Pending Review" && (
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleApproveSubmission(submission.id)}
-                      className="text-green-600 border-green-200 hover:bg-green-50"
-                    >
-                      <CheckCircle className="w-4 h-4 mr-1" />
-                      ✅ Completed Successfully
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleRejectSubmission(submission.id)}
-                      className="text-red-600 border-red-200 hover:bg-red-50"
-                    >
-                      <XCircle className="w-4 h-4 mr-1" />
-                      ❌ Rejected
-                    </Button>
+                {pendingCount > 0 && (
+                  <div className="flex items-center gap-2 p-2 bg-yellow-50 rounded-lg border border-yellow-200">
+                    <Clock className="w-4 h-4 text-yellow-600" />
+                    <span className="text-sm text-yellow-700">
+                      {pendingCount} submission{pendingCount !== 1 ? 's' : ''} pending review
+                    </span>
                   </div>
                 )}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleInstitutionClick(institutionName);
+                  }}
+                >
+                  View Details
+                </Button>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
     </div>
   );
