@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, TreePine, Droplets, Recycle, Users, Sparkles, Instagram, Facebook, Youtube, X } from "lucide-react";
@@ -6,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import Card from "@/components/Card";
 import StatsCounter from "@/components/StatsCounter";
 import ProgressBar from "@/components/ProgressBar";
-import JoinClassModal from "@/components/JoinClassModal";
 import { user, challenges, campaigns } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
 import ecolearnLogo from "@/assets/ecolearn-logo.png";
@@ -14,7 +12,6 @@ import xLogo from "@/assets/x-logo.png";
 
 const Home = () => {
   const { toast } = useToast();
-  const [showJoinModal, setShowJoinModal] = useState(false);
   const completedChallenges = challenges.filter(c => c.submitted).length;
   const activeChallenges = challenges.filter(c => !c.submitted).length;
 
@@ -23,10 +20,6 @@ const Home = () => {
       title: "Welcome to EcoWise! 🌱",
       description: "Your environmental journey starts now!",
     });
-  };
-
-  const handleJoinAsTeacher = () => {
-    setShowJoinModal(true);
   };
 
   const handleStartJourney = () => {
@@ -88,7 +81,6 @@ const Home = () => {
                 variant="outline" 
                 size="lg"
                 className="bg-white/10 border-white/30 text-white hover:bg-primary/20 hover:border-primary/40 hover:text-emerald-300 font-semibold px-8 py-6 text-lg rounded-xl transition-colors"
-                onClick={handleJoinAsTeacher}
               >
                 Join as Teacher/NGO
               </Button>
@@ -259,11 +251,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-      
-      <JoinClassModal 
-        isOpen={showJoinModal} 
-        onClose={() => setShowJoinModal(false)}
-      />
     </div>
   );
 };
