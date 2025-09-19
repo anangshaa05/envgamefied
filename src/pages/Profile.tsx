@@ -9,7 +9,7 @@ import StatsCounter from "@/components/StatsCounter";
 import ProgressBar from "@/components/ProgressBar";
 import LevelPill from "@/components/LevelPill";
 import { user, dailyChallenges, recentActivity, challenges, lessons, badges } from "@/data/mockData";
-import ecowiseLogo from "@/assets/ecowise-logo.png";
+
 
 const Profile = () => {
   const completedLessons = lessons.filter(l => l.completed).length;
@@ -49,20 +49,13 @@ const Profile = () => {
           className="mb-8"
         >
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-6">
-              <img 
-                src={ecowiseLogo} 
-                alt="EcoWise Logo" 
-                className="h-16 w-auto" 
-              />
-              <div>
-                <h1 className="text-3xl font-bold text-foreground mb-2">
-                  Welcome back, {user.name}! 👋
-                </h1>
-                <p className="text-muted-foreground">
-                  Ready to make an impact today? Let's continue your eco journey.
-                </p>
-              </div>
+            <div>
+              <h1 className="text-3xl font-bold text-foreground mb-2">
+                Welcome back, {user.name}! 👋
+              </h1>
+              <p className="text-muted-foreground">
+                Ready to make an impact today? Let's continue your eco journey.
+              </p>
             </div>
             <div className="hidden md:flex items-center space-x-4">
               <LevelPill level={user.level} size="lg" />

@@ -39,24 +39,28 @@ const Challenges = () => {
   };
 
   const handleSubmitProof = () => {
-    // Mock submission - in a real app this would upload to backend
-    console.log("Challenge proof submitted:", selectedChallenge?.id, uploadedImage);
-    
-    // Update challenge status locally
     if (selectedChallenge) {
-      const updatedChallenges = challenges.map(c => 
-        c.id === selectedChallenge.id 
-          ? { ...c, submitted: true, proofImageUrl: uploadedImage }
-          : c
-      );
-      console.log("Updated challenges:", updatedChallenges);
+      // Add to completed challenges set
+      setCompletedChallenges(prev => new Set([...prev, selectedChallenge.id]));
+      
+      // Update challenge status locally
+      const challengeIndex = challenges.findIndex(c => c.id === selectedChallenge.id);
+      if (challengeIndex !== -1) {
+        challenges[challengeIndex] = { 
+          ...challenges[challengeIndex], 
+          submitted: true, 
+          proofImageUrl: uploadedImage 
+        };
+      }
+      
+      // Show success feedback
+      setTimeout(() => {
+        alert(`🎉 Challenge completed! You earned ${selectedChallenge.points} points!`);
+      }, 100);
     }
     
     setUploadedImage(null);
     setSelectedChallenge(null);
-    
-    // Show success feedback
-    alert("Challenge proof submitted successfully! You earned " + selectedChallenge?.points + " points!");
   };
 
   return (

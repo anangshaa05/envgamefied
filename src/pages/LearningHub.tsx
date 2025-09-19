@@ -187,18 +187,20 @@ const LearningHub = () => {
                           <span>{lesson.estimatedTime} min</span>
                         </div>
                         
-                        <Button 
-                          size="sm" 
-                          variant={lesson.completed ? "outline" : "default"}
-                          className="group-hover:translate-x-1 transition-transform"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleLessonStart(lesson.id, lesson.title);
-                          }}
-                        >
-                          {lesson.completed ? "Review" : lesson.progress > 0 ? "Continue" : "Start"}
-                          <ArrowRight className="w-4 h-4 ml-1" />
-                        </Button>
+                        <Link to={`/learning/${lesson.id}`}>
+                          <Button 
+                            size="sm" 
+                            variant={lesson.completed ? "outline" : "default"}
+                            className="group-hover:translate-x-1 transition-transform"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleLessonStart(lesson.id, lesson.title);
+                            }}
+                          >
+                            {lesson.completed ? "Review" : lesson.progress > 0 ? "Continue" : "Start"}
+                            <ArrowRight className="w-4 h-4 ml-1" />
+                          </Button>
+                        </Link>
                       </div>
                     </div>
                   </Link>
