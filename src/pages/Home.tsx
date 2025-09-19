@@ -36,7 +36,7 @@ const Home = () => {
               <img 
                 src={ecowiseLogo} 
                 alt="EcoWise" 
-                className="w-60 md:w-72 mx-auto mb-4 brightness-0 invert opacity-90" 
+                className="w-60 md:w-72 mx-auto mb-4 invert opacity-90" 
               />
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
