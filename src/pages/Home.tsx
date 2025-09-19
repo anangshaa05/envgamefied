@@ -38,7 +38,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-hero py-24 px-4 h-screen">
+      <section className="relative overflow-hidden py-24 px-4 h-screen bg-black">
         <video 
           autoPlay 
           muted 
@@ -59,7 +59,7 @@ const Home = () => {
               <img 
                 src={ecolearnLogo} 
                 alt="EcoLearn" 
-                className="w-64 md:w-72 mx-auto mb-4 opacity-90" 
+                className="w-48 md:w-56 mx-auto mb-4 opacity-90" 
               />
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
