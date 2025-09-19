@@ -19,7 +19,7 @@ const Navbar = () => {
   const [joinedSection, setJoinedSection] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { user, userProfile, signOut } = useAuth();
   const { toast } = useToast();
 
   // Load joined section from localStorage
@@ -119,9 +119,15 @@ const Navbar = () => {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-9 w-9 rounded-full">
                   <Avatar className="h-9 w-9">
-                    <AvatarImage src="/placeholder.svg" alt={user?.email || "User"} />
-                    <AvatarFallback>
-                      {user?.email ? user.email.charAt(0).toUpperCase() : "U"}
+                    <AvatarImage 
+                      src={userProfile?.avatar_url || "/placeholder.svg"} 
+                      alt={userProfile?.display_name || user?.email || "User"} 
+                    />
+                    <AvatarFallback className="bg-primary text-primary-foreground">
+                      {userProfile?.display_name ? 
+                        userProfile.display_name.charAt(0).toUpperCase() : 
+                        user?.email ? user.email.charAt(0).toUpperCase() : "U"
+                      }
                     </AvatarFallback>
                   </Avatar>
                 </Button>
@@ -129,10 +135,10 @@ const Navbar = () => {
               <DropdownMenuContent className="w-56" align="end">
                 <div className="px-2 py-2">
                   <p className="text-sm font-medium">
-                    {user?.email || "Student User"}
+                    {userProfile?.display_name || user?.email || "Student User"}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {user ? "Welcome back!" : "Please sign in"}
+                    {user ? `${user.email} • ${userProfile?.role || 'student'}` : "Please sign in"}
                   </p>
                   {joinedSection && (
                     <div className="mt-2 inline-flex items-center px-2 py-1 rounded-full bg-primary/10 border border-primary/20">
