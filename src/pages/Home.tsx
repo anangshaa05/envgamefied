@@ -7,7 +7,7 @@ import StatsCounter from "@/components/StatsCounter";
 import ProgressBar from "@/components/ProgressBar";
 import { user, challenges, campaigns } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
-import ecowiseLogo from "@/assets/ecowise-logo-white.png";
+import ecolearnLogo from "@/assets/ecolearn-logo.png";
 
 const Home = () => {
   const { toast } = useToast();
@@ -57,9 +57,9 @@ const Home = () => {
           >
             <div className="mb-6 relative">
               <img 
-                src={ecowiseLogo} 
-                alt="EcoWise" 
-                className="w-60 md:w-72 mx-auto mb-4 opacity-90" 
+                src={ecolearnLogo} 
+                alt="EcoLearn" 
+                className="w-80 md:w-96 mx-auto mb-4 opacity-90" 
               />
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
