@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, TreePine, Droplets, Recycle, Users, Sparkles, Instagram, Facebook, Youtube, Twitter } from "lucide-react";
+import { ArrowRight, TreePine, Droplets, Recycle, Users, Sparkles, Instagram, Facebook, Youtube, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Card from "@/components/Card";
 import StatsCounter from "@/components/StatsCounter";
@@ -239,7 +239,7 @@ const Home = () => {
               <div className="flex space-x-6">
                 <Instagram className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
                 <Facebook className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
-                <Twitter className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
+                <X className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
                 <Youtube className="w-6 h-6 text-white hover:text-white/80 cursor-pointer transition-colors" />
               </div>
               <p className="text-sm text-white/80">
