@@ -63,12 +63,12 @@ const Leaderboard = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div initial={{
-        opacity: 0,
-        y: 20
-      }} animate={{
-        opacity: 1,
-        y: 0
-      }} className="mb-8 text-center">
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} className="mb-8 text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <Trophy className="w-8 h-8 text-badge-gold" />
             <h1 className="text-3xl font-bold text-foreground">Eco Leaders</h1>
@@ -81,14 +81,14 @@ const Leaderboard = () => {
 
         {/* Time Frame Tabs */}
         <motion.div initial={{
-        opacity: 0,
-        y: 20
-      }} animate={{
-        opacity: 1,
-        y: 0
-      }} transition={{
-        delay: 0.1
-      }} className="mb-8 flex justify-center">
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: 0.1
+        }} className="mb-8 flex justify-center">
           <Tabs value={timeFrame} onValueChange={setTimeFrame} className="w-full max-w-md">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="weekly">Weekly</TabsTrigger>
@@ -100,14 +100,14 @@ const Leaderboard = () => {
 
         {/* Search and Filter */}
         <motion.section initial={{
-        opacity: 0,
-        y: 20
-      }} animate={{
-        opacity: 1,
-        y: 0
-      }} transition={{
-        delay: 0.1
-      }} className="mb-8">
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: 0.1
+        }} className="mb-8">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
@@ -118,31 +118,31 @@ const Leaderboard = () => {
                 All
               </Badge>
               <Badge variant={filterType === "friends" ? "default" : "outline"} className="cursor-pointer px-4 py-2" onClick={() => setFilterType("friends")}>My Class</Badge>
-              <Badge variant={filterType === "region" ? "default" : "outline"} className="cursor-pointer px-4 py-2" onClick={() => setFilterType("region")}>Global</Badge>
+              <Badge variant={filterType === "region" ? "default" : "outline"} className="cursor-pointer px-4 py-2" onClick={() => setFilterType("region")}>My School</Badge>
             </div>
           </div>
         </motion.section>
         <motion.section initial={{
-        opacity: 0,
-        y: 20
-      }} animate={{
-        opacity: 1,
-        y: 0
-      }} transition={{
-        delay: 0.2
-      }} className="mb-12">
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: 0.2
+        }} className="mb-12">
           <div className="bg-white rounded-2xl p-10 max-w-5xl mx-auto shadow-card border border-border">
             <div className="flex items-end justify-center gap-12">
               {/* Second Place - Left */}
               <motion.div initial={{
-              opacity: 0,
-              y: 30
-            }} animate={{
-              opacity: 1,
-              y: 0
-            }} transition={{
-              delay: 0.4
-            }} className="flex flex-col items-center mt-8">
+                opacity: 0,
+                y: 30
+              }} animate={{
+                opacity: 1,
+                y: 0
+              }} transition={{
+                delay: 0.4
+              }} className="flex flex-col items-center mt-8">
                 <div className="relative mb-4">
                   <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-badge-silver bg-badge-silver/20 p-1">
                     <img src={topThree[1]?.avatarUrl} alt={topThree[1]?.name} className="w-full h-full object-cover rounded-full" />
@@ -158,14 +158,14 @@ const Leaderboard = () => {
 
               {/* First Place - Center (Elevated) */}
               <motion.div initial={{
-              opacity: 0,
-              y: 30
-            }} animate={{
-              opacity: 1,
-              y: 0
-            }} transition={{
-              delay: 0.3
-            }} className="flex flex-col items-center">
+                opacity: 0,
+                y: 30
+              }} animate={{
+                opacity: 1,
+                y: 0
+              }} transition={{
+                delay: 0.3
+              }} className="flex flex-col items-center">
                 <div className="relative mb-4">
                   <Crown className="w-10 h-10 text-badge-gold mx-auto mb-2" />
                   <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-badge-gold bg-badge-gold/20 p-1">
@@ -179,14 +179,14 @@ const Leaderboard = () => {
 
               {/* Third Place - Right */}
               <motion.div initial={{
-              opacity: 0,
-              y: 30
-            }} animate={{
-              opacity: 1,
-              y: 0
-            }} transition={{
-              delay: 0.5
-            }} className="flex flex-col items-center mt-8">
+                opacity: 0,
+                y: 30
+              }} animate={{
+                opacity: 1,
+                y: 0
+              }} transition={{
+                delay: 0.5
+              }} className="flex flex-col items-center mt-8">
                 <div className="relative mb-4">
                   <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-badge-bronze bg-badge-bronze/20 p-1">
                     <img src={topThree[2]?.avatarUrl} alt={topThree[2]?.name} className="w-full h-full object-cover rounded-full" />
@@ -205,14 +205,14 @@ const Leaderboard = () => {
 
         {/* Current User Position */}
         {currentUser && <motion.section initial={{
-        opacity: 0,
-        y: 20
-      }} animate={{
-        opacity: 1,
-        y: 0
-      }} transition={{
-        delay: 0.6
-      }} className="mb-8">
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: 0.6
+        }} className="mb-8">
             <Card variant="default" className="p-4 bg-primary/5 border-primary/20">
               <div className="flex items-center space-x-4">
                 <div className="w-12 flex justify-center">
@@ -242,14 +242,14 @@ const Leaderboard = () => {
 
         {/* Full Leaderboard */}
         <motion.section initial={{
-        opacity: 0,
-        y: 20
-      }} animate={{
-        opacity: 1,
-        y: 0
-      }} transition={{
-        delay: 0.7
-      }}>
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: 0.7
+        }}>
           <Card variant="default" className="overflow-hidden">
             <div className="p-6 border-b border-border">
               <h2 className="text-xl font-semibold text-foreground">Full Rankings</h2>
@@ -257,14 +257,14 @@ const Leaderboard = () => {
             
             <div className="divide-y divide-border">
               {sortedLeaderboard.map((user, index) => <motion.div key={user.id} initial={{
-              opacity: 0,
-              x: -20
-            }} animate={{
-              opacity: 1,
-              x: 0
-            }} transition={{
-              delay: 0.1 * index
-            }} className={`p-4 hover:bg-muted/50 transition-colors ${user.rank <= 3 ? 'bg-primary/5' : ''} ${user.id === currentUser?.id ? 'bg-primary/10 border-l-4 border-primary' : ''}`}>
+                opacity: 0,
+                x: -20
+              }} animate={{
+                opacity: 1,
+                x: 0
+              }} transition={{
+                delay: 0.1 * index
+              }} className={`p-4 hover:bg-muted/50 transition-colors ${user.rank <= 3 ? 'bg-primary/5' : ''} ${user.id === currentUser?.id ? 'bg-primary/10 border-l-4 border-primary' : ''}`}>
                   <div className="flex items-center space-x-4">
                     {/* Rank */}
                     <div className="w-12 flex justify-center">
@@ -281,20 +281,14 @@ const Leaderboard = () => {
                       <div className="flex items-center space-x-3">
                         <div className="flex items-center gap-2">
                           <h3 className="font-semibold text-foreground">{user.name}</h3>
-                          {user.classId === currentUser?.classId && (
-                            <Tooltip>
+                          {user.classId === currentUser?.classId && <Tooltip>
                               <TooltipTrigger>
-                                <img 
-                                  src={graduationCapIcon} 
-                                  alt="Classmate" 
-                                  className="w-4 h-4"
-                                />
+                                <img src={graduationCapIcon} alt="Classmate" className="w-4 h-4" />
                               </TooltipTrigger>
                               <TooltipContent>
                                 <p>This student is in your class.</p>
                               </TooltipContent>
-                            </Tooltip>
-                          )}
+                            </Tooltip>}
                         </div>
                         <LevelPill level={user.level} size="sm" />
                         {user.badgeCount > 0 && <Badge variant="outline" className="text-xs">
@@ -323,14 +317,14 @@ const Leaderboard = () => {
 
         {/* Call to Action */}
         <motion.section initial={{
-        opacity: 0,
-        y: 20
-      }} animate={{
-        opacity: 1,
-        y: 0
-      }} transition={{
-        delay: 0.9
-      }} className="mt-12 text-center">
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: 0.9
+        }} className="mt-12 text-center">
           <Card variant="default" className="p-8 bg-gradient-hero text-white">
             <h2 className="text-2xl font-bold mb-4">Climb the Leaderboard!</h2>
             <p className="text-white/90 mb-6 max-w-2xl mx-auto">
