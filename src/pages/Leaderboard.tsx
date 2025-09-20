@@ -19,7 +19,13 @@ const Leaderboard = () => {
   const {
     toast
   } = useToast();
-  const filteredLeaderboard = leaderboard.filter(user => user.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredLeaderboard = leaderboard.filter(user => {
+    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesFilter = filterType === "all" || 
+      (filterType === "friends" && user.classId === currentUser?.classId) ||
+      (filterType === "region" && user.instituteId === currentUser?.instituteId);
+    return matchesSearch && matchesFilter;
+  });
   const handleFollowUser = (userName: string) => {
     toast({
       title: "Following User",
@@ -29,7 +35,7 @@ const Leaderboard = () => {
   const [timeFrame, setTimeFrame] = useState("all-time");
 
   // Sort leaderboard by rank
-  const sortedLeaderboard = [...leaderboard].sort((a, b) => a.rank - b.rank);
+  const sortedLeaderboard = [...filteredLeaderboard].sort((a, b) => a.rank - b.rank);
   const topThree = sortedLeaderboard.slice(0, 3);
   const others = sortedLeaderboard.slice(3);
 
