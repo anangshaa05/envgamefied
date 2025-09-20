@@ -12,6 +12,7 @@ import LevelPill from "@/components/LevelPill";
 import { useToast } from "@/hooks/use-toast";
 import { leaderboard, user } from "@/data/mockData";
 import graduationCapIcon from "@/assets/graduation-cap.svg";
+import instituteIcon from "@/assets/institute-icon.svg";
 const Leaderboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState<"all" | "friends" | "region">("all");
@@ -283,10 +284,18 @@ const Leaderboard = () => {
                           <h3 className="font-semibold text-foreground">{user.name}</h3>
                           {user.classId === currentUser?.classId && <Tooltip>
                               <TooltipTrigger>
-                                <img src={graduationCapIcon} alt="Classmate" className="w-4 h-4" />
+                                <img src={graduationCapIcon} alt="Classmate" className="w-4 h-4" style={{filter: 'hue-rotate(120deg) saturate(2)'}} />
                               </TooltipTrigger>
                               <TooltipContent>
                                 <p>This student is in your class.</p>
+                              </TooltipContent>
+                            </Tooltip>}
+                          {user.instituteId === currentUser?.instituteId && user.classId !== currentUser?.classId && <Tooltip>
+                              <TooltipTrigger>
+                                <img src={instituteIcon} alt="School mate" className="w-4 h-4" style={{filter: 'hue-rotate(200deg) saturate(1.5)'}} />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>This student is from your school.</p>
                               </TooltipContent>
                             </Tooltip>}
                         </div>
