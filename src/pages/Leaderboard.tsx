@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Trophy, Medal, Crown, TrendingUp, Users, Filter, Search } from "lucide-react";
@@ -16,20 +16,24 @@ import instituteIcon from "@/assets/institute-icon.svg";
 const Leaderboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState<"all" | "friends" | "region">("all");
+  const [timeFrame, setTimeFrame] = useState("all-time");
+  
   const {
     toast
   } = useToast();
   
   // Find current user's position first
-  const currentUser = leaderboard.find(u => u.id === user.id);
+  const currentUser = useMemo(() => leaderboard.find(u => u.id === user.id), []);
   
-  const filteredLeaderboard = leaderboard.filter(user => {
-    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterType === "all" || 
-      (filterType === "friends" && user.classId === currentUser?.classId) ||
-      (filterType === "region" && user.instituteId === currentUser?.instituteId);
-    return matchesSearch && matchesFilter;
-  });
+  const filteredLeaderboard = useMemo(() => {
+    return leaderboard.filter(user => {
+      const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesFilter = filterType === "all" || 
+        (filterType === "friends" && user.classId === currentUser?.classId) ||
+        (filterType === "region" && user.instituteId === currentUser?.instituteId);
+      return matchesSearch && matchesFilter;
+    });
+  }, [searchTerm, filterType, currentUser]);
   
   const handleFollowUser = (userName: string) => {
     toast({
@@ -37,12 +41,11 @@ const Leaderboard = () => {
       description: `You are now following ${userName}!`
     });
   };
-  const [timeFrame, setTimeFrame] = useState("all-time");
 
   // Sort leaderboard by rank
-  const sortedLeaderboard = [...filteredLeaderboard].sort((a, b) => a.rank - b.rank);
-  const topThree = sortedLeaderboard.slice(0, 3);
-  const others = sortedLeaderboard.slice(3);
+  const sortedLeaderboard = useMemo(() => [...filteredLeaderboard].sort((a, b) => a.rank - b.rank), [filteredLeaderboard]);
+  const topThree = useMemo(() => sortedLeaderboard.slice(0, 3), [sortedLeaderboard]);
+  const others = useMemo(() => sortedLeaderboard.slice(3), [sortedLeaderboard]);
   const getRankIcon = rank => {
     switch (rank) {
       case 1:
