@@ -19,6 +19,10 @@ const Leaderboard = () => {
   const {
     toast
   } = useToast();
+  
+  // Find current user's position first
+  const currentUser = leaderboard.find(u => u.id === user.id);
+  
   const filteredLeaderboard = leaderboard.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterType === "all" || 
@@ -26,6 +30,7 @@ const Leaderboard = () => {
       (filterType === "region" && user.instituteId === currentUser?.instituteId);
     return matchesSearch && matchesFilter;
   });
+  
   const handleFollowUser = (userName: string) => {
     toast({
       title: "Following User",
@@ -38,9 +43,6 @@ const Leaderboard = () => {
   const sortedLeaderboard = [...filteredLeaderboard].sort((a, b) => a.rank - b.rank);
   const topThree = sortedLeaderboard.slice(0, 3);
   const others = sortedLeaderboard.slice(3);
-
-  // Find current user's position
-  const currentUser = leaderboard.find(u => u.id === user.id);
   const getRankIcon = rank => {
     switch (rank) {
       case 1:
