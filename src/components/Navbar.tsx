@@ -10,14 +10,24 @@ import { user } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
 import logo from "@/assets/ecowise-logo-new.png";
 import JoinClassModal from "./JoinClassModal";
+import { supabase } from "@/integrations/supabase/client";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [joinedSection, setJoinedSection] = useState<string | null>(null);
+  const [currentUser, setCurrentUser] = useState<SupabaseUser | null>(null);
   const location = useLocation();
   const { toast } = useToast();
+  
+  const getUserDisplayName = () => {
+    if (currentUser?.email) {
+      return currentUser.email.split('@')[0];
+    }
+    return user.name;
+  };
   const navigation = [{
     name: "Home",
     href: "/",
@@ -54,8 +64,10 @@ const Navbar = () => {
     localStorage.setItem('isSignedIn', 'true');
   };
   
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
     setIsSignedIn(false);
+    setCurrentUser(null);
     setJoinedSection(null);
     // Clear from localStorage
     localStorage.removeItem('joinedSection');
@@ -67,7 +79,7 @@ const Navbar = () => {
     });
   };
 
-  // Load persisted state on component mount
+  // Load persisted state and auth state on component mount
   React.useEffect(() => {
     const savedIsSignedIn = localStorage.getItem('isSignedIn') === 'true';
     const savedSection = localStorage.getItem('joinedSection');
@@ -76,6 +88,27 @@ const Navbar = () => {
       setIsSignedIn(true);
       setJoinedSection(savedSection);
     }
+
+    // Check current auth session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setCurrentUser(session.user);
+        setIsSignedIn(true);
+      }
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        setCurrentUser(session.user);
+        setIsSignedIn(true);
+      } else {
+        setCurrentUser(null);
+        setIsSignedIn(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
   return <motion.nav initial={{
     y: -100,
@@ -121,8 +154,8 @@ const Navbar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end">
                 <div className="px-2 py-2">
-                  <p className="text-sm font-medium">{user.name}</p>
-                  <p className="text-xs text-muted-foreground">Welcome back!</p>
+                  <p className="text-sm font-medium">{getUserDisplayName()}</p>
+                  <p className="text-xs text-muted-foreground">{isSignedIn ? currentUser?.email : 'Welcome back!'}</p>
                   {joinedSection && (
                     <div className="mt-1">
                       <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/10 text-primary border border-primary/20">
